@@ -1,0 +1,3 @@
+[submodule "ConstellationEngine/vendor/spdlog"]
+	path = ConstellationEngine/vendor/spdlog
+	url = https://github.com/gabime/spdlog

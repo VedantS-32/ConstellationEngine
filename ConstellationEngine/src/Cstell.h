@@ -2,9 +2,10 @@
 
 //For use by Constellation Applications
 
-#include "Constelllation/Application.h"
-//#include <stdio.h>
+#include "Constellation/Application.h"
+#include "Constellation/Log.h"
+#include <stdio.h>
 
 //---Entry Point--------------------------------
-#include "Constelllation/EntryPoint.h"
+#include "Constellation/EntryPoint.h"
 //----------------------------------------------
