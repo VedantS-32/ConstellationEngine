@@ -1,6 +1,6 @@
 #include <Cstell.h>
 
-class Sandbox : public Constellation::Application {
+class Sandbox : public Cstell::Application {
 
 public:
 	Sandbox() {
@@ -14,7 +14,7 @@ public:
 };
 
 
-Constellation::Application* Constellation::CreateApplication() {
+Cstell::Application* Cstell::CreateApplication() {
 
 	return new Sandbox();
 }

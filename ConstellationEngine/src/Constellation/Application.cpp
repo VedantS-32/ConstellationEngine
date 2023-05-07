@@ -1,6 +1,6 @@
 #include "Application.h"
 
-namespace Constellation {
+namespace Cstell {
 
 	Application::Application() {
 

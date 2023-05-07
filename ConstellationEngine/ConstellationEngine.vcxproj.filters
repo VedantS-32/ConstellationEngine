@@ -4,6 +4,9 @@
     <Filter Include="Constellation">
       <UniqueIdentifier>{840BED05-F0CB-683C-B906-B2B92586AD18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Constellation\Events">
+      <UniqueIdentifier>{E81ADAEA-D4A9-63B4-7DC8-77AF6936745A}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Constellation\Application.h">
@@ -14,6 +17,9 @@
     </ClInclude>
     <ClInclude Include="src\Constellation\EntryPoint.h">
       <Filter>Constellation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constellation\Events\Event.h">
+      <Filter>Constellation\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Constellation\Log.h">
       <Filter>Constellation</Filter>

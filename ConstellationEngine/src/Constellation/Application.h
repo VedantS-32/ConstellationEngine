@@ -3,7 +3,7 @@
 #include "Core.h"
 
 
-namespace Constellation {
+namespace Cstell {
 	
 	class CSTELL_API Application {
 
