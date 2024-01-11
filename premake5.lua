@@ -10,13 +10,16 @@ workspace "ConstellationEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "ConstellationEngine"
-	location "ConstellationEngine"
+project "ConstellationCore"
+	location "ConstellationCore"
 	kind "SharedLib"
 	language "C++"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
+	
+	pchheader "CStellpch.h"
+	pchsource "%{prj.name}/src/CStellpch.cpp"
 
 	files {
 		"%{prj.name}/src/**.h",
@@ -47,7 +50,7 @@ project "ConstellationEngine"
 		symbols "On"
 
 	filter "configurations:Release"
-		defines "HZ_RELEASE"
+		defines "CSTELL_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"
@@ -69,12 +72,12 @@ project "Sandbox"
 	}
 
 	includedirs {
-		"ConstellationEngine/vendor/spdlog/include",
-		"ConstellationEngine/src"
+		"ConstellationCore/vendor/spdlog/include",
+		"ConstellationCore/src"
 	}
 
 	links {
-		"ConstellationEngine"
+		"ConstellationCore"
 	}
 
 	filter "system:windows"
@@ -91,7 +94,7 @@ project "Sandbox"
 		symbols "On"
 
 	filter "configurations:Release"
-		defines "HZ_RELEASE"
+		defines "CSTELL_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"

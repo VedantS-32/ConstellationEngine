@@ -1,14 +1,15 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/Event.h"
 
 
-namespace Cstell {
+namespace CStell
+{
 	
-	class CSTELL_API Application {
-
+	class CSTELL_API Application
+	{
 	public:
-	
 		Application();
 		virtual ~Application();
 

@@ -7,7 +7,7 @@
 		#define CSTELL_API __declspec(dllimport)
 	#endif
 #else
-	#error Constellation only supports Windows!
+	#error CStell Engine only supports Windows!
 #endif
 
 #define BIT(x) (1 << x)

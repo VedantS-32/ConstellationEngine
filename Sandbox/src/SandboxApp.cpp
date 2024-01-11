@@ -1,6 +1,8 @@
-#include <Cstell.h>
+#include <CStell.h>
+#include <CStellpch.h>
 
-class Sandbox : public Cstell::Application {
+class Sandbox : public CStell::Application
+{
 
 public:
 	Sandbox() {
@@ -14,7 +16,8 @@ public:
 };
 
 
-Cstell::Application* Cstell::CreateApplication() {
+CStell::Application* CStell::CreateApplication()
+{
 
 	return new Sandbox();
 }

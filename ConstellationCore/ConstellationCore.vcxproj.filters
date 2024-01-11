@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CStell">
+      <UniqueIdentifier>{ACF047AA-9892-7280-814D-86D46D8EF9D0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CStell\Events">
+      <UniqueIdentifier>{10A3AAB3-7C63-26EA-459E-6F67B11D6BC6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\CStell.h" />
+    <ClInclude Include="src\CStell\Application.h">
+      <Filter>CStell</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Core.h">
+      <Filter>CStell</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\EntryPoint.h">
+      <Filter>CStell</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Events\ApplicationEvent.h">
+      <Filter>CStell\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Events\Event.h">
+      <Filter>CStell\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Events\KeyEvent.h">
+      <Filter>CStell\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Events\MouseEvent.h">
+      <Filter>CStell\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Log.h">
+      <Filter>CStell</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStellpch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CStell\Application.cpp">
+      <Filter>CStell</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Log.cpp">
+      <Filter>CStell</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStellpch.cpp" />
+  </ItemGroup>
+</Project>
