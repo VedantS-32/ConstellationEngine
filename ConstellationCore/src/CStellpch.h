@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "CStell/Log.h"
 
 #ifdef CSTELL_PLATFORM_WINDOWS
 	#include<Windows.h>

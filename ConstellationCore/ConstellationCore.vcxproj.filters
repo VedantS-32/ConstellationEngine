@@ -35,6 +35,8 @@
       <Filter>CStell</Filter>
     </ClInclude>
     <ClInclude Include="src\CStellpch.h" />
+    <ClInclude Include="src\CStell\Window.h" />
+    <ClInclude Include="src\CStell\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Application.cpp">
@@ -44,5 +46,9 @@
       <Filter>CStell</Filter>
     </ClCompile>
     <ClCompile Include="src\CStellpch.cpp" />
+    <ClCompile Include="src\CStell\Platform\Windows\WindowsWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

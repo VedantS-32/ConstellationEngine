@@ -10,6 +10,12 @@ workspace "ConstellationEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root directory
+IncludeDir = {}
+IncludeDir["GLFW"] = "ConstellationCore/vendor/GLFW/include"
+
+include "ConstellationCore/vendor/GLFW"
+
 project "ConstellationCore"
 	location "ConstellationCore"
 	kind "SharedLib"
@@ -28,7 +34,14 @@ project "ConstellationCore"
 
 	includedirs {
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
