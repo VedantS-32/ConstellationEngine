@@ -7,3 +7,6 @@
 [submodule "ConstellationCore/vendor/imgui"]
 	path = ConstellationCore/vendor/imgui
 	url = https://github.com/VedantS-32/imgui.git
+[submodule "ConstellationCore/vendor/glm"]
+	path = ConstellationCore/vendor/glm
+	url = https://github.com/g-truc/glm.git
