@@ -13,9 +13,6 @@
     <Filter Include="CStell\Platform">
       <UniqueIdentifier>{80AEFD64-EC39-6B29-F54A-EE1D6155C729}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CStell\Platform\OpenGL">
-      <UniqueIdentifier>{B4075508-A001-7E5A-896E-146B7507E4C6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CStell\Platform\Windows">
       <UniqueIdentifier>{BAD8116B-2610-5A02-2F1A-BE259BD080FB}</UniqueIdentifier>
     </Filter>
@@ -79,6 +76,9 @@
     <ClCompile Include="src\CStell\Application.cpp">
       <Filter>CStell</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp">
+      <Filter>CStell\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp">
       <Filter>CStell\ImGui</Filter>
     </ClCompile>
@@ -98,6 +98,5 @@
       <Filter>CStell\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\CStellpch.cpp" />
-    <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp" />
   </ItemGroup>
 </Project>

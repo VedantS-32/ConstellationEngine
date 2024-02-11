@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef CSTELL_PLATFORM_WINDOWS
+#if CSTELL_DYNAMIC_LINK
 	#ifdef CSTELL_BUILD_DLL
 		#define CSTELL_API __declspec(dllexport)
 	#else
 		#define CSTELL_API __declspec(dllimport)
 	#endif
+#else
+	#define CSTELL_API
+#endif
 #else
 	#error Constellation Engine only supports Windows!
 #endif

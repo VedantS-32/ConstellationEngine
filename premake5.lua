@@ -25,9 +25,10 @@ group ""
 
 project "ConstellationCore"
 	location "ConstellationCore"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++20"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
@@ -58,17 +59,27 @@ project "ConstellationCore"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
 		systemversion "latest"
 
+
+	-- Warning	C4996	'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator,
+	-- stdext::unchecked_array_iterator,
+	--  and related factory functions are non-Standard extensions and will be removed in the future.
+	--  std::span (since C++20) and gsl::span can be used instead. You can define 
+	-- _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+	-- 		with
+	-- 		[
+	-- 			T=int
+	-- 		]	ConstellationCore	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility	1255
+	
+
+
 	defines {
+		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+		"_CRT_SECURE_NO_WARNINGS",
 		"CSTELL_PLATFORM_WINDOWS",
 		"CSTELL_BUILD_DLL",
 		"GLFW_INCLUDE_NONE"
-	}
-	
-	postbuildcommands {
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 	}
 	
 	filter "configurations:Debug"
@@ -91,7 +102,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++20"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
@@ -112,24 +124,24 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
 		systemversion "latest"
 
 	defines {
+		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
 		"CSTELL_PLATFORM_WINDOWS"
 	}
 	
 	filter "configurations:Debug"
 		defines "CSTELL_DEBUG"
-		runtime "debug"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "CSTELL_RELEASE"
-		runtime "release"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "CSTELL_DIST"
-		runtime "release"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
