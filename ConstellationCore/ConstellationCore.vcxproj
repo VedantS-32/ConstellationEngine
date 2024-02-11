@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\glm;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\glm;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -130,7 +130,7 @@
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\glm;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -167,8 +167,6 @@
     <ClInclude Include="src\CStell\LayerStack.h" />
     <ClInclude Include="src\CStell\Log.h" />
     <ClInclude Include="src\CStell\MouseButtonCodes.h" />
-    <ClInclude Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
-    <ClInclude Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRendererLoader.h" />
     <ClInclude Include="src\CStell\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\CStell\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\CStell\Window.h" />
@@ -176,11 +174,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Application.cpp" />
+    <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\CStell\Layer.cpp" />
     <ClCompile Include="src\CStell\LayerStack.cpp" />
     <ClCompile Include="src\CStell\Log.cpp" />
-    <ClCompile Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\CStell\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\CStell\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\CStellpch.cpp">

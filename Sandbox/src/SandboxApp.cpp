@@ -1,6 +1,8 @@
 #include <CStell.h>
 #include <CStellpch.h>
 
+#include <glm/glm.hpp>
+
 class ExampleLayer : public CStell::Layer
 {
 public:
@@ -28,7 +30,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new CStell::ImGuiLayer());
 	}
 
 	~Sandbox()

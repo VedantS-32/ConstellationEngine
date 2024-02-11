@@ -14,6 +14,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "ConstellationCore/vendor/GLFW/include"
 IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
+IncludeDir["glm"] = "ConstellationCore/vendor/glm"
 IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 
 group "Dependencies"
@@ -44,6 +45,7 @@ project "ConstellationCore"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
 	}
 
@@ -101,7 +103,8 @@ project "Sandbox"
 
 	includedirs {
 		"ConstellationCore/vendor/spdlog/include",
-		"ConstellationCore/src"
+		"ConstellationCore/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links {

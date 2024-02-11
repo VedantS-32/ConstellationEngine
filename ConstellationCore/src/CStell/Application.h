@@ -3,6 +3,7 @@
 #include "Core.h"
 
 #include "Window.h"
+#include "CStell/ImGui/ImGuiLayer.h"
 #include "CStell/LayerStack.h"
 #include "Events/Event.h"
 #include "CStell/Events/ApplicationEvent.h"
@@ -32,6 +33,7 @@ namespace CStell
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
