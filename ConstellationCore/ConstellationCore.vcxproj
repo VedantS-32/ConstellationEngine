@@ -79,12 +79,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;CSTELL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -102,15 +102,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;CSTELL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -129,15 +129,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CStellpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;CSTELL_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>CSTELL_PLATFORM_WINDOWS;CSTELL_BUILD_DLL;GLFW_INCLUDE_NONE;CSTELL_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -160,26 +160,43 @@
     <ClInclude Include="src\CStell\Events\Event.h" />
     <ClInclude Include="src\CStell\Events\KeyEvent.h" />
     <ClInclude Include="src\CStell\Events\MouseEvent.h" />
+    <ClInclude Include="src\CStell\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\CStell\Input.h" />
+    <ClInclude Include="src\CStell\KeyCodes.h" />
+    <ClInclude Include="src\CStell\Layer.h" />
+    <ClInclude Include="src\CStell\LayerStack.h" />
     <ClInclude Include="src\CStell\Log.h" />
-    <ClInclude Include="src\CStellpch.h" />
+    <ClInclude Include="src\CStell\MouseButtonCodes.h" />
+    <ClInclude Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRendererLoader.h" />
+    <ClInclude Include="src\CStell\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\CStell\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\CStell\Window.h" />
+    <ClInclude Include="src\CStellpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Application.cpp" />
+    <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\CStell\Layer.cpp" />
+    <ClCompile Include="src\CStell\LayerStack.cpp" />
     <ClCompile Include="src\CStell\Log.cpp" />
+    <ClCompile Include="src\CStell\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\CStell\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\CStell\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\CStellpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\CStell\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
+    <ProjectReference Include="vendor\Glad\Glad.vcxproj">
+      <Project>{BDD6857C-A90D-870D-52FA-6C103E10030F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

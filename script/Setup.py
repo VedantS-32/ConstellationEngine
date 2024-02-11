@@ -12,7 +12,7 @@ import urllib.request
 premakeVersion = "5.0.0-beta2"
 premakeZipUrls = f"https://github.com/premake/premake-core/releases/download/v{premakeVersion}/premake-{premakeVersion}-windows.zip"
 premakeLicenseUrl = "https://raw.githubusercontent.com/premake/premake-core/master/LICENSE.txt"
-premakeDirectory = "../vendor/bin/premake"
+premakeDirectory = "../vendor/premake/bin"
 premakeZipPath = os.path.join(premakeDirectory, f'premake.zip')
 premakeLicensePath = os.path.join(premakeDirectory, 'License.txt')
 

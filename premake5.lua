@@ -13,13 +13,20 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root directory
 IncludeDir = {}
 IncludeDir["GLFW"] = "ConstellationCore/vendor/GLFW/include"
+IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
+IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 
-include "ConstellationCore/vendor/GLFW"
+group "Dependencies"
+	include "ConstellationCore/vendor/GLFW"
+	include "ConstellationCore/vendor/Glad"
+	include "ConstellationCore/vendor/imgui"
+group ""
 
 project "ConstellationCore"
 	location "ConstellationCore"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
@@ -35,23 +42,27 @@ project "ConstellationCore"
 	includedirs {
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
+		cppdialect "C++20"
 		systemversion "latest"
 
 	defines {
 		"CSTELL_PLATFORM_WINDOWS",
-		"CSTELL_BUILD_DLL"
+		"CSTELL_BUILD_DLL",
+		"GLFW_INCLUDE_NONE"
 	}
 	
 	postbuildcommands {
@@ -60,14 +71,17 @@ project "ConstellationCore"
 	
 	filter "configurations:Debug"
 		defines "CSTELL_DEBUG"
+		runtime "debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CSTELL_RELEASE"
+		runtime "release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "CSTELL_DIST"
+		runtime "release"
 		optimize "On"
 
 
@@ -75,6 +89,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
@@ -94,8 +109,7 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
+		cppdialect "C++20"
 		systemversion "latest"
 
 	defines {
@@ -104,12 +118,15 @@ project "Sandbox"
 	
 	filter "configurations:Debug"
 		defines "CSTELL_DEBUG"
+		runtime "debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CSTELL_RELEASE"
+		runtime "release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "CSTELL_DIST"
+		runtime "release"
 		optimize "On"
