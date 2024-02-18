@@ -7,7 +7,8 @@
 #include "CStell/LayerStack.h"
 #include "Events/Event.h"
 #include "CStell/Events/ApplicationEvent.h"
-
+#include "CStell/Renderer/Shader.h"
+#include "CStell/Renderer/Buffer.h"
 
 namespace CStell
 {
@@ -36,6 +37,11 @@ namespace CStell
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		unsigned int m_VertexArray;
+		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 
 	private:
 		static Application* s_Instance;

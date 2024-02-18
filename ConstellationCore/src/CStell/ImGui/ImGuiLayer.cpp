@@ -68,6 +68,10 @@ namespace CStell
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
+
+		ImGui::Begin("Info");
+		ImGui::Text("OpenGL Triangle");
+		ImGui::End();
 	}
 
 	void ImGuiLayer::End()

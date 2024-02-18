@@ -23,6 +23,46 @@ namespace CStell
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		glGenVertexArrays(1, &m_VertexArray);
+		glBindVertexArray(m_VertexArray);
+
+		float vertices[] = {
+			-0.5f, -0.5f,  0.0f,
+			 0.5f, -0.5f,  0.0f,
+			 0.0f,  0.5f,  0.0f
+		};
+
+		unsigned int indices[3] = { 0, 1, 2 };
+
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+		std::string vertexSrc = R"(
+		#version 330 core
+		
+		layout(location = 0) in vec3 a_Position;
+		
+		void main()
+		{
+			gl_Position = vec4(a_Position, 1.0);
+		};
+	)";
+		std::string fragmentSrc = R"(
+		#version 330 core
+		
+		out vec4 fragColor;
+		
+		void main()
+		{
+			fragColor = vec4(1.0, 1.0, 0.0, 1.0);
+		};
+	)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application()
@@ -61,8 +101,11 @@ namespace CStell
 	{
 		while (m_Running)
 		{
-			glClearColor(0.25, 0.25, 0.25, 1);
+			glClearColor(0.2f, 0.2f, 0.2f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			m_Shader->Bind();
+			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

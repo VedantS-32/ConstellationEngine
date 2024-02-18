@@ -1,6 +1,8 @@
 #pragma once
 
 #include "CStell/Window.h"
+#include "CStell/Renderer/RendererContext.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -30,6 +32,7 @@ namespace CStell
 
 	private:
 		GLFWwindow* m_Window;
+		RendererContext* m_Context;
 
 		struct WindowData
 		{

@@ -12,13 +12,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root directory
 IncludeDir = {}
-IncludeDir["GLFW"] = "ConstellationCore/vendor/GLFW/include"
+IncludeDir["glfw"] = "ConstellationCore/vendor/glfw/include"
 IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
 IncludeDir["glm"] = "ConstellationCore/vendor/glm"
 IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 
 group "Dependencies"
-	include "ConstellationCore/vendor/GLFW"
+	include "ConstellationCore/vendor/glfw"
 	include "ConstellationCore/vendor/Glad"
 	include "ConstellationCore/vendor/imgui"
 group ""
@@ -44,7 +44,7 @@ project "ConstellationCore"
 	includedirs {
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glfw}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
@@ -52,7 +52,7 @@ project "ConstellationCore"
 
 	links
 	{
-		"GLFW",
+		"glfw",
 		"Glad",
 		"ImGui",
 		"opengl32.lib"
