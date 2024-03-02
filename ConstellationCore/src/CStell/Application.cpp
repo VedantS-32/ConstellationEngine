@@ -24,41 +24,60 @@ namespace CStell
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		float vertices[] = {
-			-0.5f, -0.5f,  0.0f,
-			 0.5f, -0.5f,  0.0f,
-			 0.0f,  0.5f,  0.0f
+			-0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+			 0.5f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f,  0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 		};
 
-		unsigned int indices[3] = { 0, 1, 2 };
+		unsigned int indices[] = { 
+			0, 1, 2,
+			2, 3, 0
+		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::shared_ptr<IndexBuffer> indexBuffer;
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position"},
+			{ ShaderDataType::Float4, "a_Color"}
+		};
+
+		vertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
+		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 		#version 330 core
 		
 		layout(location = 0) in vec3 a_Position;
+		layout(location = 1) in vec4 a_Color;
+
+		out vec4 v_Color;
 		
 		void main()
 		{
 			gl_Position = vec4(a_Position, 1.0);
+			v_Color = a_Color;
 		};
 	)";
+
 		std::string fragmentSrc = R"(
 		#version 330 core
 		
+		in vec4 v_Color;
+
 		out vec4 fragColor;
 		
 		void main()
 		{
-			fragColor = vec4(1.0, 1.0, 0.0, 1.0);
+			fragColor = v_Color;
 		};
 	)";
 
@@ -73,9 +92,6 @@ namespace CStell
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-
-		//auto [x, y] = Input::GetMousePosition();
-		//CSTELL_CORE_TRACE("{0}, {1}", x, y);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -105,7 +121,7 @@ namespace CStell
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

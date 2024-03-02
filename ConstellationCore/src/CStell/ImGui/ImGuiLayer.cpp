@@ -70,7 +70,7 @@ namespace CStell
 		ImGui::ShowDemoWindow(&show);
 
 		ImGui::Begin("Info");
-		ImGui::Text("OpenGL Triangle");
+		ImGui::Text("OpenGL Quad");
 		ImGui::End();
 	}
 

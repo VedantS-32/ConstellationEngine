@@ -410,3 +410,7 @@ ConstellationCore/model/
 
 # Solution File
 *.sln
+
+#Specific Files
+ConstellationCore/ConstellationCore.vcxproj.filters
+ConstellationCore/ConstellationCore.vcxproj
