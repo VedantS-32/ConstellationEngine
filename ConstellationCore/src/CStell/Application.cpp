@@ -1,10 +1,8 @@
 #include "Cstellpch.h"
 #include "Application.h"
 
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
 #include "Input.h"
+#include "Renderer/Renderer.h"
 
 namespace CStell
 {
@@ -117,11 +115,15 @@ namespace CStell
 	{
 		while (m_Running)
 		{
-			glClearColor(0.2f, 0.2f, 0.2f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
 
 			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(m_VertexArray);
+
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

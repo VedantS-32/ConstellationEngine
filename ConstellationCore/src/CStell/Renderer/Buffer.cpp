@@ -11,8 +11,8 @@ namespace CStell
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-            case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+            case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
+            case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
         }
 
         CSTELL_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -22,8 +22,8 @@ namespace CStell
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-            case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, size);
+            case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
+            case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, size);
         }
 
         CSTELL_CORE_ASSERT(false, "Unknown RendererAPI!");

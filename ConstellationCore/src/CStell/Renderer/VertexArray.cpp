@@ -10,8 +10,8 @@ namespace CStell
 	{
         switch (Renderer::GetAPI())
         {
-        case RendererAPI::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-        case RendererAPI::OpenGL: return new OpenGLVertexArray();
+        case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
+        case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
         }
 
         CSTELL_CORE_ASSERT(false, "Unknown RendererAPI!");
