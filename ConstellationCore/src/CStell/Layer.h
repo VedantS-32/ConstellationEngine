@@ -3,6 +3,8 @@
 #include "CStell/Core.h"
 #include "CStell/Events/Event.h"
 
+#include "CStell/Core/Timestep.h"
+
 namespace CStell
 {
 	class CSTELL_API Layer
@@ -13,7 +15,7 @@ namespace CStell
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

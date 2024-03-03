@@ -116,7 +116,8 @@ project "Sandbox"
 	includedirs {
 		"ConstellationCore/vendor/spdlog/include",
 		"ConstellationCore/src",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links {

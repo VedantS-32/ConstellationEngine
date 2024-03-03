@@ -66,9 +66,6 @@ namespace CStell
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-
 		ImGui::Begin("Info");
 		ImGui::Text("OpenGL Quad");
 		ImGui::End();
