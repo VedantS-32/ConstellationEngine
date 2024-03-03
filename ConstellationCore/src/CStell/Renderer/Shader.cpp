@@ -2,6 +2,7 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace CStell
 {
@@ -124,5 +125,56 @@ namespace CStell
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void Shader::SetUniform1i(const std::string& name, int value)
+	{
+		glUniform1i(GetUniformLocation(name), value);
+	}
+
+	void Shader::SetUniform1f(const std::string& name, float value)
+	{
+		glUniform1f(GetUniformLocation(name), value);
+	}
+
+	void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+	{
+		glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
+	}
+
+	void Shader::SetUniform3f(const std::string& name, float v0, float v1, float v2)
+	{
+		glUniform3f(GetUniformLocation(name), v0, v1, v2);
+	}
+
+	void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
+	{
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	int Shader::GetUniformLocation(const std::string& name)
+	{
+		if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+			return m_UniformLocationCache[name];
+
+		int location = glGetUniformLocation(m_RendererID, name.c_str());
+		if (location == -1)
+			CSTELL_CORE_WARN("Warning uniform {0} doesn't exist!", name);
+		m_UniformLocationCache[name] = location;
+		return location;
+	}
+
+	std::string Shader::ParseShader(std::string filename) {
+		std::ifstream in(filename, std::ios::binary);
+		if (in) {
+			std::string contents;
+			in.seekg(0, std::ios::end);
+			contents.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&contents[0], contents.size());
+			in.close();
+			return(contents);
+		}
+		throw(errno);
 	}
 }

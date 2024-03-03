@@ -100,6 +100,7 @@
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CStell\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\CStell\Renderer\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Application.cpp">
@@ -147,5 +148,6 @@
     <ClCompile Include="src\CStell\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\CStell\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\CStell\Renderer\Camera.cpp" />
   </ItemGroup>
 </Project>

@@ -7,9 +7,6 @@
 #include "CStell/LayerStack.h"
 #include "Events/Event.h"
 #include "CStell/Events/ApplicationEvent.h"
-#include "CStell/Renderer/Shader.h"
-#include "CStell/Renderer/Buffer.h"
-#include "CStell/Renderer/VertexArray.h"
 
 namespace CStell
 {
@@ -34,20 +31,16 @@ namespace CStell
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
+		bool m_Running = true;
+
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
-		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
 
 	private:
 		static Application* s_Instance;
 	};
 	
-	//To be defined in CLIENT
+	// To be defined in CLIENT
 	Application* CreateApplication();
 }
-
-
