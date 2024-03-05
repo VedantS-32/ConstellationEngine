@@ -3,6 +3,12 @@
 
 #include <glfw/glfw3.h>
 
+#include "CStell/Core/Timestep.h"
+
+#include "CStell/Renderer/Buffer.h"
+#include "CStell/Renderer/Renderer.h"
+#include "CStell/Renderer/RenderCommand.h"
+
 namespace CStell
 {
 
@@ -59,6 +65,9 @@ namespace CStell
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
+
+			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+			RenderCommand::Clear();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
