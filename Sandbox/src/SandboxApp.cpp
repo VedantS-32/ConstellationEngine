@@ -28,8 +28,8 @@ public:
 			2, 3, 0
 		};
 
-		std::shared_ptr<CStell::VertexBuffer> vertexBuffer;
-		std::shared_ptr<CStell::IndexBuffer> indexBuffer;
+		CStell::Ref<CStell::VertexBuffer> vertexBuffer;
+		CStell::Ref<CStell::IndexBuffer> indexBuffer;
 
 		vertexBuffer.reset(CStell::VertexBuffer::Create(vertices, sizeof(vertices)));
 		indexBuffer.reset(CStell::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
@@ -135,8 +135,8 @@ public:
 	}
 
 private:
-	std::shared_ptr<CStell::Shader> m_Shader;
-	std::shared_ptr<CStell::VertexArray> m_VertexArray;
+	CStell::Ref<CStell::Shader> m_Shader;
+	CStell::Ref<CStell::VertexArray> m_VertexArray;
 
 	CStell::Camera m_Camera;
 	glm::vec3 m_CameraPosition;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef CSTELL_PLATFORM_WINDOWS
 #if CSTELL_DYNAMIC_LINK
 	#ifdef CSTELL_BUILD_DLL
@@ -29,3 +31,9 @@
 #define BIT(x) (1 << x)
 
 #define CSTELL_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace CStell
+{
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}
