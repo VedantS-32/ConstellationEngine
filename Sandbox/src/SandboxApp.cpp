@@ -43,40 +43,7 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
-		std::string vertexSrc = R"(
-		#version 330 core
-		
-		layout(location = 0) in vec3 a_Position;
-		layout(location = 1) in vec2 a_TexCoord;
-
-		uniform mat4 u_ViewProjectionMatrix;
-		uniform mat4 u_ModelMatrix;
-
-		out vec2 v_TexCoord;
-		
-		void main()
-		{
-			gl_Position = u_ViewProjectionMatrix * u_ModelMatrix * vec4(a_Position, 1.0);
-			v_TexCoord = a_TexCoord;
-		};
-	)";
-
-		std::string fragmentSrc = R"(
-		#version 330 core
-
-		uniform sampler2D u_Texture;
-
-		in vec2 v_TexCoord;
-
-		out vec4 fragColor;
-		
-		void main()
-		{
-			fragColor = texture(u_Texture, v_TexCoord);
-		};
-	)";
-
-		m_Shader.reset(CStell::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader.reset(CStell::Shader::Create("asset/shader/Texture.glsl"));
 
 		m_Texture = CStell::Texture2D::Create("asset/texture/CStell.png");
 		m_Texture->Bind();
@@ -131,6 +98,10 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Info");
+		ImGui::Text("Texture");
+		ImGui::End();
+
 		ImGui::Begin("Square Color");
 		ImGui::ColorEdit3("Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
@@ -156,7 +127,6 @@ private:
 
 class Sandbox : public CStell::Application
 {
-
 public:
 	Sandbox()
 	{
@@ -165,9 +135,7 @@ public:
 
 	~Sandbox()
 	{
-
 	}
-
 };
 
 

@@ -4,11 +4,15 @@
 
 #include <glm/glm.hpp>
 
+// TODO : REMOVE THIS!
+typedef unsigned int GLenum;
+
 namespace CStell
 {
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
 		~OpenGLShader();
 
@@ -27,7 +31,10 @@ namespace CStell
 		void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 
 	private:
-		std::string ParseShader(std::string filename);
+		std::string ParseShader(std::string filepath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(std::unordered_map<GLenum, std::string> shaderSources);
+
 		int GetUniformLocation(const std::string& name);
 
 	private:
