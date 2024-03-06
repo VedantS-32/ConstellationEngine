@@ -16,6 +16,7 @@ IncludeDir["glfw"] = "ConstellationCore/vendor/glfw/include"
 IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
 IncludeDir["glm"] = "ConstellationCore/vendor/glm"
 IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
+IncludeDir["stb_image"] = "ConstellationCore/vendor/stb_image"
 
 group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
@@ -38,7 +39,9 @@ project "ConstellationCore"
 
 	files {
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp"
 	}
 
 	includedirs {
@@ -47,7 +50,8 @@ project "ConstellationCore"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links

@@ -17,10 +17,10 @@ public:
 		m_VertexArray.reset(CStell::VertexArray::Create());
 
 		float vertices[] = {
-			-0.5f, -0.5f,  0.0f,
-			 0.5f, -0.5f,  0.0f,
-			 0.5f,  0.5f,  0.0f,
-			-0.5f,  0.5f,  0.0f
+			-0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f,  0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f,  0.0f, 0.0f, 1.0f
 		};
 
 		unsigned int indices[] = {
@@ -36,6 +36,7 @@ public:
 
 		CStell::BufferLayout layout = {
 			{ CStell::ShaderDataType::Float3, "a_Position"},
+			{ CStell::ShaderDataType::Float2, "a_TexCoord"}
 		};
 
 		vertexBuffer->SetLayout(layout);
@@ -46,34 +47,42 @@ public:
 		#version 330 core
 		
 		layout(location = 0) in vec3 a_Position;
+		layout(location = 1) in vec2 a_TexCoord;
 
 		uniform mat4 u_ViewProjectionMatrix;
 		uniform mat4 u_ModelMatrix;
 
-		out vec4 v_Color;
+		out vec2 v_TexCoord;
 		
 		void main()
 		{
 			gl_Position = u_ViewProjectionMatrix * u_ModelMatrix * vec4(a_Position, 1.0);
+			v_TexCoord = a_TexCoord;
 		};
 	)";
 
 		std::string fragmentSrc = R"(
 		#version 330 core
-		
-		uniform vec3 u_Color;
 
-		in vec4 v_Color;
+		uniform sampler2D u_Texture;
+
+		in vec2 v_TexCoord;
 
 		out vec4 fragColor;
 		
 		void main()
 		{
-			fragColor = vec4(u_Color, 1.0);
+			fragColor = texture(u_Texture, v_TexCoord);
 		};
 	)";
 
 		m_Shader.reset(CStell::Shader::Create(vertexSrc, fragmentSrc));
+
+		m_Texture = CStell::Texture2D::Create("asset/texture/CStell.png");
+		m_Texture->Bind();
+
+		std::dynamic_pointer_cast<CStell::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<CStell::OpenGLShader>(m_Shader)->SetUniform1i("u_Texture", 0);
 	}
 
 	void OnUpdate(CStell::Timestep ts) override
@@ -107,9 +116,6 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
 
-		std::dynamic_pointer_cast<CStell::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<CStell::OpenGLShader>(m_Shader)->SetUniform3f("u_Color", m_SquareColor);
-
 		for (int x = 0; x < 20; x++)
 		{
 			for (int y = 0; y < 20; y++)
@@ -137,6 +143,7 @@ public:
 private:
 	CStell::Ref<CStell::Shader> m_Shader;
 	CStell::Ref<CStell::VertexArray> m_VertexArray;
+	CStell::Ref<CStell::Texture2D> m_Texture;
 
 	CStell::Camera m_Camera;
 	glm::vec3 m_CameraPosition;

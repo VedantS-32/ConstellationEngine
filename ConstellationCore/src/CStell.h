@@ -21,6 +21,8 @@
 #include "CStell/Renderer/Buffer.h"
 #include "CStell/Renderer/Shader.h"
 
+#include "CStell/Renderer/Texture.h"
+
 #include "CStell/Renderer/Camera.h"
 //----------------------------------------------
 
