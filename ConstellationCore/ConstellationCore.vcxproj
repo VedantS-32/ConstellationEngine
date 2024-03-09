@@ -161,6 +161,7 @@
     <ClInclude Include="src\CStell\MouseButtonCodes.h" />
     <ClInclude Include="src\CStell\Renderer\Buffer.h" />
     <ClInclude Include="src\CStell\Renderer\Camera.h" />
+    <ClInclude Include="src\CStell\CameraController.h" />
     <ClInclude Include="src\CStell\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CStell\Renderer\Renderer.h" />
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Application.cpp" />
+    <ClCompile Include="src\CStell\CameraController.cpp" />
     <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\CStell\Layer.cpp" />

@@ -11,6 +11,8 @@
 #include "CStell/KeyCodes.h"
 #include "CStell/MouseButtonCodes.h"
 
+#include "CStell/CameraController.h"
+
 #include "CStell/ImGui/ImGuiLayer.h"
 
 //---Renderer-----------------------------------

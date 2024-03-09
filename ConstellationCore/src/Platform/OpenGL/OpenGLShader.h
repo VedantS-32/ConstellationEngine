@@ -13,11 +13,13 @@ namespace CStell
 	{
 	public:
 		OpenGLShader(const std::string& filepath);
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		~OpenGLShader();
 
 		void Bind() const;
 		void Unbind() const;
+
+		virtual const std::string& GetName() const override { return m_Name; }
 
 		// Set uniforms
 		void SetUniform1i(const std::string& name, int value);
@@ -39,6 +41,7 @@ namespace CStell
 
 	private:
 		uint32_t m_RendererID;
+		std::string m_Name;
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 	};
 }
