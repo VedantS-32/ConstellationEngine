@@ -1,5 +1,6 @@
 #include <CStell.h>
 #include <CStellpch.h>
+#include <CStell/Core/EntryPoint.h>
 
 #include <imgui.h>
 #include <Platform/OpenGL/OpenGLShader.h>
@@ -8,13 +9,15 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Sandbox2D.h"
+
 class SceneLayer : public CStell::Layer
 {
 public:
 	SceneLayer()
 		: Layer("Scene"), m_CameraController(1280.0f / 720.0f)
 	{
-		m_VertexArray.reset(CStell::VertexArray::Create());
+		m_VertexArray = CStell::VertexArray::Create();
 
 		float vertices[] = {
 			-0.5f, -0.5f,  0.0f, 0.0f, 0.0f,
@@ -107,7 +110,8 @@ class Sandbox : public CStell::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new SceneLayer());
+		//PushLayer(new SceneLayer());
+		PushLayer(new Sandbox2D);
 	}
 
 	~Sandbox()

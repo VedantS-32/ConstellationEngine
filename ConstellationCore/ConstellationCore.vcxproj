@@ -165,6 +165,7 @@
     <ClInclude Include="src\CStell\Renderer\CameraController.h" />
     <ClInclude Include="src\CStell\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CStell\Renderer\Renderer.h" />
+    <ClInclude Include="src\CStell\Renderer\Renderer2D.h" />
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CStell\Renderer\RendererContext.h" />
     <ClInclude Include="src\CStell\Renderer\Shader.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="src\CStell\Renderer\CameraController.cpp" />
     <ClCompile Include="src\CStell\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CStell\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\CStell\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\CStell\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\CStell\Renderer\Shader.cpp" />
     <ClCompile Include="src\CStell\Renderer\Texture.cpp" />

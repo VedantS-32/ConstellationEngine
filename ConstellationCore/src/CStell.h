@@ -15,6 +15,7 @@
 
 //---Renderer-----------------------------------
 #include "CStell/Renderer/Renderer.h"
+#include "CStell/Renderer/Renderer2D.h"
 #include "CStell/Renderer/RenderCommand.h"
 
 #include "CStell/Renderer/VertexArray.h"
@@ -25,8 +26,4 @@
 
 #include "CStell/Renderer/Camera.h"
 #include "CStell/Renderer/CameraController.h"
-//----------------------------------------------
-
-//---Entry Point--------------------------------
-#include "CStell/Core/EntryPoint.h"
 //----------------------------------------------
