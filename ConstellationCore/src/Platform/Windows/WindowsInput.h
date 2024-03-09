@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CStell/Input.h"
+#include "CStell/Core/Input.h"
 
 namespace CStell
 {

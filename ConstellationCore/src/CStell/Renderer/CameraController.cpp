@@ -1,8 +1,8 @@
 #include "CStellpch.h"
 #include "CameraController.h"
 
-#include "Input.h"
-#include "KeyCodes.h"
+#include "CStell/Core/Input.h"
+#include "CStell/Core/KeyCodes.h"
 
 namespace CStell
 {

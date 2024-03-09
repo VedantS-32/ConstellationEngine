@@ -1,17 +1,15 @@
 #pragma once
 
 //For use by CStell Applications
-#include "CStell/Application.h"
-#include "CStell/Layer.h"
-#include "CStell/Log.h"
+#include "CStell/Core/Application.h"
+#include "CStell/Core/Layer.h"
+#include "CStell/Core/Log.h"
 
 #include "CStell/Core/Timestep.h"
 
-#include "CStell/Input.h"
-#include "CStell/KeyCodes.h"
-#include "CStell/MouseButtonCodes.h"
-
-#include "CStell/CameraController.h"
+#include "CStell/Core/Input.h"
+#include "CStell/Core/KeyCodes.h"
+#include "CStell/Core/MouseButtonCodes.h"
 
 #include "CStell/ImGui/ImGuiLayer.h"
 
@@ -26,8 +24,9 @@
 #include "CStell/Renderer/Texture.h"
 
 #include "CStell/Renderer/Camera.h"
+#include "CStell/Renderer/CameraController.h"
 //----------------------------------------------
 
 //---Entry Point--------------------------------
-#include "CStell/EntryPoint.h"
+#include "CStell/Core/EntryPoint.h"
 //----------------------------------------------

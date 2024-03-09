@@ -3,8 +3,8 @@
 #include "Core.h"
 
 #include "Window.h"
-#include "CStell/LayerStack.h"
-#include "Events/Event.h"
+#include "CStell/Core/LayerStack.h"
+#include "CStell/Events/Event.h"
 #include "CStell/Events/ApplicationEvent.h"
 
 #include "CStell/Core/Timestep.h"

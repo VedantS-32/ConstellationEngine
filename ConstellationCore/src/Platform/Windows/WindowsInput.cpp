@@ -1,7 +1,7 @@
 #include "CStellpch.h"
 #include "WindowsInput.h"
 
-#include "CStell/Application.h"
+#include "CStell/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace CStell

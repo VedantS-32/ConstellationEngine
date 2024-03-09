@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/Camera.h"
+#include "CStell/Renderer/Camera.h"
 #include "CStell/Core/Timestep.h"
 
 #include "CStell/Events/ApplicationEvent.h"

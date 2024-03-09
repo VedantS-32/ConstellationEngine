@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CStell/Window.h"
+#include "CStell/Core/Window.h"
 #include "CStell/Renderer/RendererContext.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 

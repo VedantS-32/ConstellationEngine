@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CStell/Core.h"
+#include "CStell/Core/Core.h"
 #include "CStell/Events/Event.h"
 
 #include "CStell/Core/Timestep.h"

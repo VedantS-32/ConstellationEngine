@@ -144,24 +144,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\CStell.h" />
-    <ClInclude Include="src\CStell\Application.h" />
-    <ClInclude Include="src\CStell\Core.h" />
+    <ClInclude Include="src\CStell\Core\Application.h" />
+    <ClInclude Include="src\CStell\Core\Core.h" />
+    <ClInclude Include="src\CStell\Core\EntryPoint.h" />
+    <ClInclude Include="src\CStell\Core\Input.h" />
+    <ClInclude Include="src\CStell\Core\KeyCodes.h" />
+    <ClInclude Include="src\CStell\Core\Layer.h" />
+    <ClInclude Include="src\CStell\Core\LayerStack.h" />
+    <ClInclude Include="src\CStell\Core\Log.h" />
+    <ClInclude Include="src\CStell\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\CStell\Core\Timestep.h" />
-    <ClInclude Include="src\CStell\EntryPoint.h" />
+    <ClInclude Include="src\CStell\Core\Window.h" />
     <ClInclude Include="src\CStell\Events\ApplicationEvent.h" />
     <ClInclude Include="src\CStell\Events\Event.h" />
     <ClInclude Include="src\CStell\Events\KeyEvent.h" />
     <ClInclude Include="src\CStell\Events\MouseEvent.h" />
     <ClInclude Include="src\CStell\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\CStell\Input.h" />
-    <ClInclude Include="src\CStell\KeyCodes.h" />
-    <ClInclude Include="src\CStell\Layer.h" />
-    <ClInclude Include="src\CStell\LayerStack.h" />
-    <ClInclude Include="src\CStell\Log.h" />
-    <ClInclude Include="src\CStell\MouseButtonCodes.h" />
     <ClInclude Include="src\CStell\Renderer\Buffer.h" />
     <ClInclude Include="src\CStell\Renderer\Camera.h" />
-    <ClInclude Include="src\CStell\CameraController.h" />
+    <ClInclude Include="src\CStell\Renderer\CameraController.h" />
     <ClInclude Include="src\CStell\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CStell\Renderer\Renderer.h" />
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
@@ -169,7 +170,6 @@
     <ClInclude Include="src\CStell\Renderer\Shader.h" />
     <ClInclude Include="src\CStell\Renderer\Texture.h" />
     <ClInclude Include="src\CStell\Renderer\VertexArray.h" />
-    <ClInclude Include="src\CStell\Window.h" />
     <ClInclude Include="src\CStellpch.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -182,15 +182,15 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CStell\Application.cpp" />
-    <ClCompile Include="src\CStell\CameraController.cpp" />
+    <ClCompile Include="src\CStell\Core\Application.cpp" />
+    <ClCompile Include="src\CStell\Core\Layer.cpp" />
+    <ClCompile Include="src\CStell\Core\LayerStack.cpp" />
+    <ClCompile Include="src\CStell\Core\Log.cpp" />
     <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\CStell\Layer.cpp" />
-    <ClCompile Include="src\CStell\LayerStack.cpp" />
-    <ClCompile Include="src\CStell\Log.cpp" />
     <ClCompile Include="src\CStell\Renderer\Buffer.cpp" />
     <ClCompile Include="src\CStell\Renderer\Camera.cpp" />
+    <ClCompile Include="src\CStell\Renderer\CameraController.cpp" />
     <ClCompile Include="src\CStell\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CStell\Renderer\Renderer.cpp" />
     <ClCompile Include="src\CStell\Renderer\RendererAPI.cpp" />

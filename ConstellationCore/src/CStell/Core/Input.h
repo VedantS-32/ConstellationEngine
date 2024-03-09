@@ -1,5 +1,5 @@
 #pragma once
-#include "CStell/Core.h"
+#include "CStell/Core/Core.h"
 
 namespace CStell
 {
