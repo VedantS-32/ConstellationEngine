@@ -21,16 +21,26 @@ namespace CStell
 
 		virtual const std::string& GetName() const override { return m_Name; }
 
+		virtual void Set1i(const std::string& name, int value) override;
+
+		virtual void Set1f(const std::string& name, float value) override;
+		virtual void Set2f(const std::string& name, glm::vec2 value) override;
+		virtual void Set3f(const std::string& name, glm::vec3 value) override;
+		virtual void Set4f(const std::string& name, glm::vec4 value) override;
+
+		virtual void SetMat3f(const std::string& name, const glm::mat3& matrix) override;
+		virtual void SetMat4f(const std::string& name, const glm::mat4& matrix) override;
+
 		// Set uniforms
-		void SetUniform1i(const std::string& name, int value);
+		void UploadUniform1i(const std::string& name, int value);
 
-		void SetUniform1f(const std::string& name, float value);
-		void SetUniform2f(const std::string& name, glm::vec2 value);
-		void SetUniform3f(const std::string& name, glm::vec3 value);
-		void SetUniform4f(const std::string& name, glm::vec4 value);
+		void UploadUniform1f(const std::string& name, float value);
+		void UploadUniform2f(const std::string& name, glm::vec2 value);
+		void UploadUniform3f(const std::string& name, glm::vec3 value);
+		void UploadUniform4f(const std::string& name, glm::vec4 value);
 
-		void SetUniformMat3f(const std::string& name, const glm::mat3& matrix);
-		void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
+		void UploadUniformMat3f(const std::string& name, const glm::mat3& matrix);
+		void UploadUniformMat4f(const std::string& name, const glm::mat4& matrix);
 
 	private:
 		std::string ParseShader(std::string filepath);

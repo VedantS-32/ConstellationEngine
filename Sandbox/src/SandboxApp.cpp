@@ -51,8 +51,8 @@ public:
 		m_Texture = CStell::Texture2D::Create("asset/texture/CStell.png");
 		m_Texture->Bind();
 
-		std::dynamic_pointer_cast<CStell::OpenGLShader>(shader)->Bind();
-		std::dynamic_pointer_cast<CStell::OpenGLShader>(shader)->SetUniform1i("u_Texture", 0);
+		shader->Bind();
+		shader->Set1i("u_Texture", 0);
 	}
 
 	void OnUpdate(CStell::Timestep ts) override

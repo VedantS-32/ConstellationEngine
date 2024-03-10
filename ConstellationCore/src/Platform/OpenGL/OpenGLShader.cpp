@@ -56,6 +56,41 @@ namespace CStell
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::Set1i(const std::string& name, int value)
+	{
+		UploadUniform1i(name, value);
+	}
+
+	void OpenGLShader::Set1f(const std::string& name, float value)
+	{
+		UploadUniform1f(name, value);
+	}
+
+	void OpenGLShader::Set2f(const std::string& name, glm::vec2 value)
+	{
+		UploadUniform2f(name, value);
+	}
+
+	void OpenGLShader::Set3f(const std::string& name, glm::vec3 value)
+	{
+		UploadUniform3f(name, value);
+	}
+
+	void OpenGLShader::Set4f(const std::string& name, glm::vec4 value)
+	{
+		UploadUniform4f(name, value);
+	}
+
+	void OpenGLShader::SetMat3f(const std::string& name, const glm::mat3& matrix)
+	{
+		UploadUniformMat3f(name, matrix);
+	}
+
+	void OpenGLShader::SetMat4f(const std::string& name, const glm::mat4& matrix)
+	{
+		UploadUniformMat4f(name, matrix);
+	}
+
 	std::string OpenGLShader::ParseShader(std::string filepath)
 	{
 		std::string content;
@@ -169,37 +204,37 @@ namespace CStell
 		m_RendererID = program;
 	}
 
-	void OpenGLShader::SetUniform1i(const std::string& name, int value)
+	void OpenGLShader::UploadUniform1i(const std::string& name, int value)
 	{
 		glUniform1i(GetUniformLocation(name), value);
 	}
 
-	void OpenGLShader::SetUniform1f(const std::string& name, float value)
+	void OpenGLShader::UploadUniform1f(const std::string& name, float value)
 	{
 		glUniform1f(GetUniformLocation(name), value);
 	}
 
-	void OpenGLShader::SetUniform2f(const std::string& name, glm::vec2 value)
+	void OpenGLShader::UploadUniform2f(const std::string& name, glm::vec2 value)
 	{
 		glUniform2f(GetUniformLocation(name), value.x, value.y);
 	}
 
-	void OpenGLShader::SetUniform3f(const std::string& name, glm::vec3 value)
+	void OpenGLShader::UploadUniform3f(const std::string& name, glm::vec3 value)
 	{
 		glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
 	}
 
-	void OpenGLShader::SetUniform4f(const std::string& name, glm::vec4 value)
+	void OpenGLShader::UploadUniform4f(const std::string& name, glm::vec4 value)
 	{
 		glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 	}
 
-	void OpenGLShader::SetUniformMat3f(const std::string& name, const glm::mat3& matrix)
+	void OpenGLShader::UploadUniformMat3f(const std::string& name, const glm::mat3& matrix)
 	{
 		glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
+	void OpenGLShader::UploadUniformMat4f(const std::string& name, const glm::mat4& matrix)
 	{
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 	}

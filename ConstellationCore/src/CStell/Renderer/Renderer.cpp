@@ -33,8 +33,8 @@ namespace CStell
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& modelMatrix)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4f("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4f("u_ModelMatrix", modelMatrix);
+		shader->SetMat4f("u_ViewProjectionMatrix", m_SceneData->ViewProjectionMatrix);
+		shader->SetMat4f("u_ModelMatrix", modelMatrix);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

@@ -63,7 +63,7 @@ namespace CStell
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)element.Offset);
+				reinterpret_cast<const void*>(static_cast<uintptr_t>(element.Offset)));
 			index++;
 		}
 
