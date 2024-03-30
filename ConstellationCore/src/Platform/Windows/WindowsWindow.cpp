@@ -15,23 +15,29 @@ namespace CStell
 		CSTELL_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -41,6 +47,7 @@ namespace CStell
 		if (!s_GLFWInitialized)
 		{
 			// TODO: glfwTerminate on system shutdown
+			CSTELL_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
 			CSTELL_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -48,7 +55,11 @@ namespace CStell
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		{
+			CSTELL_PROFILE_SCOPE("glfwCreateWindow");
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		}
+
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
 
@@ -154,12 +165,16 @@ namespace CStell
 
 	void WindowsWindow::OnUpdate()
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 		m_Context->SwapBuffer();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		if (enabled) { glfwSwapInterval(1); }
 		else { glfwSwapInterval(0); }
 
@@ -173,6 +188,8 @@ namespace CStell
 
 	void WindowsWindow::Shutdown()
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 	}
 }

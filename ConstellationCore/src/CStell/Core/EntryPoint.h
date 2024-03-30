@@ -11,9 +11,17 @@ int main(int argc, char** argv)
 	CSTELL_CORE_INFO("Constellation Engine");
 	CSTELL_CORE_WARN("Intialized Log!");
 
+	CSTELL_PROFILE_BEGIN_SESSION("Startup", "CStellProfile-Startup.json");
 	auto app = CStell::CreateApplication();
+	CSTELL_PROFILE_END_SESSION();
+
+	CSTELL_PROFILE_BEGIN_SESSION("Runtime", "CStellProfile-Runtime.json");
 	app->Run();
+	CSTELL_PROFILE_END_SESSION();
+
+	CSTELL_PROFILE_BEGIN_SESSION("Shutdown", "CStellProfile-Shutdown.json");
 	delete app;
+	CSTELL_PROFILE_END_SESSION();
 }
 
 #endif

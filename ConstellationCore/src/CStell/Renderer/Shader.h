@@ -15,6 +15,7 @@ namespace CStell
 		virtual void Unbind() const = 0;
 
 		virtual void Set1i(const std::string& name, int value) = 0;
+		virtual void Set1iArray(const std::string& name, int* value, uint32_t count) = 0;
 
 		virtual void Set1f(const std::string& name, float value) = 0;
 		virtual void Set2f(const std::string& name, glm::vec2 value) = 0;

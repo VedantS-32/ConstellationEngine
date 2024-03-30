@@ -31,11 +31,8 @@ public:
 			2, 3, 0
 		};
 
-		CStell::Ref<CStell::VertexBuffer> vertexBuffer;
-		CStell::Ref<CStell::IndexBuffer> indexBuffer;
-
-		vertexBuffer.reset(CStell::VertexBuffer::Create(vertices, sizeof(vertices)));
-		indexBuffer.reset(CStell::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		CStell::Ref<CStell::VertexBuffer> vertexBuffer = CStell::VertexBuffer::Create(vertices, sizeof(vertices));
+		CStell::Ref<CStell::IndexBuffer> indexBuffer = CStell::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
 		CStell::BufferLayout layout = {
 			{ CStell::ShaderDataType::Float3, "a_Position"},

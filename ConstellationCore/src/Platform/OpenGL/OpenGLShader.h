@@ -22,6 +22,7 @@ namespace CStell
 		virtual const std::string& GetName() const override { return m_Name; }
 
 		virtual void Set1i(const std::string& name, int value) override;
+		virtual void Set1iArray(const std::string& name, int* value, uint32_t count) override;
 
 		virtual void Set1f(const std::string& name, float value) override;
 		virtual void Set2f(const std::string& name, glm::vec2 value) override;
@@ -33,6 +34,7 @@ namespace CStell
 
 		// Set uniforms
 		void UploadUniform1i(const std::string& name, int value);
+		void UploadUniform1iArray(const std::string& name, int* value, uint32_t count);
 
 		void UploadUniform1f(const std::string& name, float value);
 		void UploadUniform2f(const std::string& name, glm::vec2 value);

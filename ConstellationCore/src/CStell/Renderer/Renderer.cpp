@@ -12,6 +12,8 @@ namespace CStell
 
 	void Renderer::Init()
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

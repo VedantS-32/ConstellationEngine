@@ -19,6 +19,8 @@ namespace CStell
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		std::string source = ParseShader(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -34,6 +36,8 @@ namespace CStell
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -59,6 +63,11 @@ namespace CStell
 	void OpenGLShader::Set1i(const std::string& name, int value)
 	{
 		UploadUniform1i(name, value);
+	}
+
+	void OpenGLShader::Set1iArray(const std::string& name, int* value, uint32_t count)
+	{
+		UploadUniform1iArray(name, value, count);
 	}
 
 	void OpenGLShader::Set1f(const std::string& name, float value)
@@ -93,6 +102,8 @@ namespace CStell
 
 	std::string OpenGLShader::ParseShader(std::string filepath)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		std::string content;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in) {
@@ -112,6 +123,8 @@ namespace CStell
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "//#type";
@@ -136,6 +149,8 @@ namespace CStell
 
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> shaderSources)
 	{
+		CSTELL_PROFILE_FUNCTION();
+
 		GLuint program = glCreateProgram();
 		CSTELL_CORE_ASSERT(shaderSources.size() <= 2, "Only two shaders are supported for now");
 		std::array<GLenum, 2> glShaderIDs{};
@@ -207,6 +222,11 @@ namespace CStell
 	void OpenGLShader::UploadUniform1i(const std::string& name, int value)
 	{
 		glUniform1i(GetUniformLocation(name), value);
+	}
+
+	void OpenGLShader::UploadUniform1iArray(const std::string& name, int* value, uint32_t count)
+	{
+		glUniform1iv(GetUniformLocation(name), count, value);
 	}
 
 	void OpenGLShader::UploadUniform1f(const std::string& name, float value)
