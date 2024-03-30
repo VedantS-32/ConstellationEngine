@@ -40,5 +40,4 @@ out vec4 fragColor;
 void main()
 {
 	fragColor = texture(u_Texture[int(v_TexIndex)], v_TexCoord * v_TilingFactor) * v_Color;
-	//fragColor = v_Color;
 }

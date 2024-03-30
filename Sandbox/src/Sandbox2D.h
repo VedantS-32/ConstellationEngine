@@ -20,7 +20,7 @@ private:
 	CStell::CameraController m_CameraController;
 
 private:
-	glm::vec4 m_SqaureColor{ 0.3f, 0.25f, 0.9f, 1.0f };
+	glm::vec4 m_SquareColor{ 0.3f, 0.25f, 0.9f, 1.0f };
 	glm::vec4 m_Tint{ 1.0f, 1.0f, 1.0f, 1.0f };
 	glm::vec3 m_Translation{ 1.0f, 1.0f, 0.0f };
 	float m_Tiling = 1.0f;
