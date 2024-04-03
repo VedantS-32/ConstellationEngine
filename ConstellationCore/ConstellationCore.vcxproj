@@ -170,6 +170,7 @@
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CStell\Renderer\RendererContext.h" />
     <ClInclude Include="src\CStell\Renderer\Shader.h" />
+    <ClInclude Include="src\CStell\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\CStell\Renderer\Texture.h" />
     <ClInclude Include="src\CStell\Renderer\VertexArray.h" />
     <ClInclude Include="src\CStellpch.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="src\CStell\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\CStell\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\CStell\Renderer\Shader.cpp" />
+    <ClCompile Include="src\CStell\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\CStell\Renderer\Texture.cpp" />
     <ClCompile Include="src\CStell\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\CStellpch.cpp">

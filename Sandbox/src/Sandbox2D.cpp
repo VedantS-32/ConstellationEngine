@@ -6,10 +6,42 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
+static const uint32_t s_MapWidth = 32;
+
+static const char* s_Map = 
+"################################"
+"################################"
+"################################"
+"################################"
+"##############WWWWWWW###########"
+"WWWWWWWWWWWWWWWWWWWWW###########"
+"WWWWWWWWWWWWWW##########WWWWW###"
+"########################WWWWWWWW"
+"#############################WWW"
+"################################"
+"################################"
+"################################"
+"################################"
+"#######WWWWWWW##################"
+"#####WWWWWWWWW##################"
+"#####WWWWWWWWW##################"
+"#####WWWWWWWWW##################"
+;
+
 Sandbox2D::Sandbox2D()
 	: Layer("Scene"), m_CameraController(1280.0f / 720.0f)
 {
+}
+
+void Sandbox2D::OnAttach()
+{
+	m_MapWidth = 32;
+	m_MapHeight = strlen(s_Map) / m_MapWidth;
 	m_Texture = CStell::Texture2D::Create("asset/texture/CStell.png");
+	m_SpriteSheet = CStell::Texture2D::Create("asset/gameTest0/tiny-16.png");
+	m_TextureMap['#'] = CStell::SubTexture2D::CreateFromCoords(m_SpriteSheet, {6, 9}, {16, 16});
+	m_TextureMap['W'] = CStell::SubTexture2D::CreateFromCoords(m_SpriteSheet, {1, 6}, {16, 16});
+	m_SignBoardTex = CStell::SubTexture2D::CreateFromCoords(m_SpriteSheet, {2, 1}, {16, 16});
 }
 
 void Sandbox2D::OnUpdate(CStell::Timestep ts)
@@ -20,16 +52,18 @@ void Sandbox2D::OnUpdate(CStell::Timestep ts)
 	m_CameraController.OnUpdate(ts);
 
 	// Render
+	CStell::Renderer2D::ResetStats();
 	{
 		CSTELL_PROFILE_SCOPE("Renderer Preparation");
 		CStell::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		CStell::RenderCommand::Clear();
 	}
 
-	static float rotation = 0.0f;
-	rotation += ts * 20.f;
-
+#if 0
 	{
+		static float rotation = 0.0f;
+		rotation += ts * 20.f;
+
 		CSTELL_PROFILE_SCOPE("Renderer Draw");
 		CStell::Renderer2D::BeginScene(m_CameraController.GetCamera());
 		CStell::Renderer2D::DrawQuad({ 0.5f, 0.5f, -0.1f }, { 1.0f, 1.0f }, m_SquareColor);
@@ -39,7 +73,38 @@ void Sandbox2D::OnUpdate(CStell::Timestep ts)
 		CStell::Renderer2D::DrawRotatedQuad({ 5.0f, 3.0f }, { 1.0f, 1.0f }, 45.0f, m_SquareColor);
 		CStell::Renderer2D::DrawQuad(m_Translation, { 2.0f, 4.0f }, { 0.9f, 0.5f, 0.5f, 1.0f });
 		CStell::Renderer2D::EndScene();
+
+		CStell::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		for (float x = -5.0f; x < 5.0f; x+=0.25f)
+			for (float y = -5.0f; y < 5.0f; y+=0.25f)
+			{
+				glm::vec4 color = { (x + 5.0f) / 10.f, 0.25f, (y + 5.0f) / 10.0f, 0.75f };
+				CStell::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
+			}
+		CStell::Renderer2D::EndScene();
 	}
+#endif
+
+	CStell::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	//CStell::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_SubTexture, { 1.0f, 1.0f, 1.0f, 1.0f });
+	//CStell::Renderer2D::DrawQuad({ 2.0f, 2.0f, 0.0f }, { 1.0f, 1.0f }, m_SubTexture, { 1.0f, 1.0f, 1.0f, 1.0f });
+	//CStell::Renderer2D::DrawQuad({ -2.0f, 2.0f, 0.0f }, { 3.0f, 1.0f }, m_Flowers, { 1.0f, 1.0f, 1.0f, 1.0f });
+
+	for (uint32_t y = 0; y < m_MapHeight; y++)
+	{
+		for (uint32_t x = 0; x < m_MapWidth; x++)
+		{
+			char tileType = s_Map[x + y * m_MapWidth];
+			CStell::Ref<CStell::SubTexture2D> texture;
+			if (m_TextureMap.find(tileType) != m_TextureMap.end())
+				texture = m_TextureMap[tileType];
+			else
+				texture = m_SignBoardTex;
+
+			CStell::Renderer2D::DrawQuad({ x - m_MapWidth / 2.0f, y - m_MapHeight / 2.0f, 0.0f }, { 1.0f, 1.0f }, texture);
+		}
+	}
+	CStell::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender()
@@ -53,6 +118,14 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::SliderFloat3("Translation", glm::value_ptr(m_Translation), -1.0f, 10.0f);
 	ImGui::SliderFloat("Tiling", &m_Tiling, 1.0f, 10.0f);
 	ImGui::SliderFloat("Rotation", &m_Rotation, 0.0f, 360.0f);
+	ImGui::End();
+
+	auto stats = CStell::Renderer2D::GetStats();
+	ImGui::Begin("Renderer2D Stats");
+	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+	ImGui::Text("Quads: %d", stats.QuadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 	ImGui::End();
 }
 

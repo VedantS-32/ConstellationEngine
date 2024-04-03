@@ -149,6 +149,7 @@
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Renderer2D.h" />
     <ClInclude Include="src\CStell\Debug\Instrumentor.h" />
+    <ClInclude Include="src\CStell\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
@@ -227,5 +228,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\CStell\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>

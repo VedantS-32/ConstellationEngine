@@ -23,6 +23,7 @@
 #include "CStell/Renderer/Shader.h"
 
 #include "CStell/Renderer/Texture.h"
+#include "CStell/Renderer/SubTexture2D.h"
 
 #include "CStell/Renderer/Camera.h"
 #include "CStell/Renderer/CameraController.h"
