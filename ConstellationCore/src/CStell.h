@@ -20,6 +20,7 @@
 
 #include "CStell/Renderer/VertexArray.h"
 #include "CStell/Renderer/Buffer.h"
+#include "CStell/Renderer/Framebuffer.h"
 #include "CStell/Renderer/Shader.h"
 
 #include "CStell/Renderer/Texture.h"

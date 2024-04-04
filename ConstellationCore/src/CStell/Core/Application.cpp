@@ -70,6 +70,11 @@ namespace CStell
 		layer->OnAttach();
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void Application::Run()
 	{
 		CSTELL_PROFILE_FUNCTION();

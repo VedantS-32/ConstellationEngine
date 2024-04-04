@@ -12,6 +12,7 @@ namespace CStell
 	}
 
 	void CameraController::OnUpdate(Timestep ts)
+
 	{
 		CSTELL_PROFILE_FUNCTION();
 

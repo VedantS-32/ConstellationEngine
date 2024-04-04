@@ -1,6 +1,6 @@
 #include "CStellpch.h"
 
-#include "Renderer.h"
+#include "CStell/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace CStell

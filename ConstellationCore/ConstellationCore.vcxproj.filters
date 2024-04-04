@@ -150,6 +150,8 @@
     <ClInclude Include="src\CStell\Renderer\Renderer2D.h" />
     <ClInclude Include="src\CStell\Debug\Instrumentor.h" />
     <ClInclude Include="src\CStell\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\CStell\Renderer\Framebuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
@@ -229,5 +231,7 @@
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\CStell\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\CStell\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

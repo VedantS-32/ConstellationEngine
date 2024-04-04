@@ -15,6 +15,7 @@ public:
 
 private:
 	CStell::Ref<CStell::Shader> m_Shader;
+	CStell::Ref<CStell::Framebuffer> m_Framebuffer;
 	CStell::Ref<CStell::VertexArray> m_VertexArray;
 	CStell::Ref<CStell::Texture2D> m_Texture;
 	CStell::Ref<CStell::Texture2D> m_SpriteSheet;
@@ -32,7 +33,4 @@ private:
 	glm::vec3 m_Translation{ 1.0f, 1.0f, 0.0f };
 	float m_Tiling = 1.0f;
 	float m_Rotation = 0.0f;
-
-	uint32_t m_MapWidth;
-	uint32_t m_MapHeight;
 };
