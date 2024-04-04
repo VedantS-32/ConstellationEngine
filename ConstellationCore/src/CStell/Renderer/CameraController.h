@@ -16,6 +16,8 @@ namespace CStell
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
+		void OnResize(float width, float height);
+
 		Camera& GetCamera() { return m_Camera; }
 		const Camera& GetCamera() const { return m_Camera; }
 

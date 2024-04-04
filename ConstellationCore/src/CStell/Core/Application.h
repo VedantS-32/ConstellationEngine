@@ -17,7 +17,7 @@ namespace CStell
 	class CSTELL_API Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Constellation Engine");
 		virtual ~Application();
 
 		void Run();

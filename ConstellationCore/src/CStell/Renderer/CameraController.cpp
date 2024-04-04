@@ -40,6 +40,12 @@ namespace CStell
 		dispatcher.Dispatch<WindowResizeEvent>(CSTELL_BIND_EVENT_FN(CameraController::OnWindowResize));
 	}
 
+	void CameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetOrthographic(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel, -100.0f, 100.0f);
+	}
+
 	bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
 		CSTELL_PROFILE_FUNCTION();
@@ -55,8 +61,7 @@ namespace CStell
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-		m_Camera.SetOrthographic(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel, -100.0f, 100.0f);
+		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 		return false;
 	}
 }
