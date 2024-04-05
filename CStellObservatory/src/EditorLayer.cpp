@@ -32,7 +32,8 @@ namespace CStell
         CSTELL_PROFILE_FUNCTION();
 
         // Update
-        m_CameraController.OnUpdate(ts);
+        if(m_ViewportFocused)
+            m_CameraController.OnUpdate(ts);
 
         // Render
         Renderer2D::ResetStats();
@@ -156,18 +157,22 @@ namespace CStell
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
-        ImVec2 viewPortSize = ImGui::GetContentRegionAvail();
 
-        if (m_ViewPortSize != *((glm::vec2*)&viewPortSize))
+        m_ViewportFocused = ImGui::IsWindowFocused();
+        m_ViewportHovered = ImGui::IsWindowHovered();
+        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
+        ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+        if (m_ViewportSize != *((glm::vec2*)&viewportSize))
         {
-            m_Framebuffer->Resize((uint32_t)m_ViewPortSize.x, (uint32_t)m_ViewPortSize.y);
-            m_ViewPortSize = { viewPortSize.x, viewPortSize.y };
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_ViewportSize = { viewportSize.x, viewportSize.y };
 
-            m_CameraController.OnResize(viewPortSize.x, viewPortSize.y);
+            m_CameraController.OnResize(viewportSize.x, viewportSize.y);
         }
 
         textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::PopStyleVar();
         ImGui::End();
 
