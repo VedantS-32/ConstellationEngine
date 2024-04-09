@@ -18,6 +18,13 @@ namespace CStell
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
+
+        m_ActiveScene = CreateRef<Scene>();
+
+        m_Square = m_ActiveScene->CreateEntity("Square");
+
+        m_Square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+
         m_Framebuffer = Framebuffer::Create(fbSpec);
         m_Texture = Texture2D::Create("asset/texture/CStell.png");
         m_SpriteSheet = Texture2D::Create("asset/gameTest0/tiny-16.png");
@@ -38,37 +45,21 @@ namespace CStell
         // Render
         Renderer2D::ResetStats();
 
-        {
-            CSTELL_PROFILE_SCOPE("Renderer Preparation");
-            m_Framebuffer->Bind();
-            RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-            RenderCommand::Clear();
-        }
+        CSTELL_PROFILE_SCOPE("Renderer Preparation");
+        m_Framebuffer->Bind();
+        RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+        RenderCommand::Clear();
 
-        {
-            static float rotation = 0.0f;
-            rotation += ts * 20.f;
+        CSTELL_PROFILE_SCOPE("Renderer Draw");
 
-            CSTELL_PROFILE_SCOPE("Renderer Draw");
-            Renderer2D::BeginScene(m_CameraController.GetCamera());
-            Renderer2D::DrawQuad({ 0.5f, 0.5f, -0.1f }, { 1.0f, 1.0f }, m_SquareColor);
-            Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Rotation, m_Texture, m_Tint, m_Tiling);
-            Renderer2D::DrawRotatedQuad({ -2.0f, -1.0f }, { 1.0f, 1.0f }, rotation, m_Texture, m_Tint, m_Tiling);
-            Renderer2D::DrawQuad({ 3.0f, 3.0f }, { 1.0f, 1.0f }, m_Texture, m_Tint);
-            Renderer2D::DrawRotatedQuad({ 5.0f, 3.0f }, { 1.0f, 1.0f }, 45.0f, m_SquareColor);
-            Renderer2D::DrawQuad(m_Translation, { 2.0f, 4.0f }, { 0.9f, 0.5f, 0.5f, 1.0f });
-            Renderer2D::EndScene();
+        Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-            Renderer2D::BeginScene(m_CameraController.GetCamera());
-            for (float x = -5.0f; x < 5.0f; x += 0.25f)
-                for (float y = -5.0f; y < 5.0f; y += 0.25f)
-                {
-                    glm::vec4 color = { (x + 5.0f) / 10.f, 0.25f, (y + 5.0f) / 10.0f, 0.75f };
-                    Renderer2D::DrawQuad({ x, y }, { 0.20f, 0.20f }, color);
-                }
-            Renderer2D::EndScene();
-            m_Framebuffer->UnBind();
-        }
+        // Update Scene
+        m_ActiveScene->OnUpdate(ts);
+
+        Renderer2D::EndScene();
+
+        m_Framebuffer->UnBind();
     }
 
     void EditorLayer::OnImGuiRender()
@@ -128,7 +119,7 @@ namespace CStell
 
         if (ImGui::BeginMenuBar())
         {
-            if (ImGui::BeginMenu("Options"))
+            if (ImGui::BeginMenu("Constellation Engine"))
             {
                 // Disabling fullscreen would allow the window to be moved to the front of other windows,
                 // which we can't undo at the moment without finer window depth/z control.
@@ -144,9 +135,18 @@ namespace CStell
             ImGui::EndMenuBar();
         }
 
+
         ImGui::Begin("Info");
         ImGui::Text("2D Renderer");
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+        if (m_Square)
+        {
+            ImGui::Separator();
+            auto& squareColor = m_Square.GetComponent<SpriteRendererComponent>().Color;
+            auto& tag = m_Square.GetComponent<TagComponent>().Tag;
+            ImGui::Text("%s", tag.c_str());
+            ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+            ImGui::Separator();
+        }
         ImGui::ColorEdit4("Tint", glm::value_ptr(m_Tint));
         ImGui::SliderFloat3("Translation", glm::value_ptr(m_Translation), -1.0f, 10.0f);
         ImGui::SliderFloat("Tiling", &m_Tiling, 1.0f, 10.0f);
@@ -163,7 +163,7 @@ namespace CStell
         Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
         ImVec2 viewportSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != *((glm::vec2*)&viewportSize))
+        if (m_ViewportSize != *((glm::vec2*)&viewportSize) && viewportSize.x > 0 && viewportSize.y > 0)
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_ViewportSize = { viewportSize.x, viewportSize.y };

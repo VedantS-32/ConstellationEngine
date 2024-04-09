@@ -13,6 +13,10 @@
 
 #include "CStell/ImGui/ImGuiLayer.h"
 
+#include "CStell/Scene/Scene.h"
+#include "CStell/Scene/Entity.h"
+#include "CStell/Scene/Components.h"
+
 //---Renderer-----------------------------------
 #include "CStell/Renderer/Renderer.h"
 #include "CStell/Renderer/Renderer2D.h"

@@ -158,31 +158,10 @@ namespace CStell
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
-		const float textureIndex = 0.0f; // White Texture
-		const float tilingFactor = 1.0f;
-
-		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
-
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
-
-
-		for(size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_QuadData.QuadVertexBufferPtr->Position = modelMatrix * s_QuadData.QuadVertexPositions[i];
-			s_QuadData.QuadVertexBufferPtr->Color = color;
-			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
-			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
-			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_QuadData.QuadVertexBufferPtr++;
-		}
-
-		s_QuadData.QuadIndexCount += 6;
-
-		s_QuadData.Stats.QuadCount++;
+		
+		DrawQuad(modelMatrix, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
@@ -194,50 +173,10 @@ namespace CStell
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
-
-		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
-
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_QuadData.TextureSlotIndex; i++)
-		{
-			if (*s_QuadData.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
-
-			textureIndex = (float)s_QuadData.TextureSlotIndex;
-			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
-			s_QuadData.TextureSlotIndex++;
-		}
-
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
 
-		for (size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_QuadData.QuadVertexBufferPtr->Position = modelMatrix * s_QuadData.QuadVertexPositions[i];
-			s_QuadData.QuadVertexBufferPtr->Color = color;
-			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
-			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
-			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
-			s_QuadData.QuadVertexBufferPtr++;
-		}
-
-		s_QuadData.QuadIndexCount += 6;
-
-		s_QuadData.Stats.QuadCount++;
+		DrawQuad(modelMatrix, texture, tint, tilingFactor);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& tint, float tilingFactor)
@@ -294,6 +233,82 @@ namespace CStell
 		s_QuadData.QuadIndexCount += 6;
 
 		s_QuadData.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		CSTELL_PROFILE_FUNCTION();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+		const float textureIndex = 0.0f; // White Texture
+		const float tilingFactor = 1.0f;
+
+		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_QuadData.QuadVertexBufferPtr->Position = transform * s_QuadData.QuadVertexPositions[i];
+			s_QuadData.QuadVertexBufferPtr->Color = color;
+			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
+			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_QuadData.QuadVertexBufferPtr++;
+		}
+
+		s_QuadData.QuadIndexCount += 6;
+
+		s_QuadData.Stats.QuadCount++;
+
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
+	{
+		CSTELL_PROFILE_FUNCTION();
+
+		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+
+		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
+			FlushAndReset();
+
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_QuadData.TextureSlotIndex; i++)
+		{
+			if (*s_QuadData.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				FlushAndReset();
+
+			textureIndex = (float)s_QuadData.TextureSlotIndex;
+			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
+			s_QuadData.TextureSlotIndex++;
+		}
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_QuadData.QuadVertexBufferPtr->Position = transform * s_QuadData.QuadVertexPositions[i];
+			s_QuadData.QuadVertexBufferPtr->Color = color;
+			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
+			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_QuadData.QuadVertexBufferPtr++;
+		}
+
+		s_QuadData.QuadIndexCount += 6;
+
+		s_QuadData.Stats.QuadCount++;
+
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)

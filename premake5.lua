@@ -17,6 +17,7 @@ IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
 IncludeDir["glm"] = "ConstellationCore/vendor/glm"
 IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 IncludeDir["stb_image"] = "ConstellationCore/vendor/stb_image"
+IncludeDir["entt"] = "ConstellationCore/vendor/entt/include"
 
 group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
@@ -41,7 +42,9 @@ project "ConstellationCore"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp"
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs {
@@ -51,7 +54,8 @@ project "ConstellationCore"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -121,7 +125,8 @@ project "Sandbox"
 		"ConstellationCore/vendor/spdlog/include",
 		"ConstellationCore/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {
@@ -170,7 +175,8 @@ project "CStellObservatory"
 		"ConstellationCore/vendor/spdlog/include",
 		"ConstellationCore/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {

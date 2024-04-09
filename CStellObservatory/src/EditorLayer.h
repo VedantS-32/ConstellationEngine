@@ -27,6 +27,9 @@ namespace CStell
 
 		CameraController m_CameraController;
 
+		Ref<Scene> m_ActiveScene;
+		Entity m_Square;
+
 		std::unordered_map<char, Ref<SubTexture2D>> m_TextureMap;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
