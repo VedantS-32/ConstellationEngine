@@ -120,6 +120,21 @@ namespace CStell
 		s_QuadData.TextureSlotIndex = 1;
 	}
 
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	{
+		CSTELL_PROFILE_FUNCTION();
+
+		glm::mat4 viewProj = camera.GetProjectionMatrix() * transform;
+
+		s_QuadData.TextureShader->Bind();
+		s_QuadData.TextureShader->SetMat4f("u_ViewProjectionMatrix", viewProj);
+
+		s_QuadData.QuadIndexCount = 0;
+		s_QuadData.QuadVertexBufferPtr = s_QuadData.QuadVertexBufferBase;
+		s_QuadData.TextureSlotIndex = 1;
+
+	}
+
 	void Renderer2D::EndScene()
 	{
 		CSTELL_PROFILE_FUNCTION();

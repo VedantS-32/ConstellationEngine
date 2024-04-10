@@ -9,11 +9,15 @@ namespace CStell
 	class Camera
 	{
 	public:
-		//Orthographic Camera
+		Camera() = default;
+
+		// Orthographic Camera
 		Camera(double left, double right, double bottom, double top, double zNear, double zFar);
 
 		// Perspective Camera
 		Camera(float FOV, float aspect, double zNear, double zFar);
+
+		virtual ~Camera() = default;
 
 		void SetOrthographic(double left, double right, double bottom, double top, double zNear, double zFar);
 		void SetPerspective(float FOV, float aspect, double zNear, double zFar);
@@ -28,8 +32,10 @@ namespace CStell
 	private:
 		void RecalculateViewMatrix();
 
-	private:
+	protected:
 		glm::mat4 m_ProjectionMatrix{ 1.0f };
+
+	private:
 		glm::mat4 m_ViewMatrix{ 1.0f };
 		glm::mat4 m_ViewProjectionMatrix{ 1.0f };
 

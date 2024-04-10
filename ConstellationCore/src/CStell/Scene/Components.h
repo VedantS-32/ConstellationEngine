@@ -1,5 +1,9 @@
 #pragma once
 
+#include "CStell/Renderer/Camera.h"
+#include "CStell/Scene/SceneCamera.h"
+#include "ScriptableEntity.h"
+
 #include <glm/glm.hpp>
 
 namespace CStell
@@ -38,5 +42,38 @@ namespace CStell
 
 		operator glm::vec4& () { return Color; }
 		operator const glm::vec4& () const { return Color; }
+	};
+
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+		bool Primary = true;
+		bool FixedAspectRatio = false;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		std::function<void()> InstantiateFunction;
+		std::function<void()> DeleteInstanceFunction;
+
+		std::function<void(ScriptableEntity*)> OnCreateFunction;
+		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
+		std::function<void(ScriptableEntity*)> OnDestroyFunction;
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateFunction = [this]() { Instance = new T(); };
+			DeleteInstanceFunction = [this]() { delete (T*)Instance; Instance = nullptr; };
+
+			OnCreateFunction = [this](ScriptableEntity* instance) { ((T*)Instance)->OnCreate(); };
+			OnUpdateFunction = [this](ScriptableEntity* instance, Timestep ts) { ((T*)Instance)->OnUpdate(ts); };
+			OnDestroyFunction = [this](ScriptableEntity* instance) { ((T*)Instance)->OnDestroy(); };
+		}
 	};
 }

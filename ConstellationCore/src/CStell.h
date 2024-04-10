@@ -16,6 +16,7 @@
 #include "CStell/Scene/Scene.h"
 #include "CStell/Scene/Entity.h"
 #include "CStell/Scene/Components.h"
+#include "CStell/Scene/ScriptableEntity.h"
 
 //---Renderer-----------------------------------
 #include "CStell/Renderer/Renderer.h"

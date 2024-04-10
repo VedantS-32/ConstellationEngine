@@ -178,6 +178,8 @@
     <ClInclude Include="src\CStell\Scene\Entity.h" />
     <ClInclude Include="src\CStell\Scene\Scene.h" />
     <ClInclude Include="src\CStellpch.h" />
+    <ClInclude Include="src\CStell\Scene\SceneCamera.h" />
+    <ClInclude Include="src\CStell\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -628,6 +630,7 @@
     <ClCompile Include="src\CStellpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\CStell\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

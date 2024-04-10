@@ -29,6 +29,10 @@ namespace CStell
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_Square;
+		Entity m_CameraEntity;
+		Entity m_SecondCamera;
+
+		bool m_PrimaryCamera = false;
 
 		std::unordered_map<char, Ref<SubTexture2D>> m_TextureMap;
 
