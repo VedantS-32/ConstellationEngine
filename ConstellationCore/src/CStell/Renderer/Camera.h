@@ -20,7 +20,7 @@ namespace CStell
 		virtual ~Camera() = default;
 
 		void SetOrthographic(double left, double right, double bottom, double top, double zNear, double zFar);
-		void SetPerspective(float FOV, float aspect, double zNear, double zFar);
+		void SetPerspective(float FOV, float aspect, double zNear = 0.1f, double zFar = 10000.0f);
 
 		void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateViewMatrix(); }
 		const glm::vec3& GetPosition() const { return m_Position; }

@@ -60,7 +60,7 @@ namespace CStell
             }
 
         private:
-            float m_CameraSpeed = 1.0f;
+            float m_CameraSpeed = 3.0f;
         };
 
         m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
