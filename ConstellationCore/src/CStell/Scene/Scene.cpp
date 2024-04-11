@@ -32,14 +32,15 @@ namespace CStell
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 				{
+					// TODO: Move to Scene::OnScenePlay
 					if (!nsc.Instance)
 					{
-						nsc.InstantiateFunction();
+						nsc.Instance = nsc.InstantiateScript();
 						nsc.Instance->m_Entity = { entity, this };
-						nsc.OnCreateFunction(nsc.Instance);
+						nsc.Instance->OnCreate();
 					}
 
-					nsc.OnUpdateFunction(nsc.Instance, ts);
+					nsc.Instance->OnUpdate(ts);
 				});
 		}
 

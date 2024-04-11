@@ -2,6 +2,8 @@
 
 #include <CStell.h>
 
+#include "Panels/SceneHierarchyPanel.h"
+
 namespace CStell
 {
 	class EditorLayer : public Layer
@@ -32,7 +34,7 @@ namespace CStell
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 
-		bool m_PrimaryCamera = false;
+		bool m_PrimaryCamera = true;
 
 		std::unordered_map<char, Ref<SubTexture2D>> m_TextureMap;
 
@@ -45,5 +47,8 @@ namespace CStell
 		glm::vec3 m_Translation{ 1.0f, 1.0f, 0.0f };
 		float m_Tiling = 1.0f;
 		float m_Rotation = 0.0f;
+
+		// Panels
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 }

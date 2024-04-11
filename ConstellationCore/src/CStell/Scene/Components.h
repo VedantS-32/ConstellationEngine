@@ -58,22 +58,14 @@ namespace CStell
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		std::function<void()> InstantiateFunction;
-		std::function<void()> DeleteInstanceFunction;
-
-		std::function<void(ScriptableEntity*)> OnCreateFunction;
-		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
-		std::function<void(ScriptableEntity*)> OnDestroyFunction;
+		ScriptableEntity*(*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
 		void Bind()
 		{
-			InstantiateFunction = [this]() { Instance = new T(); };
-			DeleteInstanceFunction = [this]() { delete (T*)Instance; Instance = nullptr; };
-
-			OnCreateFunction = [this](ScriptableEntity* instance) { ((T*)Instance)->OnCreate(); };
-			OnUpdateFunction = [this](ScriptableEntity* instance, Timestep ts) { ((T*)Instance)->OnUpdate(ts); };
-			OnDestroyFunction = [this](ScriptableEntity* instance) { ((T*)Instance)->OnDestroy(); };
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
 }

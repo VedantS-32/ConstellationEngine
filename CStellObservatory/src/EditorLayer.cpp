@@ -65,6 +65,8 @@ namespace CStell
 
         m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
         m_Square = m_ActiveScene->CreateEntity("Square");
         m_Square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
@@ -188,6 +190,7 @@ namespace CStell
             ImGui::EndMenuBar();
         }
 
+        m_SceneHierarchyPanel.OnImGuiRender();
 
         ImGui::Begin("Info");
         ImGui::Text("2D Renderer");
