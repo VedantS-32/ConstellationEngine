@@ -21,10 +21,10 @@ namespace CStell
 
         m_ActiveScene = CreateRef<Scene>();
 
-        m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+        m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
         m_CameraEntity.AddComponent<CameraComponent>();
 
-        m_SecondCamera = m_ActiveScene->CreateEntity("Clip-Space Camera");
+        m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
         auto& cam =  m_SecondCamera.AddComponent<CameraComponent>();
 
         cam.Primary = false;
@@ -44,19 +44,19 @@ namespace CStell
 
             void OnUpdate(Timestep ts)
             {
-                auto& transform = GetComponent<TransformComponent>().Transform;
+                auto& translation = GetComponent<TransformComponent>().Translation;
 
                 if (Input::IsKeyPressed(CSTELL_KEY_W))
-                    transform[3][1] += m_CameraSpeed * ts;
+                    translation.y += m_CameraSpeed * ts;
 
                 else if (CStell::Input::IsKeyPressed(CSTELL_KEY_S))
-                    transform[3][1] -= m_CameraSpeed * ts;
+                    translation.y -= m_CameraSpeed * ts;
 
                 if (Input::IsKeyPressed(CSTELL_KEY_D))
-                    transform[3][0] += m_CameraSpeed * ts;
+                    translation.x += m_CameraSpeed * ts;
 
                 else if (CStell::Input::IsKeyPressed(CSTELL_KEY_A))
-                    transform[3][0] -= m_CameraSpeed * ts;
+                    translation.x -= m_CameraSpeed * ts;
             }
 
         private:
@@ -192,41 +192,6 @@ namespace CStell
 
         m_SceneHierarchyPanel.OnImGuiRender();
 
-        ImGui::Begin("Info");
-        ImGui::Text("2D Renderer");
-        if (m_Square)
-        {
-            ImGui::Separator();
-            auto& squareColor = m_Square.GetComponent<SpriteRendererComponent>().Color;
-            auto& tag = m_Square.GetComponent<TagComponent>().Tag;
-            ImGui::Text("%s", tag.c_str());
-            ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-            ImGui::Separator();
-        }
-
-        ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
-        if (ImGui::Checkbox("Primary Camera", &m_PrimaryCamera))
-        {
-            m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-            m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
-        }
-
-        {
-            auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
-            float orthoSize = camera.GetOrthographicSize();
-            if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
-                camera.SetOrthographicSize(orthoSize);
-
-        }
-
-        ImGui::ColorEdit4("Tint", glm::value_ptr(m_Tint));
-        ImGui::SliderFloat3("Translation", glm::value_ptr(m_Translation), -1.0f, 10.0f);
-        ImGui::SliderFloat("Tiling", &m_Tiling, 1.0f, 10.0f);
-        ImGui::SliderFloat("Rotation", &m_Rotation, 0.0f, 360.0f);
-        uint32_t textureID = m_Texture->GetRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ 100, 100 }, ImVec2{ 0, 1}, ImVec2{ 1, 0 });
-        ImGui::End();
-
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
 
@@ -243,7 +208,7 @@ namespace CStell
             m_CameraController.OnResize(viewportSize.x, viewportSize.y);
         }
 
-        textureID = m_Framebuffer->GetColorAttachmentRendererID();
+        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::PopStyleVar();
         ImGui::End();
