@@ -10,7 +10,7 @@ namespace CStell
 		RecalculateProjectionMatrix();
 	}
 
-	void SceneCamera::SetPerspective(float FOV, double nearClip, double farClip)
+	void SceneCamera::SetPerspective(float FOV, float nearClip, float farClip)
 	{
 		m_ProjectionType = ProjectionType::Perspective;
 		m_PerspectiveFOV = FOV;
@@ -41,7 +41,7 @@ namespace CStell
 		{
 		case CStell::SceneCamera::ProjectionType::Perspective:
 		{
-			m_ProjectionMatrix = glm::perspective<double>(glm::radians(m_PerspectiveFOV), m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
+			m_ProjectionMatrix = glm::perspective(glm::radians(m_PerspectiveFOV), m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
 			break;
 		}
 		case CStell::SceneCamera::ProjectionType::Orthographic:

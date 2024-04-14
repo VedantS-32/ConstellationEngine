@@ -408,8 +408,11 @@ bin-int/
 # Resource Files
 ConstellationCore/model/
 
-# Solution File
-*.sln
+# Visual Studio
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
 
 #Specific Files
 ConstellationCore/ConstellationCore.vcxproj.filters

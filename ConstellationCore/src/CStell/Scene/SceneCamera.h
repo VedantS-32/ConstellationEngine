@@ -18,7 +18,7 @@ namespace CStell
 		ProjectionType GetProjectionType() const { return m_ProjectionType; }
 		void SetProjectionType(ProjectionType type);
 
-		void SetPerspective(float FOV, double nearClip, double farClip);
+		void SetPerspective(float FOV, float nearClip, float farClip);
 
 		float GetPerspectiveNearClip() const { return m_PerspectiveNear; }
 		void SetPerspectiveNearClip(float nearClip) { m_PerspectiveNear = nearClip; RecalculateProjectionMatrix(); }
@@ -40,7 +40,7 @@ namespace CStell
 		void RecalculateProjectionMatrix();
 
 	private:
-		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
+		ProjectionType m_ProjectionType = ProjectionType::Perspective;
 
 		float m_PerspectiveFOV = 45.0f;
 		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 10000.0f;

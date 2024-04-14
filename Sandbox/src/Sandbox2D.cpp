@@ -74,7 +74,7 @@ void Sandbox2D::OnImGuiRender()
     ImGui::SliderFloat("Tiling", &m_Tiling, 1.0f, 10.0f);
     ImGui::SliderFloat("Rotation", &m_Rotation, 0.0f, 360.0f);
     uint32_t textureID = m_Texture->GetRendererID();
-    ImGui::Image((void*)textureID, ImVec2{ 100, 100 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::Image((void*)(uint64_t)textureID, ImVec2{ 100, 100 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
 
     auto stats = CStell::Renderer2D::GetStats();

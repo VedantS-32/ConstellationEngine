@@ -15,6 +15,8 @@ namespace CStell
 		static void BeginScene(const Camera& camera);
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void EndScene();
+		static void StartBatch();
+		static void NextBatch();
 		static void Flush();
 
 		// Primitives
@@ -47,8 +49,5 @@ namespace CStell
 		
 		static Statistics GetStats();
 		static void ResetStats();
-
-	private:
-		static void FlushAndReset();
 	};
 }

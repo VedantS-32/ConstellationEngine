@@ -2,7 +2,10 @@
 
 #include "Scene.h"
 
-#include "entt.hpp"
+#include "CStell/Core/Core.h"
+#include "CStell/Core/Log.h"
+
+#include <entt.hpp>
 
 namespace CStell
 {

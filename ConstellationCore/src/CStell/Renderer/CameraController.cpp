@@ -16,16 +16,16 @@ namespace CStell
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(CSTELL_KEY_W))
+		if (Input::IsKeyPressed(Key::CSTELL_KEY_W))
 			m_CameraPosition.y += m_CameraSpeed * ts;
 
-		else if (CStell::Input::IsKeyPressed(CSTELL_KEY_S))
+		else if (CStell::Input::IsKeyPressed(Key::CSTELL_KEY_S))
 			m_CameraPosition.y -= m_CameraSpeed * ts;
 
-		if (Input::IsKeyPressed(CSTELL_KEY_D))
+		if (Input::IsKeyPressed(Key::CSTELL_KEY_D))
 			m_CameraPosition.x += m_CameraSpeed * ts;
 
-		else if (CStell::Input::IsKeyPressed(CSTELL_KEY_A))
+		else if (CStell::Input::IsKeyPressed(Key::CSTELL_KEY_A))
 			m_CameraPosition.x -= m_CameraSpeed * ts;
 
 		m_Camera.SetPosition(m_CameraPosition);

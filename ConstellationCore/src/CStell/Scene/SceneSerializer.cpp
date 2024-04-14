@@ -4,6 +4,9 @@
 #include "Entity.h"
 #include "Components.h"
 
+#include "CStell/Core/Core.h"
+#include "CStell/Core/Log.h"
+
 #include <fstream>
 
 #define YAML_CPP_STATIC_DEFINE

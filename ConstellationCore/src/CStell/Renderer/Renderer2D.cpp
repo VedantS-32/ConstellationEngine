@@ -115,9 +115,7 @@ namespace CStell
 		s_QuadData.TextureShader->Bind();
 		s_QuadData.TextureShader->SetMat4f("u_ViewProjectionMatrix", camera.GetViewProjectionMatrix());
 
-		s_QuadData.QuadIndexCount = 0;
-		s_QuadData.QuadVertexBufferPtr = s_QuadData.QuadVertexBufferBase;
-		s_QuadData.TextureSlotIndex = 1;
+		StartBatch();
 	}
 
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
@@ -129,33 +127,38 @@ namespace CStell
 		s_QuadData.TextureShader->Bind();
 		s_QuadData.TextureShader->SetMat4f("u_ViewProjectionMatrix", viewProj);
 
-		s_QuadData.QuadIndexCount = 0;
-		s_QuadData.QuadVertexBufferPtr = s_QuadData.QuadVertexBufferBase;
-		s_QuadData.TextureSlotIndex = 1;
-
+		StartBatch();
 	}
 
 	void Renderer2D::EndScene()
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)s_QuadData.QuadVertexBufferPtr - (uint8_t*)s_QuadData.QuadVertexBufferBase;
-		s_QuadData.QuadVertexBuffer->SetData(s_QuadData.QuadVertexBufferBase, dataSize);
-
 		Flush();
 	}
 
-	void Renderer2D::FlushAndReset()
+	void Renderer2D::StartBatch()
 	{
-		EndScene();
-
 		s_QuadData.QuadIndexCount = 0;
 		s_QuadData.QuadVertexBufferPtr = s_QuadData.QuadVertexBufferBase;
+
 		s_QuadData.TextureSlotIndex = 1;
+	}
+
+	void Renderer2D::NextBatch()
+	{
+		Flush();
+		StartBatch();
 	}
 
 	void Renderer2D::Flush()
 	{
+		if (s_QuadData.QuadIndexCount == 0)
+			return;
+
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_QuadData.QuadVertexBufferPtr - (uint8_t*)s_QuadData.QuadVertexBufferBase);
+		s_QuadData.QuadVertexBuffer->SetData(s_QuadData.QuadVertexBufferBase, dataSize);
+
 		// Bind textures
 		for (uint32_t i = 0; i < s_QuadData.TextureSlotIndex; i++)
 			s_QuadData.TextureSlots[i]->Bind(i);
@@ -208,7 +211,7 @@ namespace CStell
 		const Ref<Texture2D> texture = subTexture->GetTexture();
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -225,7 +228,7 @@ namespace CStell
 		if (textureIndex == 0.0f)
 		{
 			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
+				NextBatch();
 
 			textureIndex = (float)s_QuadData.TextureSlotIndex;
 			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
@@ -260,7 +263,7 @@ namespace CStell
 		const float tilingFactor = 1.0f;
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -286,7 +289,7 @@ namespace CStell
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -303,7 +306,7 @@ namespace CStell
 		if (textureIndex == 0.0f)
 		{
 			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
+				NextBatch();
 
 			textureIndex = (float)s_QuadData.TextureSlotIndex;
 			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
@@ -341,7 +344,7 @@ namespace CStell
 		const float tilingFactor = 1.0f;
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
@@ -375,7 +378,7 @@ namespace CStell
 		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -392,7 +395,7 @@ namespace CStell
 		if (textureIndex == 0.0f)
 		{
 			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
+				NextBatch();
 
 			textureIndex = (float)s_QuadData.TextureSlotIndex;
 			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
@@ -433,7 +436,7 @@ namespace CStell
 		const Ref<Texture2D> texture = subTexture->GetTexture();
 
 		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			FlushAndReset();
+			NextBatch();
 
 		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -450,7 +453,7 @@ namespace CStell
 		if (textureIndex == 0.0f)
 		{
 			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
+				NextBatch();
 
 			textureIndex = (float)s_QuadData.TextureSlotIndex;
 			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;

@@ -21,8 +21,10 @@ namespace CStell
         FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
+        m_Framebuffer = Framebuffer::Create(fbSpec);
 
         m_ActiveScene = CreateRef<Scene>();
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 #if 0
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
@@ -75,8 +77,6 @@ namespace CStell
         m_Texture = Texture2D::Create("asset/texture/CStell.png");
 
 #endif
-        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-        m_Framebuffer = Framebuffer::Create(fbSpec);
     }
 
     void EditorLayer::OnUpdate(Timestep ts)
@@ -107,12 +107,8 @@ namespace CStell
 
         CSTELL_PROFILE_SCOPE("Renderer Draw");
 
-        //Renderer2D::BeginScene(m_CameraController.GetCamera());
-
         // Update Scene
         m_ActiveScene->OnUpdate(ts);
-
-        //Renderer2D::EndScene();
 
         m_Framebuffer->UnBind();
     }
@@ -223,7 +219,7 @@ namespace CStell
         }
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        ImGui::Image((void*)(uint64_t)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::PopStyleVar();
         ImGui::End();
 
@@ -278,6 +274,8 @@ namespace CStell
             default:
                 break;
         }
+
+        return false;
     }
 
     void EditorLayer::NewScene()
