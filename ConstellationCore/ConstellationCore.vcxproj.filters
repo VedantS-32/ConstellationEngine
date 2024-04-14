@@ -162,6 +162,15 @@
     <ClInclude Include="src\CStell\Scene\Scene.h">
       <Filter>src\CStell\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Scene\SceneCamera.h">
+      <Filter>src\CStell\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Scene\SceneSerializer.h">
+      <Filter>src\CStell\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Scene\ScriptableEntity.h">
+      <Filter>src\CStell\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStellpch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1440,8 +1449,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\SceneCamera.h" />
-    <ClInclude Include="src\CStell\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\CStell\Utils\PlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
@@ -1504,6 +1512,12 @@
     <ClCompile Include="src\CStell\Scene\Scene.cpp">
       <Filter>src\CStell\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStell\Scene\SceneCamera.cpp">
+      <Filter>src\CStell\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Scene\SceneSerializer.cpp">
+      <Filter>src\CStell\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStellpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1537,6 +1551,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
   </ItemGroup>
 </Project>

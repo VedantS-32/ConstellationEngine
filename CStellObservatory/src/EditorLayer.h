@@ -18,6 +18,13 @@ namespace CStell
 		virtual void OnEvent(Event& e) override;
 
 	private:
+		bool OnKeyPressed(KeyPressedEvent& e);
+
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+
+	private:
 		Ref<Shader> m_Shader;
 		Ref<Framebuffer> m_Framebuffer;
 		Ref<VertexArray> m_VertexArray;

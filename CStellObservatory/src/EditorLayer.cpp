@@ -1,9 +1,12 @@
 #include "EditorLayer.h"
 
-#include <Platform/OpenGL/OpenGLShader.h>
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "CStell/Scene/SceneSerializer.h"
+#include "CStell/Utils/PlatformUtils.h"
+
 #include <glm/ext/matrix_transform.hpp>
-#include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
 namespace CStell
 {
@@ -21,6 +24,7 @@ namespace CStell
 
         m_ActiveScene = CreateRef<Scene>();
 
+#if 0
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
         m_CameraEntity.AddComponent<CameraComponent>();
 
@@ -65,18 +69,14 @@ namespace CStell
 
         m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
-        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
         m_Square = m_ActiveScene->CreateEntity("Square");
         m_Square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
-        m_Framebuffer = Framebuffer::Create(fbSpec);
         m_Texture = Texture2D::Create("asset/texture/CStell.png");
-        m_SpriteSheet = Texture2D::Create("asset/gameTest0/tiny-16.png");
-        m_TextureMap['#'] = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 9 }, { 16, 16 });
-        m_TextureMap['W'] = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 1, 6 }, { 16, 16 });
-        m_SignBoardTex = SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 1 }, { 16, 16 });
 
+#endif
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+        m_Framebuffer = Framebuffer::Create(fbSpec);
     }
 
     void EditorLayer::OnUpdate(Timestep ts)
@@ -187,6 +187,15 @@ namespace CStell
                 ImGui::MenuItem("Padding", NULL, &opt_padding);
                 ImGui::Separator();
 
+                if (ImGui::MenuItem("New", "Ctrl+N"))
+                    NewScene();
+
+                if (ImGui::MenuItem("Open", "Ctrl+O"))
+                    OpenScene();
+
+                if (ImGui::MenuItem("Save", "Ctrl+Shift+S"))
+                    SaveSceneAs();
+
                 if (ImGui::MenuItem("Exit")) { Application::Get().Close(); }
 
                 ImGui::EndMenu();
@@ -232,5 +241,75 @@ namespace CStell
     void EditorLayer::OnEvent(Event& e)
     {
         m_CameraController.OnEvent(e);
+
+        EventDispatcher dispatcher(e);
+        dispatcher.Dispatch<KeyPressedEvent>(CSTELL_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+    }
+    
+    bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+    {
+        // Shortcuts
+        if (e.GetRepeatCount() > 0)
+            return false;
+
+        bool control = Input::IsKeyPressed(Key::CSTELL_KEY_LEFT_CONTROL) || Input::IsKeyPressed(Key::CSTELL_KEY_RIGHT_CONTROL);
+        bool shift = Input::IsKeyPressed(Key::CSTELL_KEY_LEFT_SHIFT) || Input::IsKeyPressed(Key::CSTELL_KEY_RIGHT_SHIFT);
+
+        switch (e.GetKeyCode())
+        {
+            case Key::CSTELL_KEY_N:
+            {
+                if (control)
+                    NewScene();
+                break;
+            }
+            case Key::CSTELL_KEY_O:
+            {
+                if (control)
+                    OpenScene();
+                break;
+            }
+            case Key::CSTELL_KEY_S:
+            {
+                if (control && shift)
+                    SaveSceneAs();
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    void EditorLayer::NewScene()
+    {
+        m_ActiveScene = CreateRef<Scene>();
+        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+    }
+
+    void EditorLayer::OpenScene()
+    {
+        std::string filepath = FileDialogs::OpenFile("CStell Scene (*.cstell)\0*.cstell\0");
+        if (!filepath.empty())
+        {
+            m_ActiveScene = CreateRef<Scene>();
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Deserialize(filepath);
+        }
+
+    }
+
+    void EditorLayer::SaveSceneAs()
+    {
+        std::string filepath = FileDialogs::SaveFile("CStell Scene (*.cstell)\0*.cstell\0");
+        if (!filepath.empty())
+        {
+            SceneSerializer serializer(m_ActiveScene);
+            serializer.Serialize(filepath);
+        }
     }
 }

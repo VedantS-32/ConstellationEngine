@@ -10,3 +10,6 @@
 [submodule "ConstellationCore/vendor/glfw"]
 	path = ConstellationCore/vendor/glfw
 	url = https://github.com/VedantS-32/glfw.git
+[submodule "ConstellationCore/vendor/yaml-cpp"]
+	path = ConstellationCore/vendor/yaml-cpp
+	url = https://github.com/VedantS-32/yaml-cpp.git

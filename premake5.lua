@@ -18,11 +18,13 @@ IncludeDir["glm"] = "ConstellationCore/vendor/glm"
 IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 IncludeDir["stb_image"] = "ConstellationCore/vendor/stb_image"
 IncludeDir["entt"] = "ConstellationCore/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "ConstellationCore/vendor/yaml-cpp/include"
 
 group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
 	include "ConstellationCore/vendor/Glad"
 	include "ConstellationCore/vendor/imgui"
+	include "ConstellationCore/vendor/yaml-cpp"
 group ""
 
 project "ConstellationCore"
@@ -55,7 +57,8 @@ project "ConstellationCore"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links
@@ -63,6 +66,7 @@ project "ConstellationCore"
 		"glfw",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 

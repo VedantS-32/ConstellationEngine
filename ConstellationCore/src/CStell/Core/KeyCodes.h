@@ -2,7 +2,7 @@
 
 namespace CStell
 {
-	typedef enum class KeyCode : uint16_t
+	enum Key : uint16_t
 	{
 		CSTELL_KEY_SPACE             = 32,
 		CSTELL_KEY_APOSTROPHE        = 39,	/* ' */
@@ -126,9 +126,10 @@ namespace CStell
 		CSTELL_KEY_RIGHT_ALT         = 346,
 		CSTELL_KEY_RIGHT_SUPER       = 347,
 		CSTELL_KEY_MENU              = 348
-
 	};
 }
+
+# if 0
 
 // From glfw3.h
 #define CSTELL_KEY_SPACE              32
@@ -253,3 +254,5 @@ namespace CStell
 #define CSTELL_KEY_RIGHT_ALT          346
 #define CSTELL_KEY_RIGHT_SUPER        347
 #define CSTELL_KEY_MENU               348
+
+#endif
