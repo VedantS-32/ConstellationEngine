@@ -3,16 +3,17 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "CStell/Scene/SceneSerializer.h"
 #include "CStell/Utils/PlatformUtils.h"
+#include "CStell/Math/Math.h"
 
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
+#include <ImGuizmo.h>
 
 namespace CStell
 {
-
     EditorLayer::EditorLayer()
-        : Layer("Scene"), m_CameraController(1280.0f / 720.0f)
+        : Layer("Scene")
     {
     }
 
@@ -25,57 +26,12 @@ namespace CStell
 
         m_ActiveScene = CreateRef<Scene>();
         m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+        m_EditorCamera = EditorCamera(45.0f, 0.1f, 10000.0f);
+        m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 
-#if 0
-        m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-        m_CameraEntity.AddComponent<CameraComponent>();
-
-        m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-        auto& cam =  m_SecondCamera.AddComponent<CameraComponent>();
-
-        cam.Primary = false;
-
-        class CameraController : public ScriptableEntity
-        {
-        public:
-            void OnCreate()
-            {
-                //GetComponent<TransformComponent>();
-                CSTELL_INFO("Created CameraController!");
-            }
-
-            void OnDestroy()
-            {
-            }
-
-            void OnUpdate(Timestep ts)
-            {
-                auto& translation = GetComponent<TransformComponent>().Translation;
-
-                if (Input::IsKeyPressed(CSTELL_KEY_W))
-                    translation.y += m_CameraSpeed * ts;
-
-                else if (CStell::Input::IsKeyPressed(CSTELL_KEY_S))
-                    translation.y -= m_CameraSpeed * ts;
-
-                if (Input::IsKeyPressed(CSTELL_KEY_D))
-                    translation.x += m_CameraSpeed * ts;
-
-                else if (CStell::Input::IsKeyPressed(CSTELL_KEY_A))
-                    translation.x -= m_CameraSpeed * ts;
-            }
-
-        private:
-            float m_CameraSpeed = 3.0f;
-        };
-
-        m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
-        m_Square = m_ActiveScene->CreateEntity("Square");
-        m_Square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-
-        m_Texture = Texture2D::Create("asset/texture/CStell.png");
-
+#if 1
+        SceneSerializer serializer(m_ActiveScene);
+        serializer.Deserialize("asset/scene/scene1.cstell");
 #endif
     }
 
@@ -88,14 +44,9 @@ namespace CStell
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-            m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-
-            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
+            m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
         }
-
-        // Update
-        if(m_ViewportFocused)
-            m_CameraController.OnUpdate(ts);
 
         // Render
         Renderer2D::ResetStats();
@@ -108,7 +59,9 @@ namespace CStell
         CSTELL_PROFILE_SCOPE("Renderer Draw");
 
         // Update Scene
-        m_ActiveScene->OnUpdate(ts);
+        m_EditorCamera.OnUpdate(ts);
+        m_ActiveScene->OnUpdateRuntime(ts);
+        m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
         m_Framebuffer->UnBind();
     }
@@ -207,36 +160,77 @@ namespace CStell
 
         m_ViewportFocused = ImGui::IsWindowFocused();
         m_ViewportHovered = ImGui::IsWindowHovered();
-        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+        Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
         ImVec2 viewportSize = ImGui::GetContentRegionAvail();
         if (m_ViewportSize != *((glm::vec2*)&viewportSize) && viewportSize.x > 0 && viewportSize.y > 0)
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_ViewportSize = { viewportSize.x, viewportSize.y };
-
-            m_CameraController.OnResize(viewportSize.x, viewportSize.y);
         }
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image((void*)(uint64_t)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-        ImGui::PopStyleVar();
-        ImGui::End();
 
-        auto stats = Renderer2D::GetStats();
-        ImGui::Begin("Renderer2D Stats");
-        ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-        ImGui::Text("Quads: %d", stats.QuadCount);
-        ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-        ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+        Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+        if (selectedEntity && m_GizmoType != -1)
+        {
+            ImGuizmo::SetOrthographic(false);
+            ImGuizmo::SetDrawlist();
+
+            float windowWidth = (float)ImGui::GetWindowWidth();
+            float windowHeight = (float)ImGui::GetWindowHeight();
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+            // Runtime Camera Entity
+            //auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+            //const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+            //const glm::mat4& cameraProjection = camera.GetProjectionMatrix();
+            //glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+            // Editor Camera
+            const glm::mat4& cameraProjection = m_EditorCamera.GetProjectionMatrix();
+            glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+
+
+            // Entity transform
+            auto& tc = selectedEntity.GetComponent<TransformComponent>();
+            glm::mat4 transform = tc.GetTransform();
+
+            // Snapping
+            bool snap = Input::IsKeyPressed(Key::CSTELL_KEY_LEFT_CONTROL);
+            float snapValue = 0.5f; // Snap to 0.5m for translation/rotation
+            // Snap to 10 degrees for rotation
+            if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+                snapValue = 10.0f;
+
+            float snapValues[] = { snapValue, snapValue, snapValue };
+
+            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+                (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+                nullptr, snap ? snapValues : nullptr);
+
+            if (ImGuizmo::IsUsing() && m_GizmoType != -1)
+            {
+                glm::vec3 translation{ 0.0f }, rotation{ 0.0f }, scale{ 1.0f };
+                Math::DecomposeTransform(transform, translation, rotation, scale);
+
+                glm::vec3 deltaRotation = rotation - tc.Rotation;
+                tc.Translation = translation;
+                tc.Rotation += deltaRotation;
+                tc.Scale = scale;
+            }
+        }
+
         ImGui::End();
+        ImGui::PopStyleVar();
 
         ImGui::End();
     }
 
     void EditorLayer::OnEvent(Event& e)
     {
-        m_CameraController.OnEvent(e);
+        m_EditorCamera.OnEvent(e);
 
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(CSTELL_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
@@ -275,15 +269,44 @@ namespace CStell
                 break;
         }
 
+        if(!m_EditorCamera.IsMoving())
+        {
+            switch (e.GetKeyCode())
+            {
+                // Gizmo
+                case Key::CSTELL_KEY_Q:
+                {
+                    m_GizmoType = -1;
+                    break;
+                }
+                case Key::CSTELL_KEY_W:
+                {
+                    m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+                    break;
+                }
+                case Key::CSTELL_KEY_E:
+                {
+                    m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+                    break;
+                }
+                case Key::CSTELL_KEY_R:
+                {
+                    m_GizmoType = ImGuizmo::OPERATION::SCALE;
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
         return false;
     }
 
     void EditorLayer::NewScene()
     {
         m_ActiveScene = CreateRef<Scene>();
-        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
         m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
     }
 
     void EditorLayer::OpenScene()
@@ -292,13 +315,12 @@ namespace CStell
         if (!filepath.empty())
         {
             m_ActiveScene = CreateRef<Scene>();
-            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
             m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
             SceneSerializer serializer(m_ActiveScene);
             serializer.Deserialize(filepath);
         }
-
     }
 
     void EditorLayer::SaveSceneAs()

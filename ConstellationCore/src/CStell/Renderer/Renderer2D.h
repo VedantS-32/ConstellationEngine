@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Camera.h"
+#include "CStell/Renderer/Camera.h"
 #include "CStell/Renderer/Texture.h"
 #include "CStell/Renderer/SubTexture2D.h"
+#include "CStell/Renderer/EditorCamera.h"
 
 namespace CStell
 {
@@ -13,6 +14,7 @@ namespace CStell
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera);
+		static void BeginScene(const EditorCamera& camera);
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
 		static void EndScene();
 		static void StartBatch();

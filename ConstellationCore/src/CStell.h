@@ -32,5 +32,5 @@
 #include "CStell/Renderer/SubTexture2D.h"
 
 #include "CStell/Renderer/Camera.h"
-#include "CStell/Renderer/CameraController.h"
+#include "CStell/Renderer/EditorCamera.h"
 //----------------------------------------------

@@ -118,11 +118,24 @@ namespace CStell
 		StartBatch();
 	}
 
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		CSTELL_PROFILE_FUNCTION();
+
+		glm::mat4 viewProj = camera.GetViewProjectionMatrix();
+
+		s_QuadData.TextureShader->Bind();
+		s_QuadData.TextureShader->SetMat4f("u_ViewProjectionMatrix", viewProj);
+
+		StartBatch();
+
+	}
+
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		glm::mat4 viewProj = camera.GetProjectionMatrix() * transform;
+		glm::mat4 viewProj = camera.GetProjectionMatrix() * glm::inverse(transform);
 
 		s_QuadData.TextureShader->Bind();
 		s_QuadData.TextureShader->SetMat4f("u_ViewProjectionMatrix", viewProj);

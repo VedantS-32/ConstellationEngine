@@ -249,7 +249,7 @@ namespace CStell
 
 	void OpenGLShader::UploadUniform4f(const std::string& name, glm::vec4 value)
 	{
-		glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
+		glUniform4f(GetUniformLocation(name), value.r, value.g, value.b, value.a);
 	}
 
 	void OpenGLShader::UploadUniformMat3f(const std::string& name, const glm::mat3& matrix)

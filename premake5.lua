@@ -19,6 +19,7 @@ IncludeDir["ImGui"] = "ConstellationCore/vendor/imgui"
 IncludeDir["stb_image"] = "ConstellationCore/vendor/stb_image"
 IncludeDir["entt"] = "ConstellationCore/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "ConstellationCore/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "ConstellationCore/vendor/ImGuizmo"
 
 group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
@@ -46,7 +47,9 @@ project "ConstellationCore"
 		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	includedirs {
@@ -58,7 +61,8 @@ project "ConstellationCore"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links
@@ -69,6 +73,9 @@ project "ConstellationCore"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+
+	filter "files:vendor/ImGuizmo/**.cpp"
+	flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"
@@ -180,7 +187,8 @@ project "CStellObservatory"
 		"ConstellationCore/src",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links {

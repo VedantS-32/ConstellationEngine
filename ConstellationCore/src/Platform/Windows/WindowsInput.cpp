@@ -39,4 +39,10 @@ namespace CStell
         auto [x, y] = GetMousePosition();
         return y;
     }
+
+    void Input::SetInputMode(Mode mode, Cursor value)
+    {
+        auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+        glfwSetInputMode(window, mode, value);
+    }
 }

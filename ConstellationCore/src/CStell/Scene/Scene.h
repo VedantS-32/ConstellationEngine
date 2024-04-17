@@ -3,6 +3,7 @@
 #include "entt.hpp"
 
 #include "CStell/Core/Timestep.h"
+#include "CStell/Renderer/EditorCamera.h"
 
 namespace CStell
 {
@@ -18,8 +19,11 @@ namespace CStell
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(Timestep ts);
-		void OnViewportResize(uint32_t width, uint32_t height);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
+		void OnUpdateRuntime(Timestep ts);
+		void OnViewportResize(float width, float height);
+
+		Entity GetPrimaryCameraEntity();
 
 	private:
 		template<typename T>
@@ -28,7 +32,7 @@ namespace CStell
 	private:
 		entt::registry m_Registry;
 
-		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+		float m_ViewportWidth = 1, m_ViewportHeight = 1;
 
 		friend class Entity;
 		friend class SceneSerializer;

@@ -274,11 +274,11 @@ namespace CStell
 					if (ImGui::DragFloat("Field of view", &fov)) // TODO: Set min and max fov
 						camera.SetPerspectiveFOV(fov);
 
-					float perspectiveNear = camera.GetPerspectiveNearClip();
+					float perspectiveNear = (float)camera.GetPerspectiveNearClip();
 					if (ImGui::DragFloat("Near", &perspectiveNear))
 						camera.SetPerspectiveNearClip(perspectiveNear);
 
-					float perspectiveFar = camera.GetPerspectiveFarClip();
+					float perspectiveFar = (float)camera.GetPerspectiveFarClip();
 					if (ImGui::DragFloat("Far", &perspectiveFar))
 						camera.SetPerspectiveFarClip(perspectiveFar);
 
