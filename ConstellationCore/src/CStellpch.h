@@ -15,7 +15,7 @@
 
 #include "CStell/Core/Log.h"
 
-#include "CStell/Debug/Instrumentor.h"
+#include "CStell/DebugTools/Instrumentor.h"
 
 #ifdef CSTELL_PLATFORM_WINDOWS
 	#include<Windows.h>
