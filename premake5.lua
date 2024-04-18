@@ -74,8 +74,8 @@ project "ConstellationCore"
 		"opengl32.lib"
 	}
 
-	filter "files:vendor/ImGuizmo/**.cpp"
-	flags { "NoPCH" }
+	filter "files:ConstellationCore/vendor/ImGuizmo/**.cpp"
+		flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"
