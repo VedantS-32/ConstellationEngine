@@ -20,6 +20,7 @@ namespace CStell
     void EditorLayer::OnAttach()
     {
         FramebufferSpecification fbSpec;
+        fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
@@ -56,12 +57,29 @@ namespace CStell
         RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
         RenderCommand::Clear();
 
+        // Clear our entity ID attachment to -1
+        m_Framebuffer->ClearAttachment(1, -1);
+
         CSTELL_PROFILE_SCOPE("Renderer Draw");
 
         // Update Scene
         m_EditorCamera.OnUpdate(ts);
         m_ActiveScene->OnUpdateRuntime(ts);
         m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+
+        auto [mx, my] = ImGui::GetMousePos();
+        mx -= m_ViewportBounds[0].x;
+        my -= m_ViewportBounds[0].y;
+        glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+        my = viewportSize.y - my;
+        int mouseX = (int)mx;
+        int mouseY = (int)my;
+
+        if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+        {
+            int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+            m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
+        }
 
         m_Framebuffer->UnBind();
     }
@@ -78,9 +96,10 @@ namespace CStell
         // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
         // because it would be confusing to have two docking targets within each others.
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        const ImGuiViewport* viewport = ImGui::GetMainViewport();
         if (opt_fullscreen)
         {
-            const ImGuiViewport* viewport = ImGui::GetMainViewport();
+            //m_ViewportSize = { viewport->WorkSize.x, viewport->WorkSize.y };
             ImGui::SetNextWindowPos(viewport->WorkPos);
             ImGui::SetNextWindowSize(viewport->WorkSize);
             ImGui::SetNextWindowViewport(viewport->ID);
@@ -128,7 +147,7 @@ namespace CStell
 
         if (ImGui::BeginMenuBar())
         {
-            if (ImGui::BeginMenu("Constellation Engine"))
+            if (ImGui::BeginMenu("File"))
             {
                 // Disabling fullscreen would allow the window to be moved to the front of other windows,
                 // which we can't undo at the moment without finer window depth/z control.
@@ -158,19 +177,26 @@ namespace CStell
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
 
+        auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+        auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+        auto viewportOffset = ImGui::GetWindowPos();
+        m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+        m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+
         m_ViewportFocused = ImGui::IsWindowFocused();
         m_ViewportHovered = ImGui::IsWindowHovered();
         Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
         ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+        m_ViewportSize = { viewportSize.x, viewportSize.y };
         if (m_ViewportSize != *((glm::vec2*)&viewportSize) && viewportSize.x > 0 && viewportSize.y > 0)
         {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
             m_ViewportSize = { viewportSize.x, viewportSize.y };
         }
 
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)(uint64_t)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+        uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+        ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
         Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
         if (selectedEntity && m_GizmoType != -1)
@@ -180,7 +206,7 @@ namespace CStell
 
             float windowWidth = (float)ImGui::GetWindowWidth();
             float windowHeight = (float)ImGui::GetWindowHeight();
-            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+            ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
 
             // Runtime Camera Entity
             //auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
@@ -234,6 +260,7 @@ namespace CStell
 
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(CSTELL_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+        dispatcher.Dispatch<MouseButtonPressedEvent>(CSTELL_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
     }
     
     bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
@@ -297,6 +324,17 @@ namespace CStell
                 default:
                     break;
             }
+        }
+
+        return false;
+    }
+
+    bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+    {
+        if (e.GetMouseButton() == Mouse::CSTELL_BUTTON_LEFT)
+        {
+            if (m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::CSTELL_KEY_LEFT_ALT))
+                m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
         }
 
         return false;

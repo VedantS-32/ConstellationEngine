@@ -15,7 +15,7 @@ class SceneLayer : public CStell::Layer
 {
 public:
 	SceneLayer()
-		: Layer("Scene"), m_CameraController(1280.0f / 720.0f)
+		: Layer("Scene"), m_Camera(45.0f, 0.1f, 10000.0f)
 	{
 		m_VertexArray = CStell::VertexArray::Create();
 
@@ -55,13 +55,13 @@ public:
 	void OnUpdate(CStell::Timestep ts) override
 	{
 		// Update
-		m_CameraController.OnUpdate(ts);
+		m_Camera.OnUpdate(ts);
 
 		// Render
 		CStell::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		CStell::RenderCommand::Clear();
 
-		CStell::Renderer::BeginScene(m_CameraController.GetCamera());
+		CStell::Renderer::BeginScene(m_Camera);
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
 
@@ -90,7 +90,7 @@ public:
 
 	void OnEvent(CStell::Event& e) override
 	{
-		m_CameraController.OnEvent(e);
+		m_Camera.OnEvent(e);
 	}
 
 private:
@@ -99,7 +99,7 @@ private:
 	CStell::Ref<CStell::VertexArray> m_VertexArray;
 	CStell::Ref<CStell::Texture2D> m_Texture;
 
-	CStell::CameraController m_CameraController;
+	CStell::EditorCamera m_Camera;
 };
 
 class Sandbox : public CStell::Application

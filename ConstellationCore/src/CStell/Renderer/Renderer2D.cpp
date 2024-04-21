@@ -4,6 +4,7 @@
 #include "RenderCommand.h"
 #include "VertexArray.h"
 #include "Shader.h"
+
 #include <glm/ext/matrix_transform.hpp>
 
 namespace CStell
@@ -15,6 +16,9 @@ namespace CStell
 		glm::vec2 TexCoord;
 		float TexIndex;
 		float TilingFactor;
+
+		// Editor only
+		int EntityID;
 	};
 
 	struct Renderer2DData
@@ -51,11 +55,12 @@ namespace CStell
 
 		s_QuadData.QuadVertexBuffer = VertexBuffer::Create(s_QuadData.MaxQuads * sizeof(QuadVertex));
 		s_QuadData.QuadVertexBuffer->SetLayout({
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" },
-				{ ShaderDataType::Float2, "a_TexCoord" },
-				{ ShaderDataType::Float, "a_TexIndex" },
-				{ ShaderDataType::Float, "a_TilingFactor" }
+				{ ShaderDataType::Float3,	"a_Position"	 },
+				{ ShaderDataType::Float4,	"a_Color"		 },
+				{ ShaderDataType::Float2,	"a_TexCoord"	 },
+				{ ShaderDataType::Float,	"a_TexIndex"	 },
+				{ ShaderDataType::Float,	"a_TilingFactor" },
+				{ ShaderDataType::Int,		"a_EntityID"	 }
 			});
 
 		s_QuadData.QuadVertexArray->AddVertexBuffer(s_QuadData.QuadVertexBuffer);
@@ -266,7 +271,7 @@ namespace CStell
 		s_QuadData.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		CSTELL_PROFILE_FUNCTION();
 
@@ -285,16 +290,16 @@ namespace CStell
 			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_QuadData.QuadVertexBufferPtr->EntityID = entityID;
 			s_QuadData.QuadVertexBufferPtr++;
 		}
 
 		s_QuadData.QuadIndexCount += 6;
 
 		s_QuadData.Stats.QuadCount++;
-
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& tint, float tilingFactor, int entityID)
 	{
 		CSTELL_PROFILE_FUNCTION();
 
@@ -333,6 +338,7 @@ namespace CStell
 			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_QuadData.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_QuadData.QuadVertexBufferPtr->EntityID = entityID;
 			s_QuadData.QuadVertexBufferPtr++;
 		}
 
@@ -491,6 +497,11 @@ namespace CStell
 
 		s_QuadData.Stats.QuadCount++;
 
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	{
+		DrawQuad(transform, src.Color, entityID);
 	}
 
 	Renderer2D::Statistics Renderer2D::GetStats()

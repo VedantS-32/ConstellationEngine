@@ -19,6 +19,7 @@ namespace CStell
 
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		void NewScene();
 		void OpenScene();
@@ -32,6 +33,8 @@ namespace CStell
 
 		Ref<Scene> m_ActiveScene;
 
+		Entity m_HoveredEntity;
+
 		bool m_PrimaryCamera = true;
 		EditorCamera m_EditorCamera;
 
@@ -39,6 +42,7 @@ namespace CStell
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		glm::vec2 m_ViewportBounds[2];
 
 	private:
 

@@ -10,14 +10,17 @@
     <Filter Include="src\CStell\Core">
       <UniqueIdentifier>{1B9448B1-871F-B675-9030-396AFC3A1276}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Debug">
-      <UniqueIdentifier>{997267DA-856B-862C-AE9D-6BB19AF56538}</UniqueIdentifier>
+    <Filter Include="src\CStell\DebugTools">
+      <UniqueIdentifier>{2AC9F2C9-9635-AEC4-5F29-4622CB54D02C}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\CStell\Events">
       <UniqueIdentifier>{6718E02A-D32E-DEC0-1CA6-69E288FBAE48}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\CStell\ImGui">
       <UniqueIdentifier>{4DDDC5DA-39D6-E42C-6208-CAB14E60C438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CStell\Math">
+      <UniqueIdentifier>{9CD44DB1-0860-BB75-1171-3E6A7D7B1776}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\CStell\Renderer">
       <UniqueIdentifier>{E9DC425A-553E-2068-DEAB-661A4A0C5727}</UniqueIdentifier>
@@ -81,6 +84,9 @@
     <ClInclude Include="src\CStell\Core\Input.h">
       <Filter>src\CStell\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Core\InputMode.h">
+      <Filter>src\CStell\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStell\Core\KeyCodes.h">
       <Filter>src\CStell\Core</Filter>
     </ClInclude>
@@ -102,8 +108,8 @@
     <ClInclude Include="src\CStell\Core\Window.h">
       <Filter>src\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Debug\Instrumentor.h">
-      <Filter>src\CStell\Debug</Filter>
+    <ClInclude Include="src\CStell\DebugTools\Instrumentor.h">
+      <Filter>src\CStell\DebugTools</Filter>
     </ClInclude>
     <ClInclude Include="src\CStell\Events\ApplicationEvent.h">
       <Filter>src\CStell\Events</Filter>
@@ -120,10 +126,16 @@
     <ClInclude Include="src\CStell\ImGui\ImGuiLayer.h">
       <Filter>src\CStell\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Math\Math.h">
+      <Filter>src\CStell\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Buffer.h">
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Camera.h">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Renderer\EditorCamera.h">
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Framebuffer.h">
@@ -1458,9 +1470,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Math\Math.h" />
-    <ClInclude Include="src\CStell\Renderer\EditorCamera.h" />
-    <ClInclude Include="src\CStell\Core\InputMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
@@ -1481,10 +1490,16 @@
     <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp">
       <Filter>src\CStell\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStell\Math\Math.cpp">
+      <Filter>src\CStell\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Buffer.cpp">
       <Filter>src\CStell\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Camera.cpp">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Renderer\EditorCamera.cpp">
       <Filter>src\CStell\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Framebuffer.cpp">
@@ -1565,7 +1580,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Math\Math.cpp" />
-    <ClCompile Include="src\CStell\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

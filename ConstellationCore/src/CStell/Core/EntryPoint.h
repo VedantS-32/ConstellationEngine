@@ -9,7 +9,6 @@ int main(int argc, char** argv)
 
 	CStell::Log::Init();
 	CSTELL_CORE_INFO("Constellation Engine");
-	CSTELL_CORE_WARN("Intialized Log!");
 
 	CSTELL_PROFILE_BEGIN_SESSION("Startup", "CStellProfile-Startup.json");
 	auto app = CStell::CreateApplication();

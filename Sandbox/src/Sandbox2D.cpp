@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Sandbox2D::Sandbox2D()
-	: Layer("Scene"), m_CameraController(1280.0f / 720.0f)
+	: Layer("Scene"), m_Camera(45.0f, 0.1f, 10000.0f)
 {
 }
 
@@ -28,7 +28,7 @@ void Sandbox2D::OnUpdate(CStell::Timestep ts)
 	CSTELL_PROFILE_FUNCTION();
 
 	// Update
-	m_CameraController.OnUpdate(ts);
+	m_Camera.OnUpdate(ts);
 
 	// Render
 	CStell::Renderer2D::ResetStats();
@@ -44,7 +44,7 @@ void Sandbox2D::OnUpdate(CStell::Timestep ts)
 		rotation += ts * 20.f;
 
 		CSTELL_PROFILE_SCOPE("Renderer Draw");
-		CStell::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		CStell::Renderer2D::BeginScene(m_Camera);
 		CStell::Renderer2D::DrawQuad({ 0.5f, 0.5f, -0.1f }, { 1.0f, 1.0f }, m_SquareColor);
 		CStell::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_Rotation, m_Texture, m_Tint, m_Tiling);
 		CStell::Renderer2D::DrawRotatedQuad({ -2.0f, -1.0f }, { 1.0f, 1.0f }, rotation, m_Texture, m_Tint, m_Tiling);
@@ -53,7 +53,7 @@ void Sandbox2D::OnUpdate(CStell::Timestep ts)
 		CStell::Renderer2D::DrawQuad(m_Translation, { 2.0f, 4.0f }, { 0.9f, 0.5f, 0.5f, 1.0f });
 		CStell::Renderer2D::EndScene();
 
-		CStell::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		CStell::Renderer2D::BeginScene(m_Camera);
 		for (float x = -5.0f; x < 5.0f; x+=0.25f)
 			for (float y = -5.0f; y < 5.0f; y+=0.25f)
 			{
@@ -89,5 +89,5 @@ void Sandbox2D::OnImGuiRender()
 
 void Sandbox2D::OnEvent(CStell::Event& e)
 {
-	m_CameraController.OnEvent(e);
+	m_Camera.OnEvent(e);
 }

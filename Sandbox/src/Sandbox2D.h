@@ -23,7 +23,7 @@ private:
 	CStell::Ref<CStell::SubTexture2D> m_Water;
 	CStell::Ref<CStell::SubTexture2D> m_SignBoardTex;
 
-	CStell::CameraController m_CameraController;
+	CStell::EditorCamera m_Camera;
 
 	std::unordered_map<char, CStell::Ref<CStell::SubTexture2D>> m_TextureMap;
 

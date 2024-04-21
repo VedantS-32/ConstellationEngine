@@ -156,7 +156,7 @@
     <ClInclude Include="src\CStell\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\CStell\Core\Timestep.h" />
     <ClInclude Include="src\CStell\Core\Window.h" />
-    <ClInclude Include="src\CStell\Debug\Instrumentor.h" />
+    <ClInclude Include="src\CStell\DebugTools\Instrumentor.h" />
     <ClInclude Include="src\CStell\Events\ApplicationEvent.h" />
     <ClInclude Include="src\CStell\Events\Event.h" />
     <ClInclude Include="src\CStell\Events\KeyEvent.h" />
@@ -649,7 +649,7 @@
     <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
