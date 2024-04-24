@@ -20,12 +20,14 @@ IncludeDir["stb_image"] = "ConstellationCore/vendor/stb_image"
 IncludeDir["entt"] = "ConstellationCore/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "ConstellationCore/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "ConstellationCore/vendor/ImGuizmo"
+IncludeDir["assimp"] = "ConstellationCore/vendor/assimp/include"
 
 group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
 	include "ConstellationCore/vendor/Glad"
 	include "ConstellationCore/vendor/imgui"
 	include "ConstellationCore/vendor/yaml-cpp"
+	include "ConstellationCore/vendor/assimp"
 group ""
 
 project "ConstellationCore"
@@ -49,7 +51,11 @@ project "ConstellationCore"
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
-		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
+		"%{prj.name}/vendor/assimp/include/**.h",
+		"%{prj.name}/vendor/assimp/include/**.hpp",
+		"%{prj.name}/vendor/assimp/include/**.inl",
+		"%{prj.name}/vendor/assimp/include/**.cpp"
 	}
 
 	includedirs {
@@ -62,7 +68,8 @@ project "ConstellationCore"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}"
+		"%{IncludeDir.ImGuizmo}",
+		"%{IncludeDir.assimp}"
 	}
 
 	links
@@ -71,6 +78,7 @@ project "ConstellationCore"
 		"Glad",
 		"ImGui",
 		"yaml-cpp",
+		"assimp.dll",
 		"opengl32.lib"
 	}
 
@@ -192,6 +200,7 @@ project "CStellObservatory"
 	}
 
 	links {
+		"assimp.dll",
 		"ConstellationCore"
 	}
 

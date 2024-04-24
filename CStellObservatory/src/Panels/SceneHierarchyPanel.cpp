@@ -314,7 +314,8 @@ namespace CStell
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [&](auto& component)
 			{
-				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+				ImGui::ColorEdit4("Color", glm::value_ptr(component.SpriteMaterial.m_Color));
+				ImGui::DragFloat("Tiling", &component.SpriteMaterial.m_TilingFactor, 1.0f, 1.0f, 100.0f);
 			});
 	}
 }

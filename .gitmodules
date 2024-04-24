@@ -16,3 +16,9 @@
 [submodule "ConstellationCore/vendor/ImGuizmo"]
 	path = ConstellationCore/vendor/ImGuizmo
 	url = https://github.com/VedantS-32/ImGuizmo.git
+[submodule "ConstellationCore/vendor/assimp"]
+	path = ConstellationCore/vendor/assimp
+	url = https://github.com/VedantS-32/assimp.git
+[submodule "vendor/premake-autoconf"]
+	path = vendor/premake-autoconf
+	url = https://github.com/Blizzard/premake-autoconf.git

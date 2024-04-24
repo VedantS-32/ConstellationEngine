@@ -12,6 +12,38 @@
 
 namespace CStell
 {
+    extern const std::filesystem::path s_AssetPath;
+
+    static void SetImGuiHovered(bool active)
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+
+        if (active)
+        {
+            style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.95f, 0.6f, 0.78f, 1.0f);
+            style.Colors[ImGuiCol_TabHovered] = ImVec4(0.89f, 0.34f, 0.47f, 1.0f);
+            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.38f, 0.42f, 0.57f, 0.55f);
+            style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.23f, 0.23f, 0.23f, 1.0f);
+            style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.9f, 0.34f, 0.47f, 1.0f);
+            style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(1.0f, 0.3f, 0.46f, 0.53f);
+            style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(1.0f, 0.3f, 0.42f, 1.0f);
+            style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.88f, 0.46f, 0.6f, 1.0f);
+            style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.73f, 0.69f, 0.88f, 0.54f);
+        }
+        else
+        {
+            style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.95f, 0.6f, 0.78f, 0.0f);
+            style.Colors[ImGuiCol_TabHovered] = ImVec4(0.89f, 0.34f, 0.47f, 0.0f);
+            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.38f, 0.42f, 0.57f, 0.0f);
+            style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.23f, 0.23f, 0.23f, 0.0f);
+            style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.9f, 0.34f, 0.47f, 0.0f);
+            style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(1.0f, 0.3f, 0.46f, 0.0f);
+            style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(1.0f, 0.3f, 0.42f, 0.0f);
+            style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.88f, 0.46f, 0.6f, 0.0f);
+            style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.73f, 0.69f, 0.88f, 0.0f);
+        }
+    }
+
     EditorLayer::EditorLayer()
         : Layer("Scene")
     {
@@ -62,7 +94,13 @@ namespace CStell
 
         CSTELL_PROFILE_SCOPE("Renderer Draw");
 
+
         // Update Scene
+        if (m_EditorCamera.IsMoving())
+            SetImGuiHovered(false);
+        else
+            SetImGuiHovered(true);
+
         m_EditorCamera.OnUpdate(ts);
         m_ActiveScene->OnUpdateRuntime(ts);
         m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
@@ -173,6 +211,7 @@ namespace CStell
         }
 
         m_SceneHierarchyPanel.OnImGuiRender();
+        m_ContentBrowserPanel.OnImGuiRender();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
@@ -197,6 +236,16 @@ namespace CStell
 
         uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
         ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+            {
+                const wchar_t* path = (const wchar_t*)payload->Data;
+                OpenScene(std::filesystem::path(s_AssetPath) / path);
+            }
+            ImGui::EndDragDropTarget();
+        }
 
         Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
         if (selectedEntity && m_GizmoType != -1)
@@ -352,13 +401,18 @@ namespace CStell
         std::string filepath = FileDialogs::OpenFile("CStell Scene (*.cstell)\0*.cstell\0");
         if (!filepath.empty())
         {
-            m_ActiveScene = CreateRef<Scene>();
-            m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
-            m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
-            SceneSerializer serializer(m_ActiveScene);
-            serializer.Deserialize(filepath);
+            OpenScene(filepath);
         }
+    }
+
+    void EditorLayer::OpenScene(const std::filesystem::path& path)
+    {
+        m_ActiveScene = CreateRef<Scene>();
+        m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
+        m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+        SceneSerializer serializer(m_ActiveScene);
+        serializer.Deserialize(path.string());
     }
 
     void EditorLayer::SaveSceneAs()

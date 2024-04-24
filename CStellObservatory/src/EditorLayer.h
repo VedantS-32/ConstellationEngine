@@ -3,6 +3,7 @@
 #include <CStell.h>
 
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 
 namespace CStell
 {
@@ -23,6 +24,7 @@ namespace CStell
 
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 
 	private:
@@ -50,5 +52,6 @@ namespace CStell
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		ContentBrowserPanel m_ContentBrowserPanel;
 	};
 }

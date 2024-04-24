@@ -6,6 +6,8 @@
 #include "CStell/Events/KeyEvent.h"
 #include "CStell/Events/MouseEvent.h"
 
+#include <stb_image.h>
+
 namespace CStell
 {
 	static bool s_GLFWInitialized = false;
@@ -58,6 +60,11 @@ namespace CStell
 		{
 			CSTELL_PROFILE_SCOPE("glfwCreateWindow");
 			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+
+			GLFWimage images[1]{};
+			images[0].pixels = stbi_load("Resource/Icon/CStell.png", &images[0].width, &images[0].height, 0, 4);
+			glfwSetWindowIcon(m_Window, 1, images);
+			stbi_image_free(images[0].pixels);
 		}
 
 		m_Context = new OpenGLContext(m_Window);

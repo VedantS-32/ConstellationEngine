@@ -12,7 +12,7 @@ uniform mat4 u_ViewProjectionMatrix;
 
 out vec4 v_Color;
 out vec2 v_TexCoord;
-out float v_TexIndex;
+flat out float v_TexIndex;
 out float v_TilingFactor;
 out flat int v_EntityID;
 

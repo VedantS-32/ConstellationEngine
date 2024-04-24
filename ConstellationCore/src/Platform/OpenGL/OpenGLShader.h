@@ -44,6 +44,8 @@ namespace CStell
 		void UploadUniformMat3f(const std::string& name, const glm::mat3& matrix);
 		void UploadUniformMat4f(const std::string& name, const glm::mat4& matrix);
 
+		uint32_t GetRendererID() const override { return m_RendererID; }
+
 	private:
 		std::string ParseShader(std::string filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
