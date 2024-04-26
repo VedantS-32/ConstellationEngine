@@ -11,7 +11,7 @@ namespace CStell
         switch (Renderer::GetAPI())
         {
         case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-        case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filepath);
+        case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(filepath);
         }
 
         CSTELL_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -24,7 +24,7 @@ namespace CStell
         switch (Renderer::GetAPI())
         {
         case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
-        case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+        case RendererAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
         CSTELL_CORE_ASSERT(false, "Unknown RendererAPI!");

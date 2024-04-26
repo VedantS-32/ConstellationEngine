@@ -107,4 +107,11 @@ namespace CStell
 
 		glBindTextureUnit(slot, m_RendererID);
 	}
+
+	//void OpenGLTexture2D::Unbind() const
+	//{
+	//	CSTELL_PROFILE_FUNCTION();
+
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//}
 }

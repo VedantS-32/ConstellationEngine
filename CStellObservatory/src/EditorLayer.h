@@ -35,6 +35,8 @@ namespace CStell
 
 		Ref<Scene> m_ActiveScene;
 
+		Ref<Model> m_Model;
+
 		Entity m_HoveredEntity;
 
 		bool m_PrimaryCamera = true;

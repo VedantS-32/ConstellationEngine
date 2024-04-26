@@ -28,6 +28,8 @@
 #include "CStell/Renderer/Framebuffer.h"
 #include "CStell/Renderer/Shader.h"
 
+#include "CStell/Renderer/Model.h"
+
 #include "CStell/Renderer/Texture.h"
 #include "CStell/Renderer/SubTexture2D.h"
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Texture.h"
+#include "Shader.h"
+
 #include <glm/glm.hpp>
 
 namespace CStell
@@ -15,6 +17,7 @@ namespace CStell
 
 		Ref<Texture2D> m_Texture;
 		std::vector<Ref<Texture2D>> m_Textures;
+		Ref<Shader> m_Shader;
 
 	public:
 		void AddTexture(const Ref<Texture2D>& texture);

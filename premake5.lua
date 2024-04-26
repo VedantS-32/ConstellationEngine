@@ -78,7 +78,7 @@ project "ConstellationCore"
 		"Glad",
 		"ImGui",
 		"yaml-cpp",
-		"assimp.dll",
+		"assimp",
 		"opengl32.lib"
 	}
 
@@ -200,7 +200,6 @@ project "CStellObservatory"
 	}
 
 	links {
-		"assimp.dll",
 		"ConstellationCore"
 	}
 

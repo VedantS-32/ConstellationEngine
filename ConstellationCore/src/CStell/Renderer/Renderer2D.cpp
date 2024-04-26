@@ -201,6 +201,9 @@ namespace CStell
 
 		RenderCommand::DrawIndexed(s_QuadData.QuadVertexArray, s_QuadData.QuadIndexCount);
 		s_QuadData.Stats.DrawCalls++;
+
+		//s_QuadData.TextureShader->Unbind();
+		//s_QuadData.QuadVertexArray->Unbind();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
