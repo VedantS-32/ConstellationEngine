@@ -63,7 +63,6 @@ namespace CStell
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 
         m_Model = CreateRef<Model>("asset/model/CStellCube.obj");
-
 #if 1
         SceneSerializer serializer(m_ActiveScene);
         serializer.Deserialize("asset/scene/scene1.cstell");

@@ -14,6 +14,8 @@ namespace CStell
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
+		virtual void ExtractShaderUniform(std::unordered_map<std::string, uint32_t>& uniforms) = 0;
+
 		virtual void Set1i(const std::string& name, int value) = 0;
 		virtual void Set1iArray(const std::string& name, int* value, uint32_t count) = 0;
 

@@ -46,17 +46,17 @@ namespace CStell
 
 	struct SpriteRendererComponent
 	{
+		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 		{
-			SpriteMaterial.m_Color = color;
+			Color = color;
 		}
 
-		Material SpriteMaterial;
-
-		operator glm::vec4& () { return SpriteMaterial.m_Color; }
-		operator const glm::vec4& () const { return SpriteMaterial.m_Color; }
+		operator glm::vec4& () { return Color; }
+		operator const glm::vec4& () const { return Color; }
 	};
 
 	struct CameraComponent

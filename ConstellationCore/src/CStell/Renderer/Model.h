@@ -11,6 +11,7 @@
 
 #include <vector>
 #include "Shader.h"
+#include "Material.h"
 
 namespace CStell
 {
@@ -56,6 +57,7 @@ namespace CStell
         Ref<IndexBuffer> m_IndexBuffer;
         Ref<Texture2D> m_Texture;
         Ref<Shader> m_Shader;
+        Ref<Material> m_Material;
 
         std::vector<Mesh> m_Meshes;
         std::string m_Filepath;

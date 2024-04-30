@@ -522,52 +522,7 @@ namespace CStell
 
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
-		CSTELL_PROFILE_FUNCTION();
-
-		constexpr size_t quadVertexCount = 4;
-		constexpr glm::vec2 textureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
-
-		if (s_QuadData.QuadIndexCount >= Renderer2DData::MaxIndices)
-			NextBatch();
-
-		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-		auto& texture = src.SpriteMaterial.m_Texture;
-
-		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_QuadData.TextureSlotIndex; i++)
-		{
-			if (*s_QuadData.TextureSlots[i].get() == *texture.get())
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.0f)
-		{
-			if (s_QuadData.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				NextBatch();
-
-			textureIndex = (float)s_QuadData.TextureSlotIndex;
-			s_QuadData.TextureSlots[s_QuadData.TextureSlotIndex] = texture;
-			s_QuadData.TextureSlotIndex++;
-		}
-
-		for (size_t i = 0; i < quadVertexCount; i++)
-		{
-			s_QuadData.QuadVertexBufferPtr->Position = transform * s_QuadData.QuadVertexPositions[i];
-			s_QuadData.QuadVertexBufferPtr->Color = color;
-			s_QuadData.QuadVertexBufferPtr->TexCoord = textureCoords[i];
-			s_QuadData.QuadVertexBufferPtr->TexIndex = textureIndex;
-			s_QuadData.QuadVertexBufferPtr->TilingFactor = src.SpriteMaterial.m_TilingFactor;
-			s_QuadData.QuadVertexBufferPtr++;
-		}
-
-		s_QuadData.QuadIndexCount += 6;
-
-		s_QuadData.Stats.QuadCount++;
-
+		DrawQuad(transform, src.Color, entityID);
 	}
 
 	Renderer2D::Statistics Renderer2D::GetStats()

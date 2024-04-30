@@ -19,6 +19,8 @@ namespace CStell
 		void Bind() const;
 		void Unbind() const;
 
+		virtual void ExtractShaderUniform(std::unordered_map<std::string, uint32_t>& uniforms) override;
+
 		virtual const std::string& GetName() const override { return m_Name; }
 
 		virtual void Set1i(const std::string& name, int value) override;

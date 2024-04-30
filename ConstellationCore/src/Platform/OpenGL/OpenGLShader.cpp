@@ -60,6 +60,24 @@ namespace CStell
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::ExtractShaderUniform(std::unordered_map<std::string, uint32_t>& uniforms)
+	{
+		GLint numUniforms;
+		glGetProgramiv(m_RendererID, GL_ACTIVE_UNIFORMS, &numUniforms);
+		for (int i = 0; i < numUniforms; ++i)
+		{
+			char uniformName[256];
+			GLsizei length;
+			GLint size;
+			GLenum type;
+			glGetActiveUniform(m_RendererID, i, sizeof(uniformName), &length, &size, &type, uniformName);
+			GLint location = glGetUniformLocation(m_RendererID, uniformName);
+			uniforms[uniformName] = type;
+
+			CSTELL_CORE_TRACE("Uniform Name: {0}, Type: {1}", uniformName, (uint32_t)type);
+		}
+	}
+
 	void OpenGLShader::Set1i(const std::string& name, int value)
 	{
 		UploadUniform1i(name, value);

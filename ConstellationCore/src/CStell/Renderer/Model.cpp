@@ -130,7 +130,9 @@ namespace CStell
 		
 		m_Texture = Texture2D::Create("asset/texture/CStell.png");
 
-		m_Shader = Shader::Create("asset/shader/3DTest.glsl");
+		m_Material = CreateRef<Material>("asset/shader/3DTest.glsl");
+		m_Material->AddTexture(m_Texture);
+		m_Shader = m_Material->GetShader();
 	}
 
 	void Model::DrawModel(const EditorCamera& camera)
