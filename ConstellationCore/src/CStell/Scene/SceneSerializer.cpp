@@ -15,6 +15,28 @@
 namespace YAML
 {
 	template<>
+	struct convert<glm::vec2>
+	{
+		static Node encode(const glm::vec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
+
+	template<>
 	struct convert<glm::vec3>
 	{
 		static Node encode(const glm::vec3& rhs)
@@ -63,10 +85,113 @@ namespace YAML
 			return true;
 		}
 	};
+
+	template<>
+	struct convert<glm::uvec2>
+	{
+		static Node encode(const glm::uvec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::uvec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
+
+	template<>
+	struct convert<glm::uvec3>
+	{
+		static Node encode(const glm::uvec3& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.push_back(rhs.z);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::uvec3& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 3)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			rhs.z = node[2].as<float>();
+			return true;
+		}
+	};
+
+	template<>
+	struct convert<glm::uvec4>
+	{
+		static Node encode(const glm::uvec4& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.push_back(rhs.z);
+			node.push_back(rhs.w);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::uvec4& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 4)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			rhs.z = node[2].as<float>();
+			rhs.w = node[3].as<float>();
+			return true;
+		}
+	};
 }
 
 namespace CStell
 {
+	static std::string modelPath = "asset/model/Sphere.fbx";
+	static std::string shaderPath = "asset/shader/3DTest.glsl";
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::uvec2& v)
+	{
+		out << YAML::Flow; // [1, 2]
+		out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+		return out;
+	}
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::uvec3& v)
+	{
+		out << YAML::Flow; // [1, 2, 3]
+		out << YAML::BeginSeq << v.x << v.y << v.z << YAML::EndSeq;
+		return out;
+	}
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::uvec4& v)
+	{
+		out << YAML::Flow;
+		out << YAML::BeginSeq << v.x << v.y << v.z << v.w << YAML::EndSeq;
+		return out;
+	}
+
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec2& v)
+	{
+		out << YAML::Flow; // [1, 2]
+		out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+		return out;
+	}
+
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
 		out << YAML::Flow; // [1, 2, 3]
@@ -149,6 +274,55 @@ namespace CStell
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
 
 			out << YAML::EndMap; // SpriteRenderComponent
+		}
+
+		if (entity.HasComponent<ModelComponent>())
+		{
+			out << YAML::Key << "ModelComponent";
+			out << YAML::BeginMap; // ModelComponent
+
+			auto& modelComponent = entity.GetComponent<ModelComponent>();
+			auto material = modelComponent.ModelInst.GetMaterial();
+
+			for (auto& uniform : material->GetUniforms())
+			{
+				std::string uniformName = uniform.first;
+				switch (uniform.second)
+				{
+				case ShaderDataType::Int:
+					out << YAML::Key << uniformName << YAML::Value << material->m_IntUniforms[uniformName];
+					break;
+				case ShaderDataType::Int2:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Int2Uniforms[uniformName];
+					break;
+				case ShaderDataType::Int3:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Int3Uniforms[uniformName];
+					break;
+				case ShaderDataType::Int4:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Int4Uniforms[uniformName];
+					break;
+				case ShaderDataType::Float:
+					out << YAML::Key << uniformName << YAML::Value << material->m_FloatUniforms[uniformName];
+					break;
+				case ShaderDataType::Float2:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Float2Uniforms[uniformName];
+					break;
+				case ShaderDataType::Float3:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Float3Uniforms[uniformName];
+					break;
+				case ShaderDataType::Float4:
+					out << YAML::Key << uniformName << YAML::Value << material->m_Float4Uniforms[uniformName];
+					break;
+				case ShaderDataType::Mat3:
+					break;
+				case ShaderDataType::Mat4:
+					break;
+				default:
+					break;
+				}
+			}
+
+			out << YAML::EndMap; // ModelComponent
 		}
 
 		out << YAML::EndMap; // Entity;
@@ -245,6 +419,57 @@ namespace CStell
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+				}
+
+				auto modelComponent = entity["ModelComponent"];
+				if (modelComponent)
+				{
+					auto& model = deserializedEntity.AddComponent<ModelComponent>(modelPath, shaderPath);
+					auto material = model.ModelInst.GetMaterial();
+					for (auto& uniform : material->GetUniforms())
+					{
+						std::string uniformName = uniform.first;
+
+						if (!modelComponent[uniformName].IsDefined())
+						{
+							CSTELL_CORE_WARN("No value for uniform: {0}", uniformName);
+							continue;
+						}
+
+						switch (uniform.second)
+						{
+						case ShaderDataType::Int:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<int>());
+							break;
+						case ShaderDataType::Int2:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::uvec2>());
+							break;
+						case ShaderDataType::Int3:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::uvec3>());
+							break;
+						case ShaderDataType::Int4:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::uvec4>());
+							break;
+						case ShaderDataType::Float:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<float>());
+							break;
+						case ShaderDataType::Float2:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::vec2>());
+							break;
+						case ShaderDataType::Float3:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::vec3>());
+							break;
+						case ShaderDataType::Float4:
+							material->AddUniformValue(uniformName, modelComponent[uniformName].as<glm::vec4>());
+							break;
+						case ShaderDataType::Mat3:
+							break;
+						case ShaderDataType::Mat4:
+							break;
+						default:
+							break;
+						}
+					}
 				}
 			}
 		}

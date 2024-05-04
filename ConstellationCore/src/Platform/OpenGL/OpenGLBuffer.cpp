@@ -90,4 +90,37 @@ namespace CStell
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+
+	/////////////////////////////////////////////////////////////////////
+	///////////////////// Uniform Buffer ////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+
+	OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t bindingPoint)
+		: m_BindingPoint(bindingPoint)
+	{
+		glGenBuffers(1, &m_RendererID);
+		glBindBuffer(GL_UNIFORM_BUFFER, m_RendererID);
+		glBindBufferBase(GL_UNIFORM_BUFFER, m_BindingPoint, m_RendererID);
+	}
+
+	OpenGLUniformBuffer::~OpenGLUniformBuffer()
+	{
+		glDeleteBuffers(1, &m_RendererID);
+	}
+
+	void OpenGLUniformBuffer::Bind() const
+	{
+		glBindBufferBase(GL_UNIFORM_BUFFER, m_BindingPoint, m_RendererID);
+	}
+
+	void OpenGLUniformBuffer::Unbind() const
+	{
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+
+	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_UNIFORM_BUFFER, m_RendererID);
+		glBufferData(GL_UNIFORM_BUFFER, size, data, GL_DYNAMIC_DRAW);
+	}
 }

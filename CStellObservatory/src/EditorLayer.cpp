@@ -62,10 +62,9 @@ namespace CStell
         m_EditorCamera = EditorCamera(45.0f, 0.1f, 10000.0f);
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 
-        m_Model = CreateRef<Model>("asset/model/CStellCube.obj");
 #if 1
         SceneSerializer serializer(m_ActiveScene);
-        serializer.Deserialize("asset/scene/scene1.cstell");
+        serializer.Deserialize("asset/scene/scene3.cstell");
 #endif
     }
 
@@ -119,8 +118,6 @@ namespace CStell
             int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
             m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
         }
-
-        m_Model->DrawModel(m_EditorCamera);
 
         m_Framebuffer->UnBind();
     }

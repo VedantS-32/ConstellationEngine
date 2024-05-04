@@ -7,18 +7,18 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "Buffer.h"
+#include "Shader.h"
+#include "Material.h"
 #include "EditorCamera.h"
 
 #include <vector>
-#include "Shader.h"
-#include "Material.h"
 
 namespace CStell
 {
     struct Vertex {
-        glm::vec3 m_position;
-        glm::vec3 m_normal;
-        glm::vec2 m_texcoords;
+        glm::vec3 Position;
+        glm::vec3 Normal;
+        glm::vec2 Texcoords;
     };
 
     struct Mesh
@@ -37,26 +37,32 @@ namespace CStell
 
     };
 
-	class Model
-	{
+    class Model
+    {
     public:
 
-        Model(const std::string& filepath);
-
-        //int loadModel(std::string filepath);
+        Model();
+        Model(const std::string& filepath, const std::string& shaderFile);
 
         virtual std::vector<Mesh>& GetMeshes() { return m_Meshes; }
+        Ref<Material> GetMaterial() { return m_Material; }
 
         void SetFilepath(const std::string& filepath) { m_Filepath = filepath; }
 
-        void DrawModel(const EditorCamera& camera);
+        void DrawModel(const EditorCamera& camera, int entityID);
+
+        void UpdateTransform(const glm::mat4& transform);
+
+    private:
+        void PrepareMesh(const std::string& filepath = "asset/model/CStellCube.obj", const std::string& shaderPath = "asset/shader/3DTest.glsl");
 
     protected:
+        glm::mat4 m_ModelMatrix{1.0f};
+
         Ref<VertexArray> m_VertexArray;
         Ref<VertexBuffer> m_VertexBuffer;
         Ref<IndexBuffer> m_IndexBuffer;
         Ref<Texture2D> m_Texture;
-        Ref<Shader> m_Shader;
         Ref<Material> m_Material;
 
         std::vector<Mesh> m_Meshes;

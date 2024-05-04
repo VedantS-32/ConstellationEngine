@@ -10,7 +10,9 @@ out vec2 v_TexCoord;
 out vec3 v_LightPosition;
 out vec3 v_CameraPosition;
 out vec3 v_ReflectedDir;
+out int v_EntityID;
 
+uniform int u_EntityID;
 uniform mat4 u_MVP;
 uniform mat4 u_ModelView;
 uniform vec3 u_LightPosition;
@@ -19,6 +21,7 @@ uniform vec3 u_CameraPosition;
 void main()
 {
 	v_TexCoord = a_TexCoord;
+	v_EntityID = u_EntityID;
 	v_Normal = normalize(mat3(transpose(inverse(u_ModelView))) * a_Normal);
 	v_LightPosition = normalize(u_LightPosition);
 	v_CameraPosition = normalize(u_CameraPosition);
@@ -30,28 +33,32 @@ void main()
 #version 450 core
 
 layout(location = 0) out vec4 FragColor;
+layout(location = 1) out int EntityID;
 
 in vec3 v_Normal;
 in vec2 v_TexCoord;
 in vec3 v_LightPosition;
 in vec3 v_CameraPosition;
 in vec3 v_ReflectedDir;
+in flat int v_EntityID;
 
 uniform sampler2D u_Texture;
+
 
 uniform vec3 u_AmbientLight;
 uniform float u_LightIntensity;
 uniform vec4 u_LightColor;
 uniform vec3 u_SpecularColor;
 uniform float u_SpecularAlpha;
+uniform float Tiling;
 
 void main()
 {
-	vec3 u_AmbientLight = vec3(0.05f, 0.05f, 0.2f);
-	float u_LightIntensity = 1.0f;
-	vec4 u_LightColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vec3 u_AmbientLight = vec3(0.05f, 0.05f, 0.2f);
+	//float u_LightIntensity = 1.0f;
+	//vec4 u_LightColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	vec3 u_SpecularColor = vec3(1.0f, 1.0f, 1.0f);
-	float u_SpecularAlpha = 1000.0f;
+	float u_SpecularAlpha = 100.0f;
 
 	vec3 normal = normalize(v_Normal);
 	vec3 reflected = normalize(v_Normal);
@@ -63,9 +70,11 @@ void main()
 	//FragColor = vec4(1.0, 0.0, 0.0, 1.0) + (u_LightIntensity * vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)) + vec4(u_AmbientLight, 1.0);
 	//FragColor = (u_LightIntensity * vec4(u_SpecularColor, 1.0) * pow(phong, u_SpecularAlpha)) + vec4(u_AmbientLight, 1.0);
 	//FragColor = vec4(1.0, 1.0, 0.0, 1.0) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
-	FragColor = texture(u_Texture, v_TexCoord) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
+	FragColor = texture(u_Texture, v_TexCoord * Tiling) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
 	//FragColor = vec4(0.1, 0.1, 0.1, 1.0) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
 	//FragColor = texture(u_Texture, v_TexCoord);
 	//FragColor = vec4(1.0, 1.0, 0.0, 1.0) * ((u_LightIntensity * diffuse * u_LightColor) + vec4(u_AmbientLight, 1.0));
 	//FragColor = vec4(v_Normal, 1.0f);
+
+	EntityID = v_EntityID;
 };

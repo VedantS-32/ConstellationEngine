@@ -1,38 +1,54 @@
-Scene: Scene1
+Scene: Untitled
 Entities:
   - Entity: 4732893432
     TagComponent:
-      Tag: Sqaure0
-    TransformComponent:
-      Translation: [0, 2.98023259e-08, 0.5]
-      Rotation: [1.57079601, 5.06639481e-07, 0.677211344]
-      Scale: [1, 0.999970317, 0.999981046]
-    SpriteRendererComponent:
-      Color: [0.349162817, 0.866995096, 0.222087368, 1]
-  - Entity: 4732893432
-    TagComponent:
-      Tag: Ground
+      Tag: Empty Entity
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [25, 25, 1]
-    SpriteRendererComponent:
-      Color: [0.785289645, 0.990147769, 0.968955517, 1]
+      Scale: [1, 1, 1]
+    ModelComponent:
+      Tiling: 2
+      u_AmbientLight: [0.100000001, 0.100000001, 0.100000001]
+      u_CameraPosition: [0, 0, 0]
+      u_EntityID: 0
+      u_LightColor: [1, 1, 1, 1]
+      u_LightPosition: [5, 38, 28]
+      u_LightIntensity: 2
+      u_Texture: 0
   - Entity: 4732893432
     TagComponent:
-      Tag: Sqaure1
+      Tag: Square
     TransformComponent:
-      Translation: [-2.18119025, 1.95645988, 0.676729679]
-      Rotation: [1.57080305, -2.93925405e-06, -0.0419004969]
-      Scale: [1, 0.999963582, 0.999968171]
+      Translation: [-1.70000005, 0, 2.20000005]
+      Rotation: [0, 0, 0]
+      Scale: [1.70000005, 1.39999998, 1]
     SpriteRendererComponent:
-      Color: [0.431119412, 0.864543438, 0.931034505, 1]
+      Color: [0.209999993, 0.769999981, 0.850000024, 1]
   - Entity: 4732893432
     TagComponent:
-      Tag: Sqaure2
+      Tag: Camera A
     TransformComponent:
-      Translation: [-2.90495563, -0.893081665, 0.5]
-      Rotation: [-1.57079923, -4.3710795e-08, -2.19158816]
-      Scale: [0.999999762, 0.99950099, 0.999741554]
+      Translation: [-0.899999976, 0.899999976, -33.7000008]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 45
+        PerspectiveNear: 0.0099999997764825821
+        PerspectiveFar: 10000
+        OrthographicSize: 7
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Square B
+    TransformComponent:
+      Translation: [2.5, -1.20000005, -3.4000001]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.965517223, 0.480380505, 0.480380505, 1]
+      Color: [1, 0.290196061, 0.646846533, 1]

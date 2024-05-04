@@ -176,6 +176,7 @@
     <ClInclude Include="src\CStell\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CStell\Renderer\RendererContext.h" />
     <ClInclude Include="src\CStell\Renderer\Shader.h" />
+    <ClInclude Include="src\CStell\Renderer\ShaderType.h" />
     <ClInclude Include="src\CStell\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\CStell\Renderer\Texture.h" />
     <ClInclude Include="src\CStell\Renderer\VertexArray.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLModel.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
@@ -739,6 +741,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLModel.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />

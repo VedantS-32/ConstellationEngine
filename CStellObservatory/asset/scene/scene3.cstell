@@ -1,0 +1,54 @@
+Scene: Untitled
+Entities:
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Sqaure0
+    TransformComponent:
+      Translation: [0, 2.98023259e-08, 0.5]
+      Rotation: [1.57079601, 5.06639481e-07, 0.677211344]
+      Scale: [1, 0.999970317, 0.999981046]
+    SpriteRendererComponent:
+      Color: [0.349162817, 0.866995096, 0.222087368, 1]
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Ground
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [25, 25, 1]
+    SpriteRendererComponent:
+      Color: [0.785289645, 0.990147769, 0.968955517, 1]
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Sqaure1
+    TransformComponent:
+      Translation: [-2.18119025, 1.95645988, 0.676729679]
+      Rotation: [1.57080305, -2.93925405e-06, -0.0419004969]
+      Scale: [1, 0.999963582, 0.999968171]
+    SpriteRendererComponent:
+      Color: [0.431119412, 0.864543438, 0.931034505, 1]
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Sqaure2
+    TransformComponent:
+      Translation: [-2.90495563, -0.893081665, 0.5]
+      Rotation: [-1.57079923, -4.3710795e-08, -2.19158816]
+      Scale: [0.999999762, 0.99950099, 0.999741554]
+    SpriteRendererComponent:
+      Color: [0.965517223, 0.480380505, 0.480380505, 1]
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [1.8661499, 0, 2.12690544]
+      Rotation: [-1.99837625, 0.779029369, -2.62530112]
+      Scale: [0.999999881, 0.999999881, 0.99999994]
+    ModelComponent:
+      Tiling: 3
+      u_AmbientLight: [0.100000001, 0.150000006, 0.25]
+      u_CameraPosition: [0, 0, 0]
+      u_EntityID: 0
+      u_LightColor: [1, 1, 1, 1]
+      u_LightPosition: [2, 0, 10]
+      u_LightIntensity: 1
+      u_Texture: 0

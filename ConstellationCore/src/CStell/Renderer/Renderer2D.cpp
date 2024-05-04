@@ -154,22 +154,6 @@ namespace CStell
 	{
 		CSTELL_PROFILE_FUNCTION();
 
-		auto shaderProgram = s_QuadData.TextureShader->GetRendererID();
-
-		// Extract uniform information
-		GLint numUniforms;
-		glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORMS, &numUniforms);
-		for (int i = 0; i < numUniforms; ++i) {
-			char uniformName[256];
-			GLsizei length;
-			GLint size;
-			GLenum type;
-			glGetActiveUniform(shaderProgram, i, sizeof(uniformName), &length, &size, &type, uniformName);
-			GLint location = glGetUniformLocation(shaderProgram, uniformName);
-			uniforms[uniformName] = location;
-			//CSTELL_CORE_INFO("Uniform Name: {0}, Type: {1}, Size: {2}", std::string(uniformName), (int)type, (int)size);
-		}
-
 		Flush();
 	}
 

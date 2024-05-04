@@ -45,6 +45,15 @@ namespace CStell
 
 		Renderer2D::EndScene();
 
+
+		auto models = m_Registry.view<ModelComponent, TransformComponent>();
+		for (auto entity : models)
+		{
+			auto [model, transform] = models.get<ModelComponent, TransformComponent>(entity);
+			model.ModelInst.DrawModel(camera, (int)entity);
+			model.ModelInst.UpdateTransform(transform.GetTransform());
+		}
+
 	}
 
 	void Scene::OnUpdateRuntime(Timestep ts)
@@ -149,6 +158,11 @@ namespace CStell
 
 	template<>
 	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<ModelComponent>(Entity entity, ModelComponent& component)
 	{
 	}
 

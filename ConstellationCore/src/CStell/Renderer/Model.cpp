@@ -12,9 +12,6 @@
 
 namespace CStell
 {
-	glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 5.0f, 2.0f));
-	static float delta = 0.0f;
-
 	static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		std::vector<Vertex> vertices;
@@ -28,22 +25,22 @@ namespace CStell
 			vector.x = (float)mesh->mVertices[i].x;
 			vector.y = (float)mesh->mVertices[i].y;
 			vector.z = (float)mesh->mVertices[i].z;
-			vertex.m_position = vector;
+			vertex.Position = vector;
 
 			vector.x = (float)mesh->mNormals[i].x;
 			vector.y = (float)mesh->mNormals[i].y;
 			vector.z = (float)mesh->mNormals[i].z;
-			vertex.m_normal = vector;
+			vertex.Normal = vector;
 
 			if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 			{
 				glm::vec2 vec;
 				vec.x = (float)mesh->mTextureCoords[0][i].x;
 				vec.y = (float)mesh->mTextureCoords[0][i].y;
-				vertex.m_texcoords = vec;
+				vertex.Texcoords = vec;
 			}
 			else
-				vertex.m_texcoords = glm::vec2(0.0f, 0.0f);
+				vertex.Texcoords = glm::vec2(0.0f, 0.0f);
 
 			vertices.push_back(vertex);
 		}
@@ -92,7 +89,17 @@ namespace CStell
 		return 0;
 	}
 
-	Model::Model(const std::string& filepath)
+	Model::Model()
+	{
+		PrepareMesh();
+	}
+
+	Model::Model(const std::string& filepath, const std::string& shaderPath)
+	{
+		PrepareMesh(filepath, shaderPath);
+	}
+
+	void Model::PrepareMesh(const std::string& filepath, const std::string& shaderPath)
 	{
 		loadModel(*this, filepath);
 
@@ -110,7 +117,7 @@ namespace CStell
 			for (auto& index : mesh.GetIndices())
 				indices.push_back(index);
 		}
-		
+
 		m_VertexBuffer = VertexBuffer::Create((void*)vertices.data(), (uint32_t)vertices.size() * sizeof(Vertex));
 		CSTELL_TRACE("Vertices size: {0}", (uint32_t)vertices.size() * sizeof(Vertex));
 		m_VertexBuffer->SetLayout(
@@ -123,38 +130,37 @@ namespace CStell
 
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
-		//m_IndexBuffer = IndexBuffer::Create(m_Meshes[0].GetIndices().data(), (uint32_t)m_Meshes[0].GetIndices().size());
 		m_IndexBuffer = IndexBuffer::Create(indices.data(), (uint32_t)indices.size());
 		CSTELL_TRACE("Indices count: {0}", indices.size());
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-		
+
 		m_Texture = Texture2D::Create("asset/texture/CStell.png");
 
-		m_Material = CreateRef<Material>("asset/shader/3DTest.glsl");
+		m_Material = Material::Create(shaderPath);
 		m_Material->AddTexture(m_Texture);
-		m_Shader = m_Material->GetShader();
 	}
 
-	void Model::DrawModel(const EditorCamera& camera)
+	void Model::DrawModel(const EditorCamera& camera, int entityID)
 	{
-		if (delta <= 0)
-			delta += 0.1f;
-		if (delta >= 1)
-			delta -= 0.1f;
-		glm::vec3 lightPos = glm::vec3(2.0f, 0.0f, 2.0f);
-
-		modelMat = glm::rotate(modelMat, glm::radians(delta), glm::vec3(1.0f, 1.0f, 1.0f));
+		auto& shader = m_Material->GetShader();
 
 		m_Texture->Bind();
-		m_Shader->Bind();
-		m_Shader->SetMat4f("u_MVP", camera.GetViewProjectionMatrix() * modelMat);
-		m_Shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * modelMat);
-		m_Shader->Set3f("u_LightPosition", lightPos);
-		m_Shader->Set3f("u_CameraPosition", camera.GetPosition());
-		m_Shader->Set1i("u_Texture", 0);
+		shader->Bind();
+		shader->SetMat4f("u_MVP", camera.GetViewProjectionMatrix() * m_ModelMatrix);
+		shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * m_ModelMatrix);
+		shader->Set3f("u_CameraPosition", camera.GetPosition());
+
+		m_Material->UpdateShaderUniform();
+
+		shader->Set1i("u_Texture", 0);
+		shader->Set1i("u_EntityID", entityID);
+
 
 		RenderCommand::DrawIndexed(m_VertexArray, m_VertexArray->GetIndexBuffer()->GetCount());
-		//m_Shader->Unbind();
-		//m_VertexArray->Unbind();
+	}
+
+	void Model::UpdateTransform(const glm::mat4& transform)
+	{
+		m_ModelMatrix = transform;
 	}
 }

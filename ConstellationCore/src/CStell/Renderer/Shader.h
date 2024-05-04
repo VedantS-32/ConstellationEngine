@@ -1,7 +1,10 @@
 #pragma once
 
-#include <string>
+#include "ShaderType.h"
+
 #include <glm/glm.hpp>
+
+#include <string>
 #include <unordered_map>
 
 namespace CStell
@@ -14,9 +17,12 @@ namespace CStell
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		virtual void ExtractShaderUniform(std::unordered_map<std::string, uint32_t>& uniforms) = 0;
+		virtual void RecompileShaders() = 0;
 
 		virtual void Set1i(const std::string& name, int value) = 0;
+		virtual void Set2i(const std::string& name, glm::uvec2 value) = 0;
+		virtual void Set3i(const std::string& name, glm::uvec3 value) = 0;
+		virtual void Set4i(const std::string& name, glm::uvec4 value) = 0;
 		virtual void Set1iArray(const std::string& name, int* value, uint32_t count) = 0;
 
 		virtual void Set1f(const std::string& name, float value) = 0;

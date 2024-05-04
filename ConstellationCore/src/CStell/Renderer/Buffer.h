@@ -1,13 +1,11 @@
 #pragma once
+
+#include "ShaderType.h"
+
 #include <cstdint>
 
 namespace CStell
 {
-	enum class ShaderDataType
-	{
-		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
-	};
-
 	struct BufferElement
 	{
 		std::string Name;
@@ -131,5 +129,18 @@ namespace CStell
 		virtual uint32_t GetCount() const = 0;
 
 		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+	};
+
+	class UniformBuffer
+	{
+	public:
+		virtual ~UniformBuffer() = default;
+
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+
+		virtual void SetData(const void* data, uint32_t size) = 0;
+
+		static Ref<UniformBuffer> Create(uint32_t bindingPoint);
 	};
 }

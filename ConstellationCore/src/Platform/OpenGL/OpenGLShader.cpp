@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#define GET_STRING(type) #type
+
 namespace CStell
 {
 	static GLenum ShaderTypeFromString(const std::string& type)
@@ -18,19 +20,9 @@ namespace CStell
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
+		: m_ShaderPath(filepath)
 	{
-		CSTELL_PROFILE_FUNCTION();
-
-		std::string source = ParseShader(filepath);
-		auto shaderSources = PreProcess(source);
-		Compile(shaderSources);
-
-		// Extract name from filepath
-		auto lastSlash = filepath.find_last_of("/\\");
-		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-		auto lastDot = filepath.rfind('.');
-		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		m_Name = filepath.substr(lastSlash, count);
+		PrepareShader();
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -60,27 +52,24 @@ namespace CStell
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::ExtractShaderUniform(std::unordered_map<std::string, uint32_t>& uniforms)
-	{
-		GLint numUniforms;
-		glGetProgramiv(m_RendererID, GL_ACTIVE_UNIFORMS, &numUniforms);
-		for (int i = 0; i < numUniforms; ++i)
-		{
-			char uniformName[256];
-			GLsizei length;
-			GLint size;
-			GLenum type;
-			glGetActiveUniform(m_RendererID, i, sizeof(uniformName), &length, &size, &type, uniformName);
-			GLint location = glGetUniformLocation(m_RendererID, uniformName);
-			uniforms[uniformName] = type;
-
-			CSTELL_CORE_TRACE("Uniform Name: {0}, Type: {1}", uniformName, (uint32_t)type);
-		}
-	}
-
 	void OpenGLShader::Set1i(const std::string& name, int value)
 	{
 		UploadUniform1i(name, value);
+	}
+
+	void OpenGLShader::Set2i(const std::string& name, glm::uvec2 value)
+	{
+		UploadUniform2i(name, value);
+	}
+
+	void OpenGLShader::Set3i(const std::string& name, glm::uvec3 value)
+	{
+		UploadUniform3i(name, value);
+	}
+
+	void OpenGLShader::Set4i(const std::string& name, glm::uvec4 value)
+	{
+		UploadUniform4i(name, value);
 	}
 
 	void OpenGLShader::Set1iArray(const std::string& name, int* value, uint32_t count)
@@ -116,6 +105,27 @@ namespace CStell
 	void OpenGLShader::SetMat4f(const std::string& name, const glm::mat4& matrix)
 	{
 		UploadUniformMat4f(name, matrix);
+	}
+
+	void OpenGLShader::RecompileShaders()
+	{
+		PrepareShader();
+	}
+
+	void OpenGLShader::PrepareShader()
+	{
+		CSTELL_PROFILE_FUNCTION();
+
+		std::string source = ParseShader(m_ShaderPath);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+
+		// Extract name from filepath
+		auto lastSlash = m_ShaderPath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = m_ShaderPath.rfind('.');
+		auto count = lastDot == std::string::npos ? m_ShaderPath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = m_ShaderPath.substr(lastSlash, count);
 	}
 
 	std::string OpenGLShader::ParseShader(std::string filepath)
@@ -243,6 +253,21 @@ namespace CStell
 	void OpenGLShader::UploadUniform1i(const std::string& name, int value)
 	{
 		glUniform1i(GetUniformLocation(name), value);
+	}
+
+	void OpenGLShader::UploadUniform2i(const std::string& name, glm::uvec2 value)
+	{
+		glUniform2i(GetUniformLocation(name), value.x, value.y);
+	}
+
+	void OpenGLShader::UploadUniform3i(const std::string& name, glm::uvec3 value)
+	{
+		glUniform3i(GetUniformLocation(name), value.x, value.y, value.z);
+	}
+
+	void OpenGLShader::UploadUniform4i(const std::string& name, glm::uvec4 value)
+	{
+		glUniform4i(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 	}
 
 	void OpenGLShader::UploadUniform1iArray(const std::string& name, int* value, uint32_t count)

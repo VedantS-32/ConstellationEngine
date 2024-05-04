@@ -3,6 +3,7 @@
 #include "CStell/Renderer/Camera.h"
 #include "CStell/Scene/SceneCamera.h"
 #include "CStell/Renderer/Material.h"
+#include "CStell/Renderer/Model.h"
 #include "ScriptableEntity.h"
 
 #include <glm/glm.hpp>
@@ -57,6 +58,18 @@ namespace CStell
 
 		operator glm::vec4& () { return Color; }
 		operator const glm::vec4& () const { return Color; }
+	};
+
+	struct ModelComponent
+	{
+		Model ModelInst;
+
+		ModelComponent() = default;
+		ModelComponent(const ModelComponent&) = default;
+		ModelComponent(const std::string& filepath, const std::string& shaderPath)
+		{
+			ModelInst = Model(filepath, shaderPath);
+		}
 	};
 
 	struct CameraComponent
