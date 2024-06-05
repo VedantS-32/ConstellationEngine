@@ -1,8 +1,11 @@
 #include "CStellpch.h"
+
 #include "Model.h"
 
 #include "Buffer.h"
 #include "RenderCommand.h"
+
+#include "CStell/Core/AssetManager.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -94,6 +97,11 @@ namespace CStell
 		//PrepareMesh();
 	}
 
+	Model::Model(const std::string& filepath)
+	{
+		PrepareMesh(filepath);
+	}
+
 	Model::Model(const std::string& filepath, const std::string& shaderPath)
 	{
 		PrepareMesh(filepath, shaderPath);
@@ -134,9 +142,12 @@ namespace CStell
 		CSTELL_TRACE("Indices count: {0}", indices.size());
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		m_Texture = Texture2D::Create("asset/texture/CStell.png");
+		auto assetManager = AssetManager::GetInstance();
 
-		m_Material = Material::Create(shaderPath);
+		m_Texture = assetManager->LoadAsset<Texture2D>("asset/texture/CStell.png");
+		//m_Texture = Texture2D::Create("asset/texture/CStell.png");
+
+		m_Material = assetManager->LoadAsset<Material>(shaderPath);
 		m_Material->AddTexture(m_Texture);
 
 		//m_UniformBuffer = UniformBuffer::Create(0);

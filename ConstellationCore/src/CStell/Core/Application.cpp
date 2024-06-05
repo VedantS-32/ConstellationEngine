@@ -5,6 +5,8 @@
 
 #include "CStell/Core/Timestep.h"
 
+#include "CStell/Core/AssetManager.h"
+
 #include "CStell/Renderer/Buffer.h"
 #include "CStell/Renderer/Renderer.h"
 #include "CStell/Renderer/RenderCommand.h"
@@ -31,6 +33,8 @@ namespace CStell
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		AssetManager::Init();
 	}
 
 	Application::~Application()

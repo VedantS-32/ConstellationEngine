@@ -42,6 +42,7 @@ namespace CStell
     public:
 
         Model();
+        Model(const std::string& filepath);
         Model(const std::string& filepath, const std::string& shaderFile);
 
         virtual std::vector<Mesh>& GetMeshes() { return m_Meshes; }
@@ -62,7 +63,6 @@ namespace CStell
         Ref<VertexArray> m_VertexArray;
         Ref<VertexBuffer> m_VertexBuffer;
         Ref<IndexBuffer> m_IndexBuffer;
-        //Ref<UniformBuffer> m_UniformBuffer;
         Ref<Texture2D> m_Texture;
         Ref<Material> m_Material;
 

@@ -1775,6 +1775,7 @@
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\ShaderType.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
+    <ClInclude Include="src\CStell\Core\AssetManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
@@ -1898,5 +1899,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
+    <ClCompile Include="src\CStell\Core\AssetManager.cpp" />
   </ItemGroup>
 </Project>

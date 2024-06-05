@@ -63,8 +63,12 @@ namespace CStell
 
 	void Camera::UpdateOrientation(const glm::vec2& delta)
 	{
+		auto newOrientation = glm::rotate(m_Orientation, glm::radians(delta.y), glm::normalize(glm::cross(m_UpDirection, m_Orientation)));
+
+		if (!((glm::angle(newOrientation, m_UpDirection) <= glm::radians(0.1f)) or (glm::angle(newOrientation, -m_UpDirection) <= glm::radians(0.1f))))
+			m_Orientation = newOrientation;
+
 		m_Orientation = glm::rotate(m_Orientation, glm::radians(-delta.x), m_UpDirection);
-		m_Orientation = glm::rotate(m_Orientation, glm::radians(delta.y), glm::cross(m_UpDirection, m_Orientation));
 	}
 
 	void Camera::UpdateProjectionMatrix()

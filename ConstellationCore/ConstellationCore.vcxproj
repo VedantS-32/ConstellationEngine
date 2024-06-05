@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="src\CStell.h" />
     <ClInclude Include="src\CStell\Core\Application.h" />
+    <ClInclude Include="src\CStell\Core\AssetManager.h" />
     <ClInclude Include="src\CStell\Core\Core.h" />
     <ClInclude Include="src\CStell\Core\EntryPoint.h" />
     <ClInclude Include="src\CStell\Core\Input.h" />
@@ -710,6 +711,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp" />
+    <ClCompile Include="src\CStell\Core\AssetManager.cpp" />
     <ClCompile Include="src\CStell\Core\Layer.cpp" />
     <ClCompile Include="src\CStell\Core\LayerStack.cpp" />
     <ClCompile Include="src\CStell\Core\Log.cpp" />
