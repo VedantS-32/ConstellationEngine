@@ -62,6 +62,7 @@ namespace CStell
         Ref<VertexArray> m_VertexArray;
         Ref<VertexBuffer> m_VertexBuffer;
         Ref<IndexBuffer> m_IndexBuffer;
+        //Ref<UniformBuffer> m_UniformBuffer;
         Ref<Texture2D> m_Texture;
         Ref<Material> m_Material;
 

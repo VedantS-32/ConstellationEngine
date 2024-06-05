@@ -4,8 +4,6 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#define GET_STRING(type) #type
-
 namespace CStell
 {
 	static GLenum ShaderTypeFromString(const std::string& type)
@@ -50,6 +48,11 @@ namespace CStell
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	uint32_t OpenGLShader::GetUniformBlockIndex(const std::string& blockName)
+	{
+		return glGetUniformBlockIndex(m_RendererID, blockName.c_str());
 	}
 
 	void OpenGLShader::Set1i(const std::string& name, int value)

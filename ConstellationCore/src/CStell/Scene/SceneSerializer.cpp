@@ -470,6 +470,8 @@ namespace CStell
 							break;
 						}
 					}
+
+					material->UpdateShaderUniform("ModelProps");
 				}
 			}
 		}

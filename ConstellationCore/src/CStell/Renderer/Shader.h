@@ -34,6 +34,7 @@ namespace CStell
 		virtual void SetMat4f(const std::string& name, const glm::mat4& matrix) = 0;
 
 		virtual const std::string& GetName() const = 0;
+		virtual uint32_t GetUniformBlockIndex(const std::string& blockName) = 0;
 
 		virtual uint32_t GetRendererID() const = 0;
 

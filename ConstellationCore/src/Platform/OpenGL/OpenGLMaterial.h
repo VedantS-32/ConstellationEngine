@@ -12,7 +12,7 @@ namespace CStell
 		~OpenGLMaterial() = default;
 
 		virtual void RecompileShaders() override;
-		virtual void ExtractShaderUniform() override;
-		virtual void UpdateShaderUniform() override;
+		virtual void ExtractShaderUniform(std::string uniformBlockName) override;
+		virtual void UpdateShaderUniform(std::string uniformBlockName) override;
 	};
 }

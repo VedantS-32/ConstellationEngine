@@ -7,8 +7,6 @@
 #include <imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#define GET_STRING(type) #type
-
 namespace CStell
 {
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
@@ -332,37 +330,40 @@ namespace CStell
 				auto& models = entity.GetComponent<ModelComponent>();
 				auto material = models.ModelInst.GetMaterial();
 
+				bool uniformChanged = false;
+
 				if (ImGui::Button("Recompile Shaders"))
 					material->RecompileShaders();
 
 				for (auto& uniform : material->GetUniforms())
 				{
 					std::string uniformName = uniform.first;
+					ImGui::PushID(uniformName.c_str());
 					switch (uniform.second)
 					{
 					case ShaderDataType::Int:
-						ImGui::DragInt(uniformName.c_str(), &material->m_IntUniforms[uniformName]);
+						uniformChanged = ImGui::DragInt(uniformName.c_str(), &material->m_IntUniforms[uniformName]);
 						break;
 					case ShaderDataType::Int2:
-						ImGui::DragInt2(uniformName.c_str(), (int*)(material->m_Int2Uniforms[uniformName].x));
+						uniformChanged = ImGui::DragInt2(uniformName.c_str(), (int*)(material->m_Int2Uniforms[uniformName].x));
 						break;
 					case ShaderDataType::Int3:
-						ImGui::DragInt3(uniformName.c_str(), (int*)(material->m_Int3Uniforms[uniformName].x));
+						uniformChanged = ImGui::DragInt3(uniformName.c_str(), (int*)(material->m_Int3Uniforms[uniformName].x));
  						break;
 					case ShaderDataType::Int4:
-						ImGui::DragInt4(uniformName.c_str(), (int*)(material->m_Int4Uniforms[uniformName].x));
+						uniformChanged = ImGui::DragInt4(uniformName.c_str(), (int*)(material->m_Int4Uniforms[uniformName].x));
 						break;
 					case ShaderDataType::Float:
-						ImGui::DragFloat(uniformName.c_str(), &material->m_FloatUniforms[uniformName]);
+						uniformChanged = ImGui::DragFloat(uniformName.c_str(), &material->m_FloatUniforms[uniformName]);
 						break;
 					case ShaderDataType::Float2:
-						ImGui::DragFloat2(uniformName.c_str(), glm::value_ptr(material->m_Float2Uniforms[uniformName]));
+						uniformChanged = ImGui::DragFloat2(uniformName.c_str(), glm::value_ptr(material->m_Float2Uniforms[uniformName]));
 						break;
 					case ShaderDataType::Float3:
-						ImGui::DragFloat3(uniformName.c_str(), glm::value_ptr(material->m_Float3Uniforms[uniformName]));
+						uniformChanged = ImGui::DragFloat3(uniformName.c_str(), glm::value_ptr(material->m_Float3Uniforms[uniformName]));
 						break;
 					case ShaderDataType::Float4:
-						ImGui::DragFloat4(uniformName.c_str(), glm::value_ptr(material->m_Float4Uniforms[uniformName]));
+						uniformChanged = ImGui::DragFloat4(uniformName.c_str(), glm::value_ptr(material->m_Float4Uniforms[uniformName]));
 						break;
 					case ShaderDataType::Mat3:
 						break;
@@ -371,7 +372,12 @@ namespace CStell
 					default:
 						break;
 					}
+					ImGui::PopID();
+
+					if (uniformChanged)
+						material->UpdateShaderUniform("ModelProps");
 				}
+
 			});
 	}
 }

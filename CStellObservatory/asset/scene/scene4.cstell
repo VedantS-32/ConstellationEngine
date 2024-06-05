@@ -8,13 +8,8 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     ModelComponent:
-      u_AmbientLight: [0.100000001, 0.150000006, 0.25]
-      u_CameraPosition: [0, 0, 0]
-      u_EntityID: 0
-      u_LightColor: [1, 1, 1, 1]
-      u_LightPosition: [2, 0, 10]
-      u_LightIntensity: 1
-      u_Texture: 0
+      Tiling: 2
+      u_LightIntensity: 2
   - Entity: 4732893432
     TagComponent:
       Tag: Sqaure2

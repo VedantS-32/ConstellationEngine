@@ -140,6 +140,8 @@ namespace CStell
 		virtual void Unbind() const = 0;
 
 		virtual void SetData(const void* data, uint32_t size) = 0;
+		virtual void SetBufferSize(uint32_t size) = 0;
+		virtual const uint32_t GetBindingPoint() const = 0;
 
 		static Ref<UniformBuffer> Create(uint32_t bindingPoint);
 	};

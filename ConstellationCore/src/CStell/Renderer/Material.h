@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Buffer.h"
 #include "Texture.h"
 #include "Shader.h"
 
@@ -17,8 +18,8 @@ namespace CStell
 
 		virtual void RecompileShaders() = 0;
 		const Ref<Shader>& GetShader() const { return m_Shader; }
-		virtual void ExtractShaderUniform() = 0;
-		virtual void UpdateShaderUniform() = 0;
+		virtual void ExtractShaderUniform(std::string uniformBlockName) = 0;
+		virtual void UpdateShaderUniform(std::string uniformBlockName) = 0;
 
 		const std::unordered_map<std::string, ShaderDataType>& GetUniforms() const { return m_Uniforms; }
 
@@ -37,11 +38,9 @@ namespace CStell
 		void AddUniformValue(std::string uniformName, glm::mat4 value) { m_Mat4Uniforms[uniformName] = value; }
 		void AddUniformValue(std::string uniformName, glm::mat3 value) { m_Mat3Uniforms[uniformName] = value; }
 
-		template<typename T>
-		T& GetUniformValue(std::string uniformName, T value = 0);
-
 	public:
 		Ref<Shader> m_Shader;
+		Ref<UniformBuffer> m_UniformBuffer;
 		std::vector<Ref<Texture2D>> m_Textures;
 		std::unordered_map<std::string, ShaderDataType> m_Uniforms;
 

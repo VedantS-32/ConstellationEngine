@@ -111,6 +111,7 @@ namespace CStell
 	void OpenGLUniformBuffer::Bind() const
 	{
 		glBindBufferBase(GL_UNIFORM_BUFFER, m_BindingPoint, m_RendererID);
+		m_Offset = 0;
 	}
 
 	void OpenGLUniformBuffer::Unbind() const
@@ -120,7 +121,19 @@ namespace CStell
 
 	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size)
 	{
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
+		m_Offset += size;
+	}
+
+	void OpenGLUniformBuffer::SetBufferSize(uint32_t size)
+	{
 		glBindBuffer(GL_UNIFORM_BUFFER, m_RendererID);
-		glBufferData(GL_UNIFORM_BUFFER, size, data, GL_DYNAMIC_DRAW);
+		glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_STREAM_DRAW);
+		glBindBufferRange(GL_UNIFORM_BUFFER, 0, m_RendererID, 0, size);
+	}
+
+	const uint32_t OpenGLUniformBuffer::GetBindingPoint() const
+	{
+		return m_BindingPoint;
 	}
 }

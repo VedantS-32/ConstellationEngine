@@ -1,0 +1,12 @@
+Scene: Untitled
+Entities:
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ModelComponent:
+      Tiling: 2
+      u_LightIntensity: 1

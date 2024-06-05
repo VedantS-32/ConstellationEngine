@@ -2,29 +2,13 @@ Scene: Untitled
 Entities:
   - Entity: 4732893432
     TagComponent:
-      Tag: Empty Entity
+      Tag: Square B
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [2.5, -1.20000005, -3.4000001]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    ModelComponent:
-      Tiling: 2
-      u_AmbientLight: [0.100000001, 0.100000001, 0.100000001]
-      u_CameraPosition: [0, 0, 0]
-      u_EntityID: 0
-      u_LightColor: [1, 1, 1, 1]
-      u_LightPosition: [5, 38, 28]
-      u_LightIntensity: 2
-      u_Texture: 0
-  - Entity: 4732893432
-    TagComponent:
-      Tag: Square
-    TransformComponent:
-      Translation: [-1.70000005, 0, 2.20000005]
-      Rotation: [0, 0, 0]
-      Scale: [1.70000005, 1.39999998, 1]
     SpriteRendererComponent:
-      Color: [0.209999993, 0.769999981, 0.850000024, 1]
+      Color: [1, 0.290196061, 0.646846533, 1]
   - Entity: 4732893432
     TagComponent:
       Tag: Camera A
@@ -45,10 +29,20 @@ Entities:
       FixedAspectRatio: false
   - Entity: 4732893432
     TagComponent:
-      Tag: Square B
+      Tag: Square
     TransformComponent:
-      Translation: [2.5, -1.20000005, -3.4000001]
+      Translation: [-1.70000005, 0, 2.20000005]
+      Rotation: [0, 0, 0]
+      Scale: [1.70000005, 1.39999998, 1]
+    SpriteRendererComponent:
+      Color: [0.209999993, 0.769999981, 0.850000024, 1]
+  - Entity: 4732893432
+    TagComponent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 0.290196061, 0.646846533, 1]
+    ModelComponent:
+      Tiling: 10
+      u_LightIntensity: 2

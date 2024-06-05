@@ -91,7 +91,7 @@ namespace CStell
 
 	Model::Model()
 	{
-		PrepareMesh();
+		//PrepareMesh();
 	}
 
 	Model::Model(const std::string& filepath, const std::string& shaderPath)
@@ -138,6 +138,11 @@ namespace CStell
 
 		m_Material = Material::Create(shaderPath);
 		m_Material->AddTexture(m_Texture);
+
+		//m_UniformBuffer = UniformBuffer::Create(0);
+		//m_UniformBuffer->Bind();
+		//m_UniformBuffer->SetBufferSize(512);
+		//m_Material->ExtractShaderUniform("ModelCommons");
 	}
 
 	void Model::DrawModel(const EditorCamera& camera, int entityID)
@@ -146,11 +151,14 @@ namespace CStell
 
 		m_Texture->Bind();
 		shader->Bind();
-		shader->SetMat4f("u_MVP", camera.GetViewProjectionMatrix() * m_ModelMatrix);
+		shader->SetMat4f("u_Model", m_ModelMatrix);
+		shader->SetMat4f("u_ViewProjection", camera.GetViewProjectionMatrix());
 		shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * m_ModelMatrix);
 		shader->Set3f("u_CameraPosition", camera.GetPosition());
 
-		m_Material->UpdateShaderUniform();
+		//m_Material->m_Mat4Uniforms["u_ViewProjection"] = camera.GetViewProjectionMatrix();
+		//m_Material->m_Float3Uniforms["u_CameraPosition"] = camera.GetPosition();
+		//m_Material->UpdateShaderUniform("ModelCommons");
 
 		shader->Set1i("u_Texture", 0);
 		shader->Set1i("u_EntityID", entityID);

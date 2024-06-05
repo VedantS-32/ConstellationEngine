@@ -50,9 +50,13 @@ namespace CStell
 		virtual void Unbind() const override;
 
 		virtual void SetData(const void* data, uint32_t size) override;
+		virtual void SetBufferSize(uint32_t size) override;
+		virtual const uint32_t GetBindingPoint() const override;
 
 	private:
 		uint32_t m_RendererID;
 		uint32_t m_BindingPoint;
+
+		mutable uint32_t m_Offset = 0;
 	};
 }

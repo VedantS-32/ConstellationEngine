@@ -20,6 +20,7 @@ namespace CStell
 		void Unbind() const;
 
 		virtual const std::string& GetName() const override { return m_Name; }
+		virtual uint32_t GetUniformBlockIndex(const std::string& blockName) override;
 
 		virtual void Set1i(const std::string& name, int value) override;
 		virtual void Set2i(const std::string& name, glm::uvec2 value) override;

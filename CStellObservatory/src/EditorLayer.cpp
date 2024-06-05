@@ -64,7 +64,7 @@ namespace CStell
 
 #if 1
         SceneSerializer serializer(m_ActiveScene);
-        serializer.Deserialize("asset/scene/scene3.cstell");
+        serializer.Deserialize("asset/scene/debug0.cstell");
 #endif
     }
 
