@@ -169,6 +169,7 @@
     <ClInclude Include="src\CStell\Renderer\EditorCamera.h" />
     <ClInclude Include="src\CStell\Renderer\Framebuffer.h" />
     <ClInclude Include="src\CStell\Renderer\Material.h" />
+    <ClInclude Include="src\CStell\Renderer\MaterialSerializer.h" />
     <ClInclude Include="src\CStell\Renderer\Model.h" />
     <ClInclude Include="src\CStell\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CStell\Renderer\Renderer.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="src\CStell\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\CStell\Utils\PlatformUtils.h" />
     <ClInclude Include="src\CStellpch.h" />
+    <ClInclude Include="src\CStell\Utils\YamlOperators.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -723,6 +725,7 @@
     <ClCompile Include="src\CStell\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\CStell\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\CStell\Renderer\Material.cpp" />
+    <ClCompile Include="src\CStell\Renderer\MaterialSerializer.cpp" />
     <ClCompile Include="src\CStell\Renderer\Model.cpp" />
     <ClCompile Include="src\CStell\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CStell\Renderer\Renderer.cpp" />
@@ -740,6 +743,7 @@
     <ClCompile Include="src\CStellpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\CStell\Utils\YamlOperators.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

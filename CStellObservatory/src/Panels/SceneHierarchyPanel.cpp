@@ -2,6 +2,7 @@
 
 #include "CStell/Scene/Components.h"
 #include "CStell/Renderer/ShaderType.h"
+#include "CStell/Renderer/MaterialSerializer.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -231,7 +232,7 @@ namespace CStell
 
 			if (ImGui::MenuItem("Model"))
 			{
-				m_SelectionContext.AddComponent<ModelComponent>("asset/model/Sphere.fbx", "asset/shader/3DTest.glsl");
+				m_SelectionContext.AddComponent<ModelComponent>("asset/model/Sphere.fbx", "asset/shader/3DTest.csmat");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -334,6 +335,18 @@ namespace CStell
 
 				if (ImGui::Button("Recompile Shaders"))
 					material->RecompileShaders();
+
+				if (ImGui::Button("Save Material"))
+				{
+					MaterialSerializer materialSerializer(material);
+					materialSerializer.Serialize();
+				}
+
+				if (ImGui::Button("Deserialize"))
+				{
+					MaterialSerializer materialSerializer(material);
+					materialSerializer.Deserialize();
+				}
 
 				for (auto& uniform : material->GetUniforms())
 				{

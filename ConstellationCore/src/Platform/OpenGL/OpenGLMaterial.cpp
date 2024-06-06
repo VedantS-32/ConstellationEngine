@@ -1,20 +1,26 @@
 #include "CStellpch.h"
 #include "OpenGLMaterial.h"
 
+#include "CStell/Renderer/MaterialSerializer.h"
+
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace CStell
 {
-	OpenGLMaterial::OpenGLMaterial(const std::string& shaderPath)
+	OpenGLMaterial::OpenGLMaterial(const std::string& materialPath)
 	{
+		std::string shaderPath = materialPath.substr(0, materialPath.find_last_of('.')) + ".glsl";
 		m_Shader = Shader::Create(shaderPath);
+
 		m_UniformBuffer = UniformBuffer::Create(1);
 		m_UniformBuffer->Bind();
 		m_UniformBuffer->SetBufferSize(128);
 
 		ExtractShaderUniform("ModelProps");
 		m_UniformBuffer->Unbind();
+
+		DeserializeAttributes(materialPath);
 	}
 
 	void OpenGLMaterial::RecompileShaders()

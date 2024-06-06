@@ -1,0 +1,7 @@
+Material: Untitled
+Attributes:
+  Tiling: 3
+  u_AmbientLight: [0.150000006, 0.150000006, 0.25]
+  u_LightColor: [1, 1, 1, 1]
+  u_SpecularAlpha: 36
+  u_LightIntensity: 1

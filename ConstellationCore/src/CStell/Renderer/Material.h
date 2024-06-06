@@ -38,6 +38,9 @@ namespace CStell
 		void AddUniformValue(std::string uniformName, glm::mat4 value) { m_Mat4Uniforms[uniformName] = value; }
 		void AddUniformValue(std::string uniformName, glm::mat3 value) { m_Mat3Uniforms[uniformName] = value; }
 
+	protected:
+		bool DeserializeAttributes(const std::string& materialPath);
+
 	public:
 		Ref<Shader> m_Shader;
 		Ref<UniformBuffer> m_UniformBuffer;

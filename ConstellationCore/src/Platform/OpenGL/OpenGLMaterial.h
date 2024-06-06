@@ -8,7 +8,7 @@ namespace CStell
 	class OpenGLMaterial : public Material
 	{
 	public:
-		OpenGLMaterial(const std::string& shaderPath);
+		OpenGLMaterial(const std::string& materialPath);
 		~OpenGLMaterial() = default;
 
 		virtual void RecompileShaders() override;
