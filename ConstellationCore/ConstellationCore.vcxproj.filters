@@ -93,6 +93,9 @@
     <ClInclude Include="src\CStell\Core\Application.h">
       <Filter>src\CStell\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Core\AssetManager.h">
+      <Filter>src\CStell\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStell\Core\Core.h">
       <Filter>src\CStell\Core</Filter>
     </ClInclude>
@@ -162,6 +165,12 @@
     <ClInclude Include="src\CStell\Renderer\Material.h">
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Renderer\MaterialSerializer.h">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Renderer\MeshSerializer.h">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Model.h">
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
@@ -184,6 +193,9 @@
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\Shader.h">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStell\Renderer\ShaderType.h">
       <Filter>src\CStell\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CStell\Renderer\SubTexture2D.h">
@@ -216,6 +228,9 @@
     <ClInclude Include="src\CStell\Utils\PlatformUtils.h">
       <Filter>src\CStell\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\CStell\Utils\YamlOperators.h">
+      <Filter>src\CStell\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\CStellpch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -228,7 +243,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLModel.h">
+    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -1773,14 +1788,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\ShaderType.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
-    <ClInclude Include="src\CStell\Core\AssetManager.h" />
-    <ClInclude Include="src\CStell\Renderer\MaterialSerializer.h" />
-    <ClInclude Include="src\CStell\Utils\YamlOperators.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CStell\Core\Application.cpp">
+      <Filter>src\CStell\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Core\AssetManager.cpp">
       <Filter>src\CStell\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Core\Layer.cpp">
@@ -1814,6 +1827,12 @@
       <Filter>src\CStell\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Material.cpp">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Renderer\MaterialSerializer.cpp">
+      <Filter>src\CStell\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStell\Renderer\MeshSerializer.cpp">
       <Filter>src\CStell\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CStell\Renderer\Model.cpp">
@@ -1858,6 +1877,9 @@
     <ClCompile Include="src\CStell\Scene\SceneSerializer.cpp">
       <Filter>src\CStell\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\CStell\Utils\YamlOperators.cpp">
+      <Filter>src\CStell\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="src\CStellpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1870,7 +1892,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLModel.cpp">
+    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
@@ -1900,9 +1922,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
-    <ClCompile Include="src\CStell\Core\AssetManager.cpp" />
-    <ClCompile Include="src\CStell\Renderer\MaterialSerializer.cpp" />
-    <ClCompile Include="src\CStell\Utils\YamlOperators.cpp" />
   </ItemGroup>
 </Project>

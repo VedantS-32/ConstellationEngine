@@ -11,7 +11,7 @@
 
 namespace CStell
 {
-	static std::string modelPath = "asset/model/Sphere.fbx";
+	static std::string modelPath = "asset/model/ModelTest.csmesh";
 	static std::string materialPath = "asset/material/3DTest.csmat";
 
 	SceneSerializer::SceneSerializer(const Ref<Scene> scene)
@@ -195,7 +195,7 @@ namespace CStell
 				auto modelComponent = entity["ModelComponent"];
 				if (modelComponent)
 				{
-					auto& model = deserializedEntity.AddComponent<ModelComponent>(modelPath, materialPath);
+					auto& model = deserializedEntity.AddComponent<ModelComponent>(modelPath);
 
 					// Material Serialization is Handled by Material Class
 				}
@@ -207,7 +207,7 @@ namespace CStell
 
 	bool SceneSerializer::DeserializeRuntime(const std::string& filepath)
 	{
-		// Not Implemeted
+		// Not Implemented
 		CSTELL_CORE_ASSERT(false);
 
 		return false;

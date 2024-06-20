@@ -16,10 +16,12 @@ namespace CStell
 	public:
 		static Ref<Material> Create(const std::string& shaderPath);
 
+		const std::string& GetMaterialPath() const { return m_MaterialPath; }
+
 		virtual void RecompileShaders() = 0;
 		const Ref<Shader>& GetShader() const { return m_Shader; }
 		virtual void ExtractShaderUniform(std::string uniformBlockName) = 0;
-		virtual void UpdateShaderUniform(std::string uniformBlockName) = 0;
+		virtual void UpdateShaderUniform(std::string UBOName) = 0;
 
 		const std::unordered_map<std::string, ShaderDataType>& GetUniforms() const { return m_Uniforms; }
 
@@ -42,15 +44,21 @@ namespace CStell
 		bool DeserializeAttributes(const std::string& materialPath);
 
 	public:
+		std::string m_MaterialPath;
+
 		Ref<Shader> m_Shader;
+
+		std::unordered_map<std::string, Ref<UniformBuffer>> m_UniformBuffers;
+
 		Ref<UniformBuffer> m_UniformBuffer;
+		Ref<UniformBuffer> m_UniformBufferModel;
 		std::vector<Ref<Texture2D>> m_Textures;
 		std::unordered_map<std::string, ShaderDataType> m_Uniforms;
 
 		std::unordered_map<std::string, int> m_IntUniforms;
-		std::unordered_map<std::string, glm::uvec2> m_Int2Uniforms;
-		std::unordered_map<std::string, glm::uvec3> m_Int3Uniforms;
-		std::unordered_map<std::string, glm::uvec4> m_Int4Uniforms;
+		std::unordered_map<std::string, glm::ivec2> m_Int2Uniforms;
+		std::unordered_map<std::string, glm::ivec3> m_Int3Uniforms;
+		std::unordered_map<std::string, glm::ivec4> m_Int4Uniforms;
 
 		std::unordered_map<std::string, float> m_FloatUniforms;
 		std::unordered_map<std::string, glm::vec2> m_Float2Uniforms;

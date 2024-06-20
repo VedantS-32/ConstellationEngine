@@ -6,6 +6,8 @@
 #include "RenderCommand.h"
 
 #include "CStell/Core/AssetManager.h"
+#include "MeshSerializer.h"
+#include "CStell/Utils/YamlOperators.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -60,22 +62,22 @@ namespace CStell
 		return Mesh(vertices, indices);
 	}
 
-	static void processNode(Model& model, const aiNode* node, const aiScene* scene)
+	static void processNode(MeshAsset& meshAsset, const aiNode* node, const aiScene* scene)
 	{
 		// process all the node's meshes (if any)
 		for (uint32_t i = 0; i < node->mNumMeshes; i++)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			model.GetMeshes().push_back(processMesh(mesh, scene));
+			meshAsset.GetMeshes().push_back(processMesh(mesh, scene));
 		}
 		// then do the same for each of its children
 		for (uint32_t i = 0; i < node->mNumChildren; i++)
 		{
-			processNode(model, node->mChildren[i], scene);
+			processNode(meshAsset, node->mChildren[i], scene);
 		}
 	}
 
-	static int loadModel(Model& model, const std::string filepath)
+	static int loadMeshAsset(MeshAsset& meshAsset, const std::string filepath)
 	{
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -85,101 +87,140 @@ namespace CStell
 			CSTELL_CORE_ERROR("ERROR::ASSIMP:: {0}", importer.GetErrorString());
 			return -1;
 		}
-		model.SetFilepath(filepath.substr(0, filepath.find_last_of('/')));
+		meshAsset.SetMeshPath(filepath.substr(0, filepath.find_last_of('/')));
 
-		processNode(model, scene->mRootNode, scene);
+		processNode(meshAsset, scene->mRootNode, scene);
 
 		return 0;
 	}
 
-	Model::Model()
+	MeshAsset::MeshAsset()
 	{
-		//PrepareMesh();
+		MeshSerializer meshSerializer(Ref<MeshAsset>(this));
+		CSTELL_CORE_ASSERT(false);
+		meshSerializer.Deserialize("asset/model/Sphere.csmesh");
 	}
 
-	Model::Model(const std::string& filepath)
+	MeshAsset::MeshAsset(const std::string& filepath)
 	{
-		PrepareMesh(filepath);
+		Deserialize(filepath);
 	}
 
-	Model::Model(const std::string& filepath, const std::string& shaderPath)
+	MeshAsset::MeshAsset(const std::string& filepath, const std::string& materialFile)
 	{
-		PrepareMesh(filepath, shaderPath);
+		PrepareMesh(filepath, materialFile);
 	}
 
-	void Model::PrepareMesh(const std::string& filepath, const std::string& shaderPath)
+	Ref<MeshAsset> MeshAsset::Create(const std::string& filePath)
 	{
-		loadModel(*this, filepath);
+		return CreateRef<MeshAsset>(filePath);
+	}
 
-		m_VertexArray = VertexArray::Create();
+	bool MeshAsset::Deserialize(const std::string& filepath)
+	{
+		std::ifstream stream(filepath);
+		std::stringstream strStream;
+		strStream << stream.rdbuf();
 
-		m_VertexArray->Bind();
+		YAML::Node data = YAML::Load(strStream.str());
+		if (!data["MeshAsset"])
+			return false;
 
-		std::vector<Vertex> vertices;
-		std::vector<uint32_t> indices;
+		std::string meshPath = data["MeshAsset"].as<std::string>();
+		PrepareMesh(meshPath);
+		CSTELL_CORE_TRACE("Deserializing material '{0}'", meshPath);
+
+		auto assetManager = AssetManager::GetInstance();
+		auto texture = assetManager->LoadAsset<Texture2D>("asset/texture/CStell.png");
+
+		auto material = data["Materials"];
+		int i = 0;
+		for (auto& mesh : GetMeshes())
+		{
+
+			mesh.m_Material = assetManager->LoadAsset<Material>(material[i].as<std::string>());
+			mesh.m_Material->AddTexture(texture);
+
+			i++;
+		}
+
+		return true;
+	}
+
+	void MeshAsset::PrepareMesh(const std::string& filepath, const std::string& shaderPath)
+	{
+		loadMeshAsset(*this, filepath);
 
 		for (auto& mesh : m_Meshes)
 		{
-			for (auto& vertex : mesh.GetVertices())
-				vertices.push_back(vertex);
-			for (auto& index : mesh.GetIndices())
-				indices.push_back(index);
+			mesh.m_VertexArray = VertexArray::Create();
+			mesh.m_VertexArray->Bind();
+
+			mesh.m_VertexBuffer = VertexBuffer::Create((void*)mesh.Vertices.data(), (uint32_t)mesh.Vertices.size() * sizeof(Vertex));
+			CSTELL_TRACE("Vertices size: {0}", (uint32_t)mesh.Vertices.size() * sizeof(Vertex));
+			mesh.m_VertexBuffer->SetLayout(
+				{
+					{ ShaderDataType::Float3, "a_Position" },
+					{ ShaderDataType::Float3, "a_Normal" },
+					{ ShaderDataType::Float2, "a_TexCoord" }
+				}
+			);
+
+			mesh.m_VertexArray->AddVertexBuffer(mesh.m_VertexBuffer);
+
+			mesh.m_IndexBuffer = IndexBuffer::Create(mesh.Indices.data(), (uint32_t)mesh.Indices.size());
+			CSTELL_TRACE("Indices count: {0}", mesh.Indices.size());
+			mesh.m_VertexArray->SetIndexBuffer(mesh.m_IndexBuffer);
 		}
+	}
 
-		m_VertexBuffer = VertexBuffer::Create((void*)vertices.data(), (uint32_t)vertices.size() * sizeof(Vertex));
-		CSTELL_TRACE("Vertices size: {0}", (uint32_t)vertices.size() * sizeof(Vertex));
-		m_VertexBuffer->SetLayout(
-			{
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float3, "a_Normal" },
-				{ ShaderDataType::Float2, "a_TexCoord" }
-			}
-		);
+	void MeshAsset::DrawModel(const EditorCamera& camera, int entityID)
+	{
+		for (auto& mesh : m_Meshes)
+		{
+			auto& shader = mesh.m_Material->GetShader();
 
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+			mesh.m_Material->m_Textures[0]->Bind();
+			shader->Bind();
+			shader->SetMat4f("u_Model", mesh.m_ModelMatrix);
+			shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * mesh.m_ModelMatrix);			
 
-		m_IndexBuffer = IndexBuffer::Create(indices.data(), (uint32_t)indices.size());
-		CSTELL_TRACE("Indices count: {0}", indices.size());
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+			mesh.m_Material->m_Mat4Uniforms["u_ViewProjection"] = camera.GetViewProjectionMatrix();
+			mesh.m_Material->m_Float3Uniforms["u_CameraPosition"] = camera.GetPosition();
+			mesh.m_Material->UpdateShaderUniform("ModelCommons");
 
+			shader->Set1i("u_Texture", 0);
+			shader->Set1i("u_EntityID", entityID);
+
+			RenderCommand::DrawIndexed(mesh.m_VertexArray, mesh.m_VertexArray->GetIndexBuffer()->GetCount());
+		}
+	}
+
+	void MeshAsset::UpdateTransform(const glm::mat4& transform)
+	{
+		for (auto& mesh : m_Meshes)
+			mesh.m_ModelMatrix = transform;
+	}
+
+	Model::Model()
+	{
 		auto assetManager = AssetManager::GetInstance();
+		m_MeshAsset = assetManager->LoadAsset<MeshAsset>("asset/model/Sphere.csmesh");
+	}
 
-		m_Texture = assetManager->LoadAsset<Texture2D>("asset/texture/CStell.png");
-		//m_Texture = Texture2D::Create("asset/texture/CStell.png");
-
-		m_Material = assetManager->LoadAsset<Material>(shaderPath);
-		m_Material->AddTexture(m_Texture);
-
-		//m_UniformBuffer = UniformBuffer::Create(0);
-		//m_UniformBuffer->Bind();
-		//m_UniformBuffer->SetBufferSize(512);
-		//m_Material->ExtractShaderUniform("ModelCommons");
+	Model::Model(const std::string& filepath = "asset/model/Sphere.csmesh")
+	{
+		auto assetManager = AssetManager::GetInstance();
+		m_MeshAsset = assetManager->LoadAsset<MeshAsset>(filepath);
 	}
 
 	void Model::DrawModel(const EditorCamera& camera, int entityID)
 	{
-		auto& shader = m_Material->GetShader();
-
-		m_Texture->Bind();
-		shader->Bind();
-		shader->SetMat4f("u_Model", m_ModelMatrix);
-		shader->SetMat4f("u_ViewProjection", camera.GetViewProjectionMatrix());
-		shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * m_ModelMatrix);
-		shader->Set3f("u_CameraPosition", camera.GetPosition());
-
-		//m_Material->m_Mat4Uniforms["u_ViewProjection"] = camera.GetViewProjectionMatrix();
-		//m_Material->m_Float3Uniforms["u_CameraPosition"] = camera.GetPosition();
-		//m_Material->UpdateShaderUniform("ModelCommons");
-
-		shader->Set1i("u_Texture", 0);
-		shader->Set1i("u_EntityID", entityID);
-
-
-		RenderCommand::DrawIndexed(m_VertexArray, m_VertexArray->GetIndexBuffer()->GetCount());
+		m_MeshAsset->DrawModel(camera, entityID);
 	}
 
 	void Model::UpdateTransform(const glm::mat4& transform)
 	{
-		m_ModelMatrix = transform;
+		m_MeshAsset->UpdateTransform(transform);
 	}
 }

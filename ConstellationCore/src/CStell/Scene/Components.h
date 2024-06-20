@@ -66,9 +66,9 @@ namespace CStell
 
 		ModelComponent() = default;
 		ModelComponent(const ModelComponent&) = default;
-		ModelComponent(const std::string& filepath, const std::string& shaderPath)
+		ModelComponent(const std::string& filepath)
 		{
-			ModelInst = Model(filepath, shaderPath);
+			ModelInst = Model(filepath);
 		}
 	};
 

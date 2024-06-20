@@ -1,0 +1,3 @@
+MeshAsset: asset/model/Sphere.fbx
+Materials:
+  0: asset/material/3DTest.csmat

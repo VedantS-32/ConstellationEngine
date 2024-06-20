@@ -8,17 +8,30 @@
 
 namespace CStell
 {
+	static uint32_t s_BindingPoint = 0;
+
 	OpenGLMaterial::OpenGLMaterial(const std::string& materialPath)
 	{
+		m_MaterialPath = materialPath;
+
 		std::string shaderPath = materialPath.substr(0, materialPath.find_last_of('.')) + ".glsl";
 		m_Shader = Shader::Create(shaderPath);
 
-		m_UniformBuffer = UniformBuffer::Create(1);
-		m_UniformBuffer->Bind();
-		m_UniformBuffer->SetBufferSize(128);
+		auto& uniformBuffer = m_UniformBuffers["ModelProps"] = UniformBuffer::Create(s_BindingPoint);
+		s_BindingPoint++;
+		uniformBuffer->Bind();
+		uniformBuffer->SetBufferSize(128);
 
 		ExtractShaderUniform("ModelProps");
-		m_UniformBuffer->Unbind();
+		uniformBuffer->Unbind();
+
+		uniformBuffer = m_UniformBuffers["ModelCommons"] = UniformBuffer::Create(s_BindingPoint);
+		s_BindingPoint++;
+		uniformBuffer->Bind();
+		uniformBuffer->SetBufferSize(128);
+
+		ExtractShaderUniform("ModelCommons");
+		uniformBuffer->Unbind();
 
 		DeserializeAttributes(materialPath);
 	}
@@ -123,7 +136,6 @@ namespace CStell
 
 			m_Uniforms[uniformName] = GLType;
 
-
 			//CSTELL_CORE_INFO("Uniform type: {0}, name: {1}, size: {2}, offset: {3}", uniformType, uniformName, uniformSize, uniformOffset);
 		}
 
@@ -132,93 +144,100 @@ namespace CStell
 		delete[] uniformSizes;
 	}
 
-	void OpenGLMaterial::UpdateShaderUniform(std::string uniformBlockName)
+	void OpenGLMaterial::UpdateShaderUniform(std::string UBOName)
 	{
-		m_UniformBuffer->Bind();
+		for (auto& [uniformBlockName, uniformBuffer] : m_UniformBuffers)
+		{
+			uniformBuffer->Bind();
 
-		void* buffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE);
-		uint32_t offset = 0;
+			void* buffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE);
+			uint32_t offset = 0;
 
-		uint32_t shaderID = m_Shader->GetRendererID();
-		GLint blockIndex = m_Shader->GetUniformBlockIndex(uniformBlockName);
+			uint32_t shaderID = m_Shader->GetRendererID();
+			GLint blockIndex = m_Shader->GetUniformBlockIndex(uniformBlockName);
 
-		GLint blockSize;
-		glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+			GLint blockSize;
+			glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
 
-		GLint numUniforms;
-		glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &numUniforms);
+			uint32_t blockOffset = 0;
 
-		GLuint* uniformIndices = new GLuint[numUniforms];
-		glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, (GLint*)uniformIndices);
+			GLint numUniforms;
+			glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &numUniforms);
 
-		GLint* uniformOffsets = new GLint[numUniforms];
-		glGetActiveUniformsiv(shaderID, numUniforms, uniformIndices, GL_UNIFORM_OFFSET, uniformOffsets);
+			GLuint* uniformIndices = new GLuint[numUniforms];
+			glGetActiveUniformBlockiv(shaderID, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, (GLint*)uniformIndices);
 
-		GLint* uniformSizes = new GLint[numUniforms];
-		glGetActiveUniformsiv(shaderID, numUniforms, uniformIndices, GL_UNIFORM_SIZE, uniformSizes);
+			GLint* uniformOffsets = new GLint[numUniforms];
+			glGetActiveUniformsiv(shaderID, numUniforms, uniformIndices, GL_UNIFORM_OFFSET, uniformOffsets);
 
-		for (int i = 0; i < numUniforms; ++i) {
+			GLint* uniformSizes = new GLint[numUniforms];
+			glGetActiveUniformsiv(shaderID, numUniforms, uniformIndices, GL_UNIFORM_SIZE, uniformSizes);
 
-			GLint uniformOffset = uniformOffsets[i];
-			GLint uniformSize = uniformSizes[i];
-			GLint uniformIndex = uniformIndices[i];
-			GLenum uniformType;
-			GLchar uniformName[256]; // Adjust buffer size as needed
-			glGetActiveUniform(shaderID, uniformIndex, sizeof(uniformName), nullptr, &uniformSize, &uniformType, uniformName);
+			for (int i = 0; i < numUniforms; ++i) {
 
-			offset = uniformOffset;
+				GLint uniformOffset = uniformOffsets[i];
+				GLint uniformSize = uniformSizes[i];
+				GLint uniformIndex = uniformIndices[i];
+				GLenum uniformType;
+				GLchar uniformName[256]; // Adjust buffer size as needed
+				glGetActiveUniform(shaderID, uniformIndex, sizeof(uniformName), nullptr, &uniformSize, &uniformType, uniformName);
 
-			switch (uniformType)
-			{
-			case GL_INT:
-				memcpy(static_cast<char*>(buffer) + offset, &m_IntUniforms[uniformName], sizeof(int));
-				break;
-			case GL_INT_VEC2:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Int2Uniforms[uniformName], sizeof(int) * 2);
-				break;
-			case GL_INT_VEC3:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Int3Uniforms[uniformName], sizeof(int) * 3);
-				break;
-			case GL_INT_VEC4:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Int4Uniforms[uniformName], sizeof(int) * 4);
-				break;
-			case GL_FLOAT:
-				memcpy(static_cast<char*>(buffer) + offset, &m_FloatUniforms[uniformName], sizeof(float));
-				break;
-			case GL_FLOAT_VEC2:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Float2Uniforms[uniformName], sizeof(float) * 2);
-				break;
-			case GL_FLOAT_VEC3:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Float3Uniforms[uniformName], sizeof(float) * 3);
-				break;
-			case GL_FLOAT_VEC4:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Float4Uniforms[uniformName], sizeof(float) * 4);
-				break;
-			case GL_FLOAT_MAT3:
-				break;
-			case GL_FLOAT_MAT4:
-				memcpy(static_cast<char*>(buffer) + offset, &m_Mat4Uniforms[uniformName], sizeof(glm::mat4));
-				break;
-			case GL_SAMPLER_2D:
-				memcpy(static_cast<char*>(buffer) + offset, &m_IntUniforms[uniformName], sizeof(float));
-				break;
-			default:
-				CSTELL_CORE_ERROR("Unknown Shader Datatype Uniform Name : {0}, GLenum : {1}", uniformName, (uint32_t)uniformType);
-				break;
+				offset = uniformOffset;
+
+				switch (uniformType)
+				{
+				case GL_INT:
+					memcpy(static_cast<char*>(buffer) + offset, &m_IntUniforms[uniformName], sizeof(int));
+					break;
+				case GL_INT_VEC2:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Int2Uniforms[uniformName], sizeof(int) * 2);
+					break;
+				case GL_INT_VEC3:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Int3Uniforms[uniformName], sizeof(int) * 3);
+					break;
+				case GL_INT_VEC4:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Int4Uniforms[uniformName], sizeof(int) * 4);
+					break;
+				case GL_FLOAT:
+					memcpy(static_cast<char*>(buffer) + offset, &m_FloatUniforms[uniformName], sizeof(float));
+					break;
+				case GL_FLOAT_VEC2:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Float2Uniforms[uniformName], sizeof(float) * 2);
+					break;
+				case GL_FLOAT_VEC3:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Float3Uniforms[uniformName], sizeof(float) * 3);
+					break;
+				case GL_FLOAT_VEC4:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Float4Uniforms[uniformName], sizeof(float) * 4);
+					break;
+				case GL_FLOAT_MAT3:
+					break;
+				case GL_FLOAT_MAT4:
+					memcpy(static_cast<char*>(buffer) + offset, &m_Mat4Uniforms[uniformName], sizeof(glm::mat4));
+					break;
+				case GL_SAMPLER_2D:
+					memcpy(static_cast<char*>(buffer) + offset, &m_IntUniforms[uniformName], sizeof(float));
+					break;
+				default:
+					CSTELL_CORE_ERROR("Unknown Shader Datatype Uniform Name : {0}, GLenum : {1}", uniformName, (uint32_t)uniformType);
+					break;
+				}
+
+				//CSTELL_CORE_INFO("Updated Uniform blockIndex: {4}, type: {0}, name: {1}, size: {2}, offset: {3}", uniformType, uniformName, uniformSize, offset, blockIndex);
+
+				uniformBuffer->SetData(buffer, sizeof(buffer), blockOffset);
+
+				blockOffset += blockSize;
 			}
 
-			//CSTELL_CORE_INFO("Updated Uniform type: {0}, name: {1}, size: {2}, offset: {3}", uniformType, uniformName, uniformSize, offset);
+			delete[] uniformIndices;
+			delete[] uniformOffsets;
+			delete[] uniformSizes;
 
-			m_UniformBuffer->SetData(buffer, sizeof(buffer));
+			buffer = 0;
+
+			glUnmapBuffer(GL_UNIFORM_BUFFER);
+			uniformBuffer->Unbind();
 		}
-
-		delete[] uniformIndices;
-		delete[] uniformOffsets;
-		delete[] uniformSizes;
-
-		buffer = 0;
-
-		glUnmapBuffer(GL_UNIFORM_BUFFER);
-		m_UniformBuffer->Unbind();
 	}
 }
