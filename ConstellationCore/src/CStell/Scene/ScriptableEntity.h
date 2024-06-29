@@ -8,15 +8,15 @@ namespace CStell
 	{
 	public:
 		template<typename T>
-		T& GetComponent()
+		CSTELL_API T& GetComponent()
 		{
 			return m_Entity.GetComponent<T>();
 		}
 
 	protected:
-		virtual void OnCreate() {}
-		virtual void OnDestroy() {}
-		virtual void OnUpdate(Timestep ts) {}
+		CSTELL_API virtual void OnCreate() {}
+		CSTELL_API virtual void OnDestroy() {}
+		CSTELL_API virtual void OnUpdate(Timestep ts) {}
 
 	private:
 		Entity m_Entity;

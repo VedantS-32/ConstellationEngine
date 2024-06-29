@@ -17,34 +17,34 @@ namespace CStell
 		enum class ProjectionType { Perspective = 0, Orthographic = 1 };
 
 	public:
-		Camera() = default;
-		Camera(float fov, double nearClip, double farClip);
+		CSTELL_API Camera() = default;
+		CSTELL_API Camera(float fov, double nearClip, double farClip);
 
-		virtual ~Camera() = default;
+		CSTELL_API virtual ~Camera() = default;
 
-		virtual void OnUpdate(Timestep ts);
-		virtual void OnEvent(Event& e);
+		CSTELL_API virtual void OnUpdate(Timestep ts);
+		CSTELL_API virtual void OnEvent(Event& e);
 
-		ProjectionType GetProjectionType() const { return m_ProjectionType; }
-		void SetProjectionType(ProjectionType type);
+		CSTELL_API ProjectionType GetProjectionType() const { return m_ProjectionType; }
+		CSTELL_API void SetProjectionType(ProjectionType type);
 
-		void SetOrthographic(float size, float nearClip = -1.0f, float farClip = 1.0f);
-		void SetPerspective(float fov, double nearClip = 0.1f, double farClip = 10000.0f);
+		CSTELL_API void SetOrthographic(float size, float nearClip = -1.0f, float farClip = 1.0f);
+		CSTELL_API void SetPerspective(float fov, double nearClip = 0.1f, double farClip = 10000.0f);
 
-		inline void SetViewportSize(float width, float height) { m_ViewportWidth = width, m_ViewportHeight = height; UpdateProjectionMatrix(); }
+		CSTELL_API inline void SetViewportSize(float width, float height) { m_ViewportWidth = width, m_ViewportHeight = height; UpdateProjectionMatrix(); }
 
-		void SetPosition(const glm::vec3& position) { m_Position = position; UpdateViewMatrix(); }
-		const glm::vec3& GetPosition() const { return m_Position; }
+		CSTELL_API void SetPosition(const glm::vec3& position) { m_Position = position; UpdateViewMatrix(); }
+		CSTELL_API const glm::vec3& GetPosition() const { return m_Position; }
 
-		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
-		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
-		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+		CSTELL_API const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		CSTELL_API const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
+		CSTELL_API const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
 	protected:
 		void UpdateOrientation(const glm::vec2& delta);
-		void UpdateProjectionMatrix();
-		void UpdateViewMatrix();
-		void UpdateViewProjectionMatrix();
+		CSTELL_API void UpdateProjectionMatrix();
+		CSTELL_API void UpdateViewMatrix();
+		CSTELL_API void UpdateViewProjectionMatrix();
 
 	protected:
 		ProjectionType m_ProjectionType = ProjectionType::Perspective;

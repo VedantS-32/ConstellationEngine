@@ -10,6 +10,8 @@
 
 namespace CStell
 {
+	static std::string s_ModelPath = "asset/model/ModelTest.csmesh";
+
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
 		SetContext(context);
@@ -24,7 +26,7 @@ namespace CStell
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Scene Hierarchy");
-		m_Context->m_Registry.view<entt::entity>().each([&](auto entityID)
+		m_Context->GetRegistry().view<entt::entity>().each([&](auto entityID)
 			{
 				Entity entity{ entityID, m_Context.get() };
 				DrawEntityNode(entity);
@@ -232,7 +234,7 @@ namespace CStell
 
 			if (ImGui::MenuItem("Model"))
 			{
-				m_SelectionContext.AddComponent<ModelComponent>("asset/model/Sphere.fbx", "asset/shader/3DTest.csmat");
+				m_SelectionContext.AddComponent<ModelComponent>(s_ModelPath);
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -329,68 +331,72 @@ namespace CStell
 		DrawComponent<ModelComponent>("Model", entity, [&](auto& component)
 			{
 				auto& models = entity.GetComponent<ModelComponent>();
-				auto material = models.ModelInst.GetMaterial();
 
-				bool uniformChanged = false;
-
-				if (ImGui::Button("Recompile Shaders"))
-					material->RecompileShaders();
-
-				if (ImGui::Button("Save Material"))
+				for (auto& mesh : models.ModelInst.GetMeshAsset()->GetMeshes())
 				{
-					MaterialSerializer materialSerializer(material);
-					materialSerializer.Serialize();
-				}
+					auto& material = mesh.GetMaterial();
+					ImGui::PushID(material->GetMaterialPath().c_str());
+					bool uniformChanged = false;
 
-				if (ImGui::Button("Deserialize"))
-				{
-					MaterialSerializer materialSerializer(material);
-					materialSerializer.Deserialize();
-				}
+					if (ImGui::Button("Recompile Shaders"))
+						material->RecompileShaders();
 
-				for (auto& uniform : material->GetUniforms())
-				{
-					std::string uniformName = uniform.first;
-					ImGui::PushID(uniformName.c_str());
-					switch (uniform.second)
+					if (ImGui::Button("Save Material"))
 					{
-					case ShaderDataType::Int:
-						uniformChanged = ImGui::DragInt(uniformName.c_str(), &material->m_IntUniforms[uniformName]);
-						break;
-					case ShaderDataType::Int2:
-						uniformChanged = ImGui::DragInt2(uniformName.c_str(), (int*)(material->m_Int2Uniforms[uniformName].x));
-						break;
-					case ShaderDataType::Int3:
-						uniformChanged = ImGui::DragInt3(uniformName.c_str(), (int*)(material->m_Int3Uniforms[uniformName].x));
- 						break;
-					case ShaderDataType::Int4:
-						uniformChanged = ImGui::DragInt4(uniformName.c_str(), (int*)(material->m_Int4Uniforms[uniformName].x));
-						break;
-					case ShaderDataType::Float:
-						uniformChanged = ImGui::DragFloat(uniformName.c_str(), &material->m_FloatUniforms[uniformName]);
-						break;
-					case ShaderDataType::Float2:
-						uniformChanged = ImGui::DragFloat2(uniformName.c_str(), glm::value_ptr(material->m_Float2Uniforms[uniformName]));
-						break;
-					case ShaderDataType::Float3:
-						uniformChanged = ImGui::DragFloat3(uniformName.c_str(), glm::value_ptr(material->m_Float3Uniforms[uniformName]));
-						break;
-					case ShaderDataType::Float4:
-						uniformChanged = ImGui::DragFloat4(uniformName.c_str(), glm::value_ptr(material->m_Float4Uniforms[uniformName]));
-						break;
-					case ShaderDataType::Mat3:
-						break;
-					case ShaderDataType::Mat4:
-						break;
-					default:
-						break;
+						MaterialSerializer materialSerializer(material);
+						materialSerializer.Serialize(material->GetMaterialPath());
+					}
+
+					if (ImGui::Button("Deserialize"))
+					{
+						MaterialSerializer materialSerializer(material);
+						materialSerializer.Deserialize(material->GetMaterialPath());
+					}
+
+					for (auto& uniform : material->GetUniforms())
+					{
+						std::string uniformName = uniform.first;
+						ImGui::PushID(uniformName.c_str());
+						switch (uniform.second)
+						{
+						case ShaderDataType::Int:
+							uniformChanged = ImGui::DragInt(uniformName.c_str(), &material->m_IntUniforms[uniformName]);
+							break;
+						case ShaderDataType::Int2:
+							uniformChanged = ImGui::DragInt2(uniformName.c_str(), &material->m_Int2Uniforms[uniformName].x);
+							break;
+						case ShaderDataType::Int3:
+							uniformChanged = ImGui::DragInt3(uniformName.c_str(), &material->m_Int3Uniforms[uniformName].x);
+							break;
+						case ShaderDataType::Int4:
+							uniformChanged = ImGui::DragInt4(uniformName.c_str(), &material->m_Int4Uniforms[uniformName].x);
+							break;
+						case ShaderDataType::Float:
+							uniformChanged = ImGui::DragFloat(uniformName.c_str(), &material->m_FloatUniforms[uniformName]);
+							break;
+						case ShaderDataType::Float2:
+							uniformChanged = ImGui::DragFloat2(uniformName.c_str(), glm::value_ptr(material->m_Float2Uniforms[uniformName]));
+							break;
+						case ShaderDataType::Float3:
+							uniformChanged = ImGui::DragFloat3(uniformName.c_str(), glm::value_ptr(material->m_Float3Uniforms[uniformName]));
+							break;
+						case ShaderDataType::Float4:
+							uniformChanged = ImGui::DragFloat4(uniformName.c_str(), glm::value_ptr(material->m_Float4Uniforms[uniformName]));
+							break;
+						case ShaderDataType::Mat3:
+							break;
+						case ShaderDataType::Mat4:
+							break;
+						default:
+							break;
+						}
+						ImGui::PopID();
+
+						if (uniformChanged)
+							material->UpdateShaderUniform("ModelProps");
 					}
 					ImGui::PopID();
-
-					if (uniformChanged)
-						material->UpdateShaderUniform("ModelProps");
 				}
-
 			});
 	}
 }

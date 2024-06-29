@@ -119,7 +119,7 @@ namespace CStell
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
-	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size)
+	void OpenGLUniformBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
 	{
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
 		m_Offset += size;

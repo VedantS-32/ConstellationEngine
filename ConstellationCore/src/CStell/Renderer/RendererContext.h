@@ -2,7 +2,7 @@
 
 namespace CStell
 {
-	class RendererContext
+	class CSTELL_API RendererContext
 	{
 	public:
 		virtual void Init() = 0;

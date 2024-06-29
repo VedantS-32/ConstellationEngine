@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class FileDialogs
+	class CSTELL_API FileDialogs
 	{
 	public:
 		// Returns empty strings if cancelled

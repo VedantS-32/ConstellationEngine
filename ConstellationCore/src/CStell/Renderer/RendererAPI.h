@@ -7,7 +7,7 @@
 
 namespace CStell
 {
-	class RendererAPI
+	class CSTELL_API RendererAPI
 	{
 	public:
 		enum class API

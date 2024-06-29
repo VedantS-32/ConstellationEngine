@@ -13,6 +13,6 @@ namespace CStell
 
 		virtual void RecompileShaders() override;
 		virtual void ExtractShaderUniform(std::string uniformBlockName) override;
-		virtual void UpdateShaderUniform(std::string uniformBlockName) override;
+		virtual void UpdateShaderUniform(std::string UBOName) override;
 	};
 }

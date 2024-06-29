@@ -7,13 +7,13 @@ namespace CStell
 	class EditorCamera : public Camera
 	{
 	public:
-		EditorCamera() = default;
-		EditorCamera(float fov, double nearClip, double farClip);
+		CSTELL_API EditorCamera() = default;
+		CSTELL_API EditorCamera(float fov, double nearClip, double farClip);
 
-		virtual void OnUpdate(Timestep ts) override;
-		virtual void OnEvent(Event& e) override;
+		CSTELL_API virtual void OnUpdate(Timestep ts) override;
+		CSTELL_API virtual void OnEvent(Event& e) override;
 
-		bool IsMoving() const { return m_Moving; }
+		CSTELL_API bool IsMoving() const { return m_Moving; }
 
 	private:
 		bool OnMouseScroll(MouseScrolledEvent& e);

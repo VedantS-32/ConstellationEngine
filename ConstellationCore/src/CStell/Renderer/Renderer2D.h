@@ -8,7 +8,7 @@
 
 namespace CStell
 {
-	class Renderer2D
+	class CSTELL_API Renderer2D
 	{
 	public:
 		static void Init();

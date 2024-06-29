@@ -9,7 +9,7 @@
 
 namespace CStell
 {
-	class Entity
+	class CSTELL_API Entity
 	{
 	public:
 		Entity() = default;

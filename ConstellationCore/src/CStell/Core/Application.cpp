@@ -1,15 +1,18 @@
-#include "Cstellpch.h"
+#include "CStellpch.h"
 #include "Application.h"
 
 #include <glfw/glfw3.h>
 
 #include "CStell/Core/Timestep.h"
+#include "CStell/Core/Log.h"
 
 #include "CStell/Core/AssetManager.h"
 
 #include "CStell/Renderer/Buffer.h"
 #include "CStell/Renderer/Renderer.h"
 #include "CStell/Renderer/RenderCommand.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
+
 
 namespace CStell
 {
@@ -112,6 +115,11 @@ namespace CStell
 
 			m_Window->OnUpdate();
 		}
+	}
+
+	inline Application& Application::Get()
+	{
+		return *s_Instance;
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

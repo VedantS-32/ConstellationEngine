@@ -1,0 +1,4 @@
+MeshAsset: asset/model/ModelTest.fbx
+Materials:
+  0: asset/material/3DTest.csmat
+  1: asset/material/3DTest1.csmat

@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class VertexArray
+	class CSTELL_API VertexArray
 	{
 	public:
 		virtual ~VertexArray() {}

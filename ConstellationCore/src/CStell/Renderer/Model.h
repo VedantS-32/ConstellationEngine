@@ -23,50 +23,74 @@ namespace CStell
 
     struct Mesh
     {
-        Mesh() = default;
-        Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
+        CSTELL_API Mesh() = default;
+        CSTELL_API Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
             : Vertices(vertices), Indices(indices)
         {
         }
 
-        const std::vector<Vertex>& GetVertices() const { return Vertices; }
-        std::vector<uint32_t>& GetIndices() { return Indices; }
+        CSTELL_API  const std::vector<Vertex>& GetVertices() const { return Vertices; }
+        CSTELL_API std::vector<uint32_t>& GetIndices() { return Indices; }
+        CSTELL_API Ref<Material>& GetMaterial() { return m_Material; }
 
         std::vector<Vertex> Vertices;
         std::vector<uint32_t> Indices;
 
+        Ref<VertexArray> m_VertexArray;
+        Ref<VertexBuffer> m_VertexBuffer;
+        Ref<IndexBuffer> m_IndexBuffer;
+
+        glm::mat4 m_ModelMatrix{ 1.0f };
+
+        Ref<Material> m_Material;
+        std::string m_MaterialPath;
+    };
+
+    class MeshAsset
+    {
+    public:
+        friend class MeshSerializer;
+
+        CSTELL_API MeshAsset();
+        CSTELL_API MeshAsset(const std::string& filepath);
+        CSTELL_API MeshAsset(const std::string& filepath, const std::string& materialFile);
+
+        CSTELL_API static Ref<MeshAsset> Create(const std::string& filePath);
+
+        CSTELL_API bool Deserialize(const std::string& filepath);
+        CSTELL_API std::vector<Mesh>& GetMeshes() { return m_Meshes; }
+        CSTELL_API void SetMeshPath(const std::string& meshPath) { m_MeshPath = meshPath; }
+
+        CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
+        CSTELL_API void UpdateTransform(const glm::mat4& transform);
+
+    private:
+        void PrepareMesh(const std::string& filepath = "asset/model/CStellCube.obj", const std::string& materialPath = "asset/material/3DTest.csmat");
+
+    protected:
+
+        std::vector<Mesh> m_Meshes;
+        std::string m_MeshPath;
     };
 
     class Model
     {
     public:
 
-        Model();
-        Model(const std::string& filepath);
-        Model(const std::string& filepath, const std::string& shaderFile);
+        CSTELL_API Model();
+        CSTELL_API Model(const std::string& filepath);
 
-        virtual std::vector<Mesh>& GetMeshes() { return m_Meshes; }
-        Ref<Material> GetMaterial() { return m_Material; }
+        CSTELL_API  Ref<MeshAsset> GetMeshAsset() { return m_MeshAsset; }
 
-        void SetFilepath(const std::string& filepath) { m_Filepath = filepath; }
+        CSTELL_API void SetMeshPath(const std::string& meshPath) { m_MeshPath = meshPath; }
 
-        void DrawModel(const EditorCamera& camera, int entityID);
+        CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
 
-        void UpdateTransform(const glm::mat4& transform);
+        CSTELL_API void UpdateTransform(const glm::mat4& transform);
+
+        std::string m_MeshPath;
 
     private:
-        void PrepareMesh(const std::string& filepath = "asset/model/CStellCube.obj", const std::string& shaderPath = "asset/shader/3DTest.glsl");
-
-    protected:
-        glm::mat4 m_ModelMatrix{1.0f};
-
-        Ref<VertexArray> m_VertexArray;
-        Ref<VertexBuffer> m_VertexBuffer;
-        Ref<IndexBuffer> m_IndexBuffer;
-        Ref<Texture2D> m_Texture;
-        Ref<Material> m_Material;
-
-        std::vector<Mesh> m_Meshes;
-        std::string m_Filepath;
+        Ref<MeshAsset> m_MeshAsset;
 	};
 }

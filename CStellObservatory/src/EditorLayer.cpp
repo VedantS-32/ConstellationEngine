@@ -62,9 +62,9 @@ namespace CStell
         m_EditorCamera = EditorCamera(45.0f, 0.1f, 10000.0f);
         m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 
-#if 1
+#if 0
         SceneSerializer serializer(m_ActiveScene);
-        serializer.Deserialize("asset/scene/debug0.cstell");
+        serializer.Deserialize("asset/scene/scene3.cstell");
 #endif
     }
 
@@ -86,8 +86,8 @@ namespace CStell
 
         CSTELL_PROFILE_SCOPE("Renderer Preparation");
         m_Framebuffer->Bind();
-        RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-        RenderCommand::Clear();
+        RenderCommand::Get().SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+        RenderCommand::Get().Clear();
 
         // Clear our entity ID attachment to -1
         m_Framebuffer->ClearAttachment(1, -1);

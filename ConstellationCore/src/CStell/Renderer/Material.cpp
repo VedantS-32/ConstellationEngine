@@ -2,11 +2,11 @@
 #include "Material.h"
 
 #include "Renderer.h"
-
 #include "Platform/OpenGL/OpenGLMaterial.h"
 
-#include <glad/glad.h>
 #include "CStell/Utils/YamlOperators.h"
+
+#include <glad/glad.h>
 
 namespace CStell
 {

@@ -2,7 +2,7 @@
 
 #include "CStell/Core/Core.h"
 
-#include "Cstellpch.h"
+#include "CStellpch.h"
 
 namespace CStell
 {

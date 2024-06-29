@@ -402,6 +402,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Binary Files
+bin0/
 bin/
 bin-int/
 
