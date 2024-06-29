@@ -33,7 +33,7 @@ namespace CStell
 
 		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
-		inline static Application& Get() { return *s_Instance; }
+		static Application& Get();
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -52,5 +52,5 @@ namespace CStell
 	};
 	
 	// To be defined in CLIENT
-	Application* CreateApplication();
+	CSTELL_API Application* CreateApplication();
 }

@@ -9,7 +9,7 @@
 
 namespace CStell
 {
-	class Shader
+	class CSTELL_API Shader
 	{
 	public:
 		virtual ~Shader() = default;
@@ -42,7 +42,7 @@ namespace CStell
 		static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
 
-	class ShaderLibrary
+	class CSTELL_API ShaderLibrary
 	{
 	public:
 		void Add(const Ref<Shader>& shader);

@@ -14,7 +14,7 @@
 
 namespace CStell
 {
-	struct TagComponent
+	struct CSTELL_API TagComponent
 	{
 		std::string Tag;
 		
@@ -24,7 +24,7 @@ namespace CStell
 			: Tag(tag) {}
 	};
 
-	struct TransformComponent
+	struct CSTELL_API TransformComponent
 	{
 		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
@@ -45,7 +45,7 @@ namespace CStell
 		}
 	};
 
-	struct SpriteRendererComponent
+	struct CSTELL_API SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -60,7 +60,7 @@ namespace CStell
 		operator const glm::vec4& () const { return Color; }
 	};
 
-	struct ModelComponent
+	struct CSTELL_API ModelComponent
 	{
 		Model ModelInst;
 
@@ -72,7 +72,7 @@ namespace CStell
 		}
 	};
 
-	struct CameraComponent
+	struct CSTELL_API CameraComponent
 	{
 		SceneCamera Camera;
 		bool Primary = true;
@@ -82,7 +82,7 @@ namespace CStell
 		CameraComponent(const CameraComponent&) = default;
 	};
 
-	struct NativeScriptComponent
+	struct CSTELL_API NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
 

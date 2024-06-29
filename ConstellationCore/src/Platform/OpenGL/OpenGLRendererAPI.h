@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class OpenGLRendererAPI : public RendererAPI
+	class CSTELL_API OpenGLRendererAPI : public RendererAPI
 	{
 	public:
 		virtual void Init() override;

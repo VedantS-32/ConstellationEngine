@@ -5,6 +5,8 @@
 
 #include "CStell/Core/Timestep.h"
 
+#include <imgui.h>
+
 namespace CStell
 {
 	class CSTELL_API Layer

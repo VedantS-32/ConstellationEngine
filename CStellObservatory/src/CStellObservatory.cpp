@@ -1,5 +1,5 @@
-#include <CStell.h>
 #include <CStellpch.h>
+#include <CStell.h>
 #include <CStell/Core/EntryPoint.h>
 
 #include <imgui.h>
@@ -13,12 +13,15 @@
 
 namespace CStell
 {
+	extern RendererAPI* s_RendererAPI;
+
 	class CStellObservatory : public Application
 	{
 	public:
 		CStellObservatory()
 			: Application("CStell Observatory")
 		{
+			ImGui::SetCurrentContext(&Application::Get().GetImGuiLayer()->GetImGuiContext());
 			PushLayer(new EditorLayer);
 		}
 
@@ -28,7 +31,7 @@ namespace CStell
 	};
 
 
-	Application* CStell::CreateApplication()
+	Application* CreateApplication()
 	{
 		CSTELL_INFO("Creating CStell Application!");
 		return new CStellObservatory();

@@ -5,7 +5,7 @@
 
 namespace CStell
 {
-	class SceneSerializer
+	class CSTELL_API SceneSerializer
 	{
 	public:
 		SceneSerializer(const Ref<Scene> scene);

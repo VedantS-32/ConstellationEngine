@@ -19,6 +19,8 @@ namespace CStell
 		virtual void OnEvent(Event& e) override;
 		virtual void OnImGuiRender() override;
 
+		ImGuiContext& GetImGuiContext();
+
 		void Begin();
 		void End();
 
@@ -27,6 +29,7 @@ namespace CStell
 		void SetDarkThemeColors();
 
 	private:
+		ImGuiContext* m_ImGuiContext;
 		bool m_BlockEvents = true;
 		float m_Time = 0.0f;
 	};

@@ -1,21 +1,23 @@
 #pragma once
 
-#include "Cstellpch.h"
+#include "CStellpch.h"
 
 #include "Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
+#include "spdlog/sinks/stdout_color_sinks.h"
+
+
 namespace CStell
 {
-	
-	class CSTELL_API Log {
-
+	class CSTELL_API Log
+	{
 	public:
 		static void Init();
 
-		inline static std::shared_ptr < spdlog::logger >& GetCoreLogger() { return s_CoreLogger; }
-		inline static std::shared_ptr < spdlog::logger >& GetClientLogger() { return s_ClientLogger; }
+		static std::shared_ptr < spdlog::logger >& GetCoreLogger();
+		static std::shared_ptr < spdlog::logger >& GetClientLogger();
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;

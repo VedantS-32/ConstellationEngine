@@ -2,7 +2,7 @@
 
 #include "Event.h"
 
-#include "Cstellpch.h"
+#include "CStellpch.h"
 
 #include "CStell/Core/KeyCodes.h"
 #include "CStell/Core/MouseButtonCodes.h"

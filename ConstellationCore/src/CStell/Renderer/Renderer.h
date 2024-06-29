@@ -7,7 +7,7 @@ namespace CStell
 	class Camera;
 	class Shader;
 	
-	class Renderer
+	class CSTELL_API Renderer
 	{
 	public:
 		static void Init();

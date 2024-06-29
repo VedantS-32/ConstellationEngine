@@ -8,9 +8,8 @@
 namespace CStell
 {
 	class Entity;
-	class SceneHierarchyPanel;
 
-	class Scene
+	class CSTELL_API Scene
 	{
 	public:
 		Scene();
@@ -23,6 +22,7 @@ namespace CStell
 		void OnUpdateRuntime(Timestep ts);
 		void OnViewportResize(float width, float height);
 
+		const entt::registry& GetRegistry() { return m_Registry; }
 		Entity GetPrimaryCameraEntity();
 
 	private:
@@ -36,6 +36,5 @@ namespace CStell
 
 		friend class Entity;
 		friend class SceneSerializer;
-		friend class SceneHierarchyPanel;
 	};
 }

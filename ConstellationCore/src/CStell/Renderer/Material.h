@@ -8,7 +8,7 @@
 
 namespace CStell
 {
-	class Material
+	class CSTELL_API Material
 	{
 	public:
 		virtual ~Material() = default;

@@ -5,7 +5,11 @@
 namespace CStell
 {
 	class MeshAsset;
+<<<<<<< Updated upstream
 	class MeshSerializer
+=======
+	class CSTELL_API MeshSerializer
+>>>>>>> Stashed changes
 	{
 	public:
 		MeshSerializer(Ref<MeshAsset> meshAsset);

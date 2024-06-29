@@ -25,6 +25,7 @@ namespace CStell
 		ExtractShaderUniform("ModelProps");
 		uniformBuffer->Unbind();
 
+<<<<<<< Updated upstream
 		uniformBuffer = m_UniformBuffers["ModelCommons"] = UniformBuffer::Create(s_BindingPoint);
 		s_BindingPoint++;
 		uniformBuffer->Bind();
@@ -32,6 +33,15 @@ namespace CStell
 
 		ExtractShaderUniform("ModelCommons");
 		uniformBuffer->Unbind();
+=======
+		//uniformBuffer = m_UniformBuffers["ModelCommons"] = UniformBuffer::Create(s_BindingPoint);
+		//s_BindingPoint++;
+		//uniformBuffer->Bind();
+		//uniformBuffer->SetBufferSize(128);
+
+		//ExtractShaderUniform("ModelCommons");
+		//uniformBuffer->Unbind();
+>>>>>>> Stashed changes
 
 		DeserializeAttributes(materialPath);
 	}
@@ -43,9 +53,14 @@ namespace CStell
 		UpdateShaderUniform("ModelProps");
 	}
 
+	template <typename T>
+	static void SetDefaultUniformValue(std::unordered_map<std::string, T>& uniformMap, const std::string& uniformName, const T& defaultValue) {
+		uniformMap.try_emplace(uniformName, defaultValue);
+	}
+
 	void OpenGLMaterial::ExtractShaderUniform(std::string uniformBlockName)
 	{
-		ShaderDataType GLType;
+		ShaderDataType GLType = ShaderDataType::None;
 		uint32_t shaderID = m_Shader->GetRendererID();
 		GLint blockIndex = m_Shader->GetUniformBlockIndex(uniformBlockName);
 
@@ -73,63 +88,52 @@ namespace CStell
 			GLchar uniformName[256]; // Adjust buffer size as needed
 			glGetActiveUniform(shaderID, uniformIndex, sizeof(uniformName), nullptr, &uniformSize, &uniformType, uniformName);
 
-			switch (uniformType)
-			{
+
+			switch (uniformType) {
 			case GL_INT:
 				GLType = ShaderDataType::Int;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_IntUniforms[uniformName] = 0;
+				SetDefaultUniformValue(m_IntUniforms, uniformName, 0);
 				break;
 			case GL_INT_VEC2:
 				GLType = ShaderDataType::Int2;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Int2Uniforms[uniformName] = glm::uvec2{ 0 };
+				SetDefaultUniformValue(m_Int2Uniforms, uniformName, glm::ivec2{ 0 });
 				break;
 			case GL_INT_VEC3:
 				GLType = ShaderDataType::Int3;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Int3Uniforms[uniformName] = glm::uvec3{ 0 };
+				SetDefaultUniformValue(m_Int3Uniforms, uniformName, glm::ivec3{ 0 });
 				break;
 			case GL_INT_VEC4:
 				GLType = ShaderDataType::Int4;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Int4Uniforms[uniformName] = glm::uvec4{ 0 };
+				SetDefaultUniformValue(m_Int4Uniforms, uniformName, glm::ivec4{ 0 });
 				break;
 			case GL_FLOAT:
 				GLType = ShaderDataType::Float;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_FloatUniforms[uniformName] = 0.0f;
+				SetDefaultUniformValue(m_FloatUniforms, uniformName, 0.0f);
 				break;
 			case GL_FLOAT_VEC2:
 				GLType = ShaderDataType::Float2;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Float2Uniforms[uniformName] = glm::vec2{ 0.0f };
+				SetDefaultUniformValue(m_Float2Uniforms, uniformName, glm::vec2{ 0.0f });
 				break;
 			case GL_FLOAT_VEC3:
 				GLType = ShaderDataType::Float3;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Float3Uniforms[uniformName] = glm::vec3{ 0.0f };
+				SetDefaultUniformValue(m_Float3Uniforms, uniformName, glm::vec3{ 0.0f });
 				break;
 			case GL_FLOAT_VEC4:
 				GLType = ShaderDataType::Float4;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Float4Uniforms[uniformName] = glm::vec4{ 0.0f };
+				SetDefaultUniformValue(m_Float4Uniforms, uniformName, glm::vec4{ 0.0f });
 				break;
 			case GL_FLOAT_MAT3:
 				GLType = ShaderDataType::Mat3;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Mat3Uniforms[uniformName] = glm::mat3{ 0.0f };
+				SetDefaultUniformValue(m_Mat3Uniforms, uniformName, glm::mat3{ 0.0f });
 				break;
 			case GL_FLOAT_MAT4:
 				GLType = ShaderDataType::Mat4;
-				if (m_IntUniforms[uniformName] = (int)nullptr)
-					m_Mat4Uniforms[uniformName] = glm::mat4{ 0.0f };
+				SetDefaultUniformValue(m_Mat4Uniforms, uniformName, glm::mat4{ 0.0f });
 				break;
 			case GL_SAMPLER_2D:
 				GLType = ShaderDataType::Int;
-				break;
+				break;  // No default value needed for samplers
 			default:
-				GLType = ShaderDataType::None;
 				CSTELL_CORE_ERROR("Unknown Shader Datatype Uniform Name : {0}, GLenum : {1}", uniformName, (uint32_t)uniformType);
 				break;
 			}

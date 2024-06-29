@@ -6,7 +6,7 @@
 
 namespace CStell
 {
-	class Renderer3D
+	class CSTELL_API Renderer3D
 	{
 	public:
 		static void Init();

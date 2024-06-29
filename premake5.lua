@@ -26,19 +26,27 @@ group "Dependencies"
 	include "ConstellationCore/vendor/glfw"
 	include "ConstellationCore/vendor/Glad"
 	include "ConstellationCore/vendor/imgui"
+	include "ConstellationCore/vendor/ImGuizmo"
 	include "ConstellationCore/vendor/yaml-cpp"
 	include "ConstellationCore/vendor/assimp"
 group ""
 
 project "ConstellationCore"
 	location "ConstellationCore"
-	kind "StaticLib"
+	kind "SharedLib"
 	language "C++"
 	cppdialect "C++20"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
+
+	defines {
+		"CSTELL_PLATFORM_WINDOWS",
+		"CSTELL_DYNAMIC_LINK",
+		"CSTELL_BUILD_DLL",
+		"GLFW_INCLUDE_NONE"
+	}
 	
 	pchheader "CStellpch.h"
 	pchsource "%{prj.name}/src/CStellpch.cpp"
@@ -46,16 +54,15 @@ project "ConstellationCore"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		-- "%{prj.name}/vendor/spdlog/include/spdlog/spdlog.h",
+		-- "%{prj.name}/vendor/spdlog/include/spdlog/spdlog-inl.h",
+		-- "%{prj.name}/vendor/spdlog/include/spdlog/fmt/ostr.h",
 		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/stb_image/**.cpp",
-		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",
-		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
-		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp",
-		"%{prj.name}/vendor/assimp/include/**.h",
-		"%{prj.name}/vendor/assimp/include/**.hpp",
-		"%{prj.name}/vendor/assimp/include/**.inl",
-		"%{prj.name}/vendor/assimp/include/**.cpp"
+		-- "%{prj.name}/vendor/glm/glm/**.hpp",
+		-- "%{prj.name}/vendor/glm/glm/**.inl",
+		-- "%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		-- "%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	includedirs {
@@ -76,38 +83,26 @@ project "ConstellationCore"
 	{
 		"glfw",
 		"Glad",
-		"ImGui",
+		"imgui",
+		"ImGuizmo",
 		"yaml-cpp",
 		"assimp",
+		"Gdi32.lib",
+        "User32.lib",
+        "Shell32.lib",
+		"Comdlg32.lib",
 		"opengl32.lib"
 	}
 
+	postbuildcommands{
+        ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/CStellObservatory")
+    }
+
 	filter "files:ConstellationCore/vendor/ImGuizmo/**.cpp"
 		flags { "NoPCH" }
-
+	
 	filter "system:windows"
 		systemversion "latest"
-
-
-	-- Warning	C4996	'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator,
-	-- stdext::unchecked_array_iterator,
-	--  and related factory functions are non-Standard extensions and will be removed in the future.
-	--  std::span (since C++20) and gsl::span can be used instead. You can define 
-	-- _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
-	-- 		with
-	-- 		[
-	-- 			T=int
-	-- 		]	ConstellationCore	C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\xutility	1255
-	
-
-
-	defines {
-		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
-		"_CRT_SECURE_NO_WARNINGS",
-		"CSTELL_PLATFORM_WINDOWS",
-		"CSTELL_BUILD_DLL",
-		"GLFW_INCLUDE_NONE"
-	}
 	
 	filter "configurations:Debug"
 		defines "CSTELL_DEBUG"
@@ -125,62 +120,62 @@ project "ConstellationCore"
 		optimize "On"
 
 
-project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++20"
-	staticruntime "on"
+-- project "Sandbox"
+-- 	location "Sandbox"
+-- 	kind "ConsoleApp"
+-- 	language "C++"
+-- 	cppdialect "C++20"
+-- 	staticruntime "off"
 
-	targetdir ("bin/" .. outputdir .."/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
+-- 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
+-- 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
 
-	files {
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
+-- 	files {
+-- 		"%{prj.name}/src/**.h",
+-- 		"%{prj.name}/src/**.cpp"
+-- 	}
 
-	includedirs {
-		"ConstellationCore/vendor/spdlog/include",
-		"ConstellationCore/src",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.entt}"
-	}
+-- 	includedirs {
+-- 		"ConstellationCore/vendor/spdlog/include",
+-- 		"ConstellationCore/src",
+-- 		"%{IncludeDir.glm}",
+-- 		"%{IncludeDir.ImGui}",
+-- 		"%{IncludeDir.entt}"
+-- 	}
 
-	links {
-		"ConstellationCore"
-	}
+-- 	links {
+-- 		"ConstellationCore"
+-- 	}
 
-	filter "system:windows"
-		systemversion "latest"
+-- 	filter "system:windows"
+-- 		systemversion "latest"
 
-	defines {
-		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
-		"CSTELL_PLATFORM_WINDOWS"
-	}
+-- 	defines {
+-- 		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+-- 		"CSTELL_PLATFORM_WINDOWS"
+-- 	}
 	
-	filter "configurations:Debug"
-		defines "CSTELL_DEBUG"
-		runtime "Debug"
-		symbols "on"
+-- 	filter "configurations:Debug"
+-- 		defines "CSTELL_DEBUG"
+-- 		runtime "Debug"
+-- 		symbols "on"
 
-	filter "configurations:Release"
-		defines "CSTELL_RELEASE"
-		runtime "Release"
-		optimize "on"
+-- 	filter "configurations:Release"
+-- 		defines "CSTELL_RELEASE"
+-- 		runtime "Release"
+-- 		optimize "on"
 
-	filter "configurations:Dist"
-		defines "CSTELL_DIST"
-		runtime "Release"
-		optimize "on"
+-- 	filter "configurations:Dist"
+-- 		defines "CSTELL_DIST"
+-- 		runtime "Release"
+-- 		optimize "on"
 
 project "CStellObservatory"
 	location "CStellObservatory"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .."/%{prj.name}")
@@ -193,6 +188,7 @@ project "CStellObservatory"
 	includedirs {
 		"ConstellationCore/vendor/spdlog/include",
 		"ConstellationCore/src",
+		"ConstellationCore",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.entt}",
@@ -200,6 +196,8 @@ project "CStellObservatory"
 	}
 
 	links {
+		"imgui",
+		"ImGuizmo",
 		"ConstellationCore"
 	}
 
@@ -207,7 +205,6 @@ project "CStellObservatory"
 		systemversion "latest"
 
 	defines {
-		"_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
 		"CSTELL_PLATFORM_WINDOWS"
 	}
 	

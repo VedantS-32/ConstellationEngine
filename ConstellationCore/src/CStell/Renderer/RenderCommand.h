@@ -1,10 +1,12 @@
 #pragma once
 
 #include "RendererAPI.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
+
 
 namespace CStell
 {
-	class RenderCommand
+	class CSTELL_API RenderCommand
 	{
 	public:
 		inline static void Init() { s_RendererAPI->Init(); }
@@ -22,6 +24,9 @@ namespace CStell
 		{
 			s_RendererAPI->SetViewport(x, y, width, height);
 		}
+
+		// For Client Application
+		static RendererAPI& Get();
 
 	private:
 		static RendererAPI* s_RendererAPI;

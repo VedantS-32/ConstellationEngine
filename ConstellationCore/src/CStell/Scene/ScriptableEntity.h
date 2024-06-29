@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class ScriptableEntity
+	class CSTELL_API ScriptableEntity
 	{
 	public:
 		template<typename T>

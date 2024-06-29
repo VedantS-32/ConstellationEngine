@@ -5,7 +5,7 @@
 namespace CStell
 {
 	class Material;
-	class MaterialSerializer
+	class CSTELL_API MaterialSerializer
 	{
 	public:
 		MaterialSerializer(const Ref<Material> material);

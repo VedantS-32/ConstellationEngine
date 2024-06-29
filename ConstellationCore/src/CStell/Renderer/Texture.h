@@ -6,7 +6,7 @@
 
 namespace CStell
 {
-	class Texture
+	class CSTELL_API Texture
 	{
 	public:
 		virtual ~Texture() = default;
@@ -23,7 +23,7 @@ namespace CStell
 		virtual bool operator==(const Texture& other) const = 0;
 	};
 
-	class Texture2D : public Texture
+	class CSTELL_API Texture2D : public Texture
 	{
 	public:
 		static Ref<Texture2D> Create(uint32_t width, uint32_t height);

@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class EditorCamera : public Camera
+	class CSTELL_API EditorCamera : public Camera
 	{
 	public:
 		EditorCamera() = default;

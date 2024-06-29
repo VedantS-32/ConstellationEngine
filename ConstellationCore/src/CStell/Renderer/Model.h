@@ -15,13 +15,13 @@
 
 namespace CStell
 {
-    struct Vertex {
+    struct CSTELL_API Vertex {
         glm::vec3 Position;
         glm::vec3 Normal;
         glm::vec2 Texcoords;
     };
 
-    struct Mesh
+    struct CSTELL_API Mesh
     {
         Mesh() = default;
         Mesh(std::vector<Vertex> vertices, std::vector<uint32_t> indices)
@@ -44,6 +44,7 @@ namespace CStell
 
         Ref<Material> m_Material;
         std::string m_MaterialPath;
+<<<<<<< Updated upstream
     };
 
     class MeshAsset
@@ -71,9 +72,38 @@ namespace CStell
 
         std::vector<Mesh> m_Meshes;
         std::string m_MeshPath;
+=======
+>>>>>>> Stashed changes
     };
 
-    class Model
+    class CSTELL_API MeshAsset
+    {
+    public:
+        friend class MeshSerializer;
+
+        MeshAsset();
+        MeshAsset(const std::string& filepath);
+        MeshAsset(const std::string& filepath, const std::string& materialFile);
+
+        static Ref<MeshAsset> Create(const std::string& filePath);
+
+        bool Deserialize(const std::string& filepath);
+        std::vector<Mesh>& GetMeshes() { return m_Meshes; }
+        void SetMeshPath(const std::string& meshPath) { m_MeshPath = meshPath; }
+
+        void DrawModel(const EditorCamera& camera, int entityID);
+        void UpdateTransform(const glm::mat4& transform);
+
+    private:
+        void PrepareMesh(const std::string& filepath = "asset/model/CStellCube.obj", const std::string& materialPath = "asset/material/3DTest.csmat");
+
+    protected:
+
+        std::vector<Mesh> m_Meshes;
+        std::string m_MeshPath;
+    };
+
+    class CSTELL_API Model
     {
     public:
 

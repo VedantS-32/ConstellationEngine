@@ -19,7 +19,7 @@ namespace CStell
 		Depth = DEPTH24STENCIL8
 	};
 
-	struct FramebufferTextureSpecification
+	struct CSTELL_API FramebufferTextureSpecification
 	{
 		FramebufferTextureSpecification() = default;
 		FramebufferTextureSpecification(FramebufferTextureFormat format)
@@ -29,7 +29,7 @@ namespace CStell
 		// TODO: filtering/wrap
 	};
 
-	struct FramebufferAttachmentSpecification
+	struct CSTELL_API FramebufferAttachmentSpecification
 	{
 		FramebufferAttachmentSpecification() = default;
 		FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
@@ -37,7 +37,7 @@ namespace CStell
 		std::vector<FramebufferTextureSpecification> Attachments;
 	};
 
-	struct FramebufferSpecification
+	struct CSTELL_API FramebufferSpecification
 	{
 		uint32_t Width = 0, Height = 0;
 		FramebufferAttachmentSpecification Attachments;
@@ -46,7 +46,7 @@ namespace CStell
 		bool SwapChainTarget = false;
 	};
 
-	class Framebuffer
+	class CSTELL_API Framebuffer
 	{
 	public:
 		virtual ~Framebuffer() = default;

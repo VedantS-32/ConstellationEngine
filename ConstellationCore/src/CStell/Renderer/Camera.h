@@ -11,7 +11,7 @@
 
 namespace CStell
 {
-	class Camera
+	class CSTELL_API Camera
 	{
 	public:
 		enum class ProjectionType { Perspective = 0, Orthographic = 1 };

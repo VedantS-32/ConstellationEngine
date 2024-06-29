@@ -5,5 +5,10 @@
 
 namespace CStell
 {
-	RendererAPI * RenderCommand::s_RendererAPI = new OpenGLRendererAPI;
+	RendererAPI *RenderCommand::s_RendererAPI = new OpenGLRendererAPI;
+
+	inline RendererAPI& RenderCommand::Get()
+	{
+		return *s_RendererAPI;
+	}
 }

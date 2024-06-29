@@ -26,7 +26,7 @@ namespace CStell
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Scene Hierarchy");
-		m_Context->m_Registry.view<entt::entity>().each([&](auto entityID)
+		m_Context->GetRegistry().view<entt::entity>().each([&](auto entityID)
 			{
 				Entity entity{ entityID, m_Context.get() };
 				DrawEntityNode(entity);

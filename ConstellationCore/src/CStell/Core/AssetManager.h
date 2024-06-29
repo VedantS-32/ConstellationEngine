@@ -5,7 +5,7 @@
 
 namespace CStell
 {
-	class AssetManager
+	class CSTELL_API AssetManager
 	{
     public:
         AssetManager() = default;

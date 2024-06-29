@@ -4,7 +4,7 @@
 
 namespace CStell
 {
-	class SceneCamera : public Camera
+	class CSTELL_API SceneCamera : public Camera
 	{
 	public:
 		SceneCamera();
