@@ -8,25 +8,17 @@
 
 namespace CStell
 {
-	MeshSerializer::MeshSerializer(Ref<MeshAsset> meshAsset)
-		: m_MeshAsset(meshAsset)
+	void MeshSerializer::Serialize(MeshAsset* meshAsset)
 	{
-	}
+		std::string filepath = meshAsset->GetFilepath();
 
-	MeshSerializer::~MeshSerializer()
-	{
-		//delete m_MeshAsset;
-	}
-
-	void MeshSerializer::Serialize(const std::string& filepath)
-	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		out << YAML::Key << "MeshAsset" << YAML::Value << filepath;
 		out << YAML::Key << "Materials" << YAML::Value << YAML::BeginMap;
 
 		int i = 0;
-		for (auto& mesh : m_MeshAsset->GetMeshes())
+		for (auto& mesh : meshAsset->GetMeshes())
 		{
 			out << YAML::Key << i << YAML::Value << mesh.m_Material->GetMaterialPath();
 			i++;
@@ -39,8 +31,10 @@ namespace CStell
 		fout << out.c_str();
 	}
 
-	bool MeshSerializer::Deserialize(const std::string& filepath)
+	bool MeshSerializer::Deserialize(MeshAsset* meshAsset)
 	{
+		std::string filepath = meshAsset->GetFilepath();
+
 		std::ifstream stream(filepath);
 		std::stringstream strStream;
 		strStream << stream.rdbuf();
@@ -50,7 +44,7 @@ namespace CStell
 			return false;
 
 		std::string meshPath = data["MeshAsset"].as<std::string>();
-		m_MeshAsset->PrepareMesh(meshPath);
+		meshAsset->PrepareMesh(meshPath);
 		CSTELL_CORE_TRACE("Deserializing material '{0}'", meshPath);
 
 		auto assetManager = AssetManager::GetInstance();
@@ -58,7 +52,7 @@ namespace CStell
 
 		auto material = data["Materials"];
 		int i = 0;
-		for (auto& mesh : m_MeshAsset->GetMeshes())
+		for (auto& mesh : meshAsset->GetMeshes())
 		{
 
 			mesh.m_Material = assetManager->LoadAsset<Material>(material[i].as<std::string>());
@@ -68,5 +62,15 @@ namespace CStell
 		}
 
 		return true;
+	}
+
+	void MeshSerializer::Serialize(Ref<MeshAsset> meshAsset)
+	{
+		Serialize(meshAsset.get());
+	}
+
+	bool MeshSerializer::Deserialize(Ref<MeshAsset> meshAsset)
+	{
+		return Deserialize(meshAsset.get());
 	}
 }

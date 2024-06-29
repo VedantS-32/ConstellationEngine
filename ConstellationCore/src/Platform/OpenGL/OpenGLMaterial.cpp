@@ -24,8 +24,8 @@ namespace CStell
 
 		ExtractShaderUniform("ModelProps");
 		uniformBuffer->Unbind();
-
-		DeserializeAttributes(materialPath);
+		
+		MaterialSerializer::Deserialize(this);
 	}
 
 	void OpenGLMaterial::RecompileShaders()

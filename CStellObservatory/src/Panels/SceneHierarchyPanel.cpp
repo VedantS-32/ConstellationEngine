@@ -343,14 +343,12 @@ namespace CStell
 
 					if (ImGui::Button("Save Material"))
 					{
-						MaterialSerializer materialSerializer(material);
-						materialSerializer.Serialize(material->GetMaterialPath());
+						MaterialSerializer::Serialize(material);
 					}
 
 					if (ImGui::Button("Deserialize"))
 					{
-						MaterialSerializer materialSerializer(material);
-						materialSerializer.Deserialize(material->GetMaterialPath());
+						MaterialSerializer::Deserialize(material);
 					}
 
 					for (auto& uniform : material->GetUniforms())

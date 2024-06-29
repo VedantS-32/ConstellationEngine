@@ -57,9 +57,9 @@ namespace CStell
 
         CSTELL_API static Ref<MeshAsset> Create(const std::string& filePath);
 
-        CSTELL_API bool Deserialize(const std::string& filepath);
         CSTELL_API std::vector<Mesh>& GetMeshes() { return m_Meshes; }
-        CSTELL_API void SetMeshPath(const std::string& meshPath) { m_MeshPath = meshPath; }
+        CSTELL_API void SetFilepath(const std::string& filepath) { m_Filepath = filepath; }
+        CSTELL_API const std::string& GetFilepath() { return m_Filepath; }
 
         CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
         CSTELL_API void UpdateTransform(const glm::mat4& transform);
@@ -70,7 +70,7 @@ namespace CStell
     protected:
 
         std::vector<Mesh> m_Meshes;
-        std::string m_MeshPath;
+        std::string m_Filepath;
     };
 
     class Model
@@ -82,13 +82,13 @@ namespace CStell
 
         CSTELL_API  Ref<MeshAsset> GetMeshAsset() { return m_MeshAsset; }
 
-        CSTELL_API void SetMeshPath(const std::string& meshPath) { m_MeshPath = meshPath; }
+        CSTELL_API void SetFilepath(const std::string& Filepath) { m_Filepath = Filepath; }
 
         CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
 
         CSTELL_API void UpdateTransform(const glm::mat4& transform);
 
-        std::string m_MeshPath;
+        std::string m_Filepath;
 
     private:
         Ref<MeshAsset> m_MeshAsset;

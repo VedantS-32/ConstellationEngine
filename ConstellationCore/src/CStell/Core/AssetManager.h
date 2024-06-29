@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core.h"
+#include "CStell/Renderer/MaterialSerializer.h"
+
 #include <unordered_map>
 
 namespace CStell

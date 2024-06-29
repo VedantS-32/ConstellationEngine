@@ -6,47 +6,43 @@
 
 namespace CStell
 {
-    MaterialSerializer::MaterialSerializer(const Ref<Material> material)
-        : m_Material(material)
+    void MaterialSerializer::Serialize(Material* material)
     {
-    }
-
-    void MaterialSerializer::Serialize(const std::string& filepath)
-    {
+		std::string filepath = material->GetMaterialPath();
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		std::string shaderPath = filepath.substr(0, filepath.find_last_of('.')) + ".glsl";
 		out << YAML::Key << "Material" << YAML::Value << shaderPath;
 		out << YAML::Key << "Attributes" << YAML::Value << YAML::BeginMap;
 
-		for (auto& uniform : m_Material->GetUniforms())
+		for (auto& uniform : material->GetUniforms())
 		{
 			std::string uniformName = uniform.first;
 			switch (uniform.second)
 			{
 			case ShaderDataType::Int:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_IntUniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_IntUniforms[uniformName];
 				break;
 			case ShaderDataType::Int2:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Int2Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Int2Uniforms[uniformName];
 				break;
 			case ShaderDataType::Int3:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Int3Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Int3Uniforms[uniformName];
 				break;
 			case ShaderDataType::Int4:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Int4Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Int4Uniforms[uniformName];
 				break;
 			case ShaderDataType::Float:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_FloatUniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_FloatUniforms[uniformName];
 				break;
 			case ShaderDataType::Float2:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Float2Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Float2Uniforms[uniformName];
 				break;
 			case ShaderDataType::Float3:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Float3Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Float3Uniforms[uniformName];
 				break;
 			case ShaderDataType::Float4:
-				out << YAML::Key << uniformName << YAML::Value << m_Material->m_Float4Uniforms[uniformName];
+				out << YAML::Key << uniformName << YAML::Value << material->m_Float4Uniforms[uniformName];
 				break;
 			case ShaderDataType::Mat3:
 				break;
@@ -64,9 +60,14 @@ namespace CStell
 		fout << out.c_str();
     }
 
-    bool MaterialSerializer::Deserialize(const std::string& filepath)
+	void MaterialSerializer::Serialize(Ref<Material> material)
+	{
+		return Serialize(material.get());
+	}
+
+    bool MaterialSerializer::Deserialize(Material* material)
     {
-		std::ifstream stream(filepath);
+		std::ifstream stream(material->GetMaterialPath());
 		std::stringstream strStream;
 		strStream << stream.rdbuf();
 
@@ -78,7 +79,7 @@ namespace CStell
 		CSTELL_CORE_TRACE("Deserializing material '{0}'", shaderPath);
 
 		auto attribute = data["Attributes"];
-		for (auto& uniform : m_Material->GetUniforms())
+		for (auto& uniform : material->GetUniforms())
 		{
 			std::string uniformName = uniform.first;
 
@@ -91,28 +92,28 @@ namespace CStell
 			switch (uniform.second)
 			{
 			case ShaderDataType::Int:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<int>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<int>());
 				break;
 			case ShaderDataType::Int2:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec2>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec2>());
 				break;
 			case ShaderDataType::Int3:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec3>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec3>());
 				break;
 			case ShaderDataType::Int4:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec4>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::uvec4>());
 				break;
 			case ShaderDataType::Float:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<float>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<float>());
 				break;
 			case ShaderDataType::Float2:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec2>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec2>());
 				break;
 			case ShaderDataType::Float3:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec3>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec3>());
 				break;
 			case ShaderDataType::Float4:
-				m_Material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec4>());
+				material->AddUniformValue(uniformName, attribute[uniformName].as<glm::vec4>());
 				break;
 			case ShaderDataType::Mat3:
 				break;
@@ -123,8 +124,12 @@ namespace CStell
 			}
 		}
 
-		m_Material->UpdateShaderUniform("ModelProps");
+		material->UpdateShaderUniform("ModelProps");
 
         return true;
     }
+	bool MaterialSerializer::Deserialize(Ref<Material> material)
+	{
+		return Deserialize(material.get());
+	}
 }

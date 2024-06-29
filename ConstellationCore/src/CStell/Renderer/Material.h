@@ -41,7 +41,7 @@ namespace CStell
 		CSTELL_API void AddUniformValue(std::string uniformName, glm::mat3 value) { m_Mat3Uniforms[uniformName] = value; }
 
 	protected:
-		CSTELL_API bool DeserializeAttributes(const std::string& materialPath);
+		//CSTELL_API bool DeserializeAttributes(const std::string& materialPath);
 
 	public:
 		std::string m_MaterialPath;

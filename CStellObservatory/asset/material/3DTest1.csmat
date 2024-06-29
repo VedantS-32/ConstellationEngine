@@ -1,6 +1,5 @@
 Material: asset/material/3DTest1.glsl
 Attributes:
-  Color: [1, 3, 0, 0]
   Tiling: 1
   u_AmbientLight: [0.150000006, 0.150000006, 0.25]
   u_LightColor: [1, 1, 1, 1]

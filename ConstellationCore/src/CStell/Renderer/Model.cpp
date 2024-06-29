@@ -87,7 +87,7 @@ namespace CStell
 			CSTELL_CORE_ERROR("ERROR::ASSIMP:: {0}", importer.GetErrorString());
 			return -1;
 		}
-		meshAsset.SetMeshPath(filepath.substr(0, filepath.find_last_of('/')));
+		meshAsset.SetFilepath(filepath.substr(0, filepath.find_last_of('/')));
 
 		processNode(meshAsset, scene->mRootNode, scene);
 
@@ -96,14 +96,14 @@ namespace CStell
 
 	MeshAsset::MeshAsset()
 	{
-		MeshSerializer meshSerializer(Ref<MeshAsset>(this));
-		CSTELL_CORE_ASSERT(false);
-		meshSerializer.Deserialize("asset/model/Sphere.csmesh");
+		m_Filepath = "asset/model/CStellCube.obj";
+		MeshSerializer::Deserialize(this);
 	}
 
 	MeshAsset::MeshAsset(const std::string& filepath)
+		: m_Filepath(filepath)
 	{
-		Deserialize(filepath);
+		MeshSerializer::Deserialize(this);
 	}
 
 	MeshAsset::MeshAsset(const std::string& filepath, const std::string& materialFile)
@@ -114,37 +114,6 @@ namespace CStell
 	Ref<MeshAsset> MeshAsset::Create(const std::string& filePath)
 	{
 		return CreateRef<MeshAsset>(filePath);
-	}
-
-	bool MeshAsset::Deserialize(const std::string& filepath)
-	{
-		std::ifstream stream(filepath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
-
-		YAML::Node data = YAML::Load(strStream.str());
-		if (!data["MeshAsset"])
-			return false;
-
-		std::string meshPath = data["MeshAsset"].as<std::string>();
-		PrepareMesh(meshPath);
-		CSTELL_CORE_TRACE("Deserializing material '{0}'", meshPath);
-
-		auto assetManager = AssetManager::GetInstance();
-		auto texture = assetManager->LoadAsset<Texture2D>("asset/texture/CStell.png");
-
-		auto material = data["Materials"];
-		int i = 0;
-		for (auto& mesh : GetMeshes())
-		{
-
-			mesh.m_Material = assetManager->LoadAsset<Material>(material[i].as<std::string>());
-			mesh.m_Material->AddTexture(texture);
-
-			i++;
-		}
-
-		return true;
 	}
 
 	void MeshAsset::PrepareMesh(const std::string& filepath, const std::string& shaderPath)
@@ -207,13 +176,13 @@ namespace CStell
 
 	Model::Model()
 	{
-		m_MeshPath = "asset/model/Sphere.csmesh";
+		m_Filepath = "asset/model/Sphere.csmesh";
 		auto assetManager = AssetManager::GetInstance();
 		m_MeshAsset = assetManager->LoadAsset<MeshAsset>("asset/model/Sphere.csmesh");
 	}
 
 	Model::Model(const std::string& filepath)
-		: m_MeshPath(filepath)
+		: m_Filepath(filepath)
 	{
 		auto assetManager = AssetManager::GetInstance();
 		m_MeshAsset = assetManager->LoadAsset<MeshAsset>(filepath);
