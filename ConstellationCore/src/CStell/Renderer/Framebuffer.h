@@ -19,25 +19,25 @@ namespace CStell
 		Depth = DEPTH24STENCIL8
 	};
 
-	struct CSTELL_API FramebufferTextureSpecification
+	struct FramebufferTextureSpecification
 	{
-		FramebufferTextureSpecification() = default;
-		FramebufferTextureSpecification(FramebufferTextureFormat format)
+		CSTELL_API FramebufferTextureSpecification() = default;
+		CSTELL_API FramebufferTextureSpecification(FramebufferTextureFormat format)
 			: TextureFormat(format) {}
 
 		FramebufferTextureFormat TextureFormat = FramebufferTextureFormat::None;
 		// TODO: filtering/wrap
 	};
 
-	struct CSTELL_API FramebufferAttachmentSpecification
+	struct FramebufferAttachmentSpecification
 	{
-		FramebufferAttachmentSpecification() = default;
-		FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
+		CSTELL_API FramebufferAttachmentSpecification() = default;
+		CSTELL_API FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
 			: Attachments(attachments) {}
 		std::vector<FramebufferTextureSpecification> Attachments;
 	};
 
-	struct CSTELL_API FramebufferSpecification
+	struct FramebufferSpecification
 	{
 		uint32_t Width = 0, Height = 0;
 		FramebufferAttachmentSpecification Attachments;
@@ -46,23 +46,23 @@ namespace CStell
 		bool SwapChainTarget = false;
 	};
 
-	class CSTELL_API Framebuffer
+	class Framebuffer
 	{
 	public:
-		virtual ~Framebuffer() = default;
+		CSTELL_API virtual ~Framebuffer() = default;
 
-		virtual void Bind() = 0;
-		virtual void UnBind() = 0;
+		CSTELL_API virtual void Bind() = 0;
+		CSTELL_API virtual void UnBind() = 0;
 
-		virtual void Resize(uint32_t width, uint32_t height) = 0;
-		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
+		CSTELL_API virtual void Resize(uint32_t width, uint32_t height) = 0;
+		CSTELL_API virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) = 0;
 
-		virtual void ClearAttachment(uint32_t attachmentIndex, int value) = 0;
+		CSTELL_API virtual void ClearAttachment(uint32_t attachmentIndex, int value) = 0;
 
-		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
+		CSTELL_API virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
 
-		virtual const FramebufferSpecification& GetSpecification() const = 0;
+		CSTELL_API virtual const FramebufferSpecification& GetSpecification() const = 0;
 
-		static Ref<Framebuffer> Create(const FramebufferSpecification& spec);
+		CSTELL_API static Ref<Framebuffer> Create(const FramebufferSpecification& spec);
 	};
 }

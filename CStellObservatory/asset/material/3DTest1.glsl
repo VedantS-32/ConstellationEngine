@@ -16,12 +16,8 @@ uniform int u_EntityID;
 uniform mat4 u_Model;
 uniform mat4 u_ModelView;
 uniform vec3 u_LightPosition;
-
-layout(std140) uniform ModelCommons
-{
-	uniform mat4 u_ViewProjection;
-	uniform vec3 u_CameraPosition;
-};
+uniform mat4 u_ViewProjection;
+uniform vec3 u_CameraPosition;
 
 void main()
 {

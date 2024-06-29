@@ -5,27 +5,27 @@
 
 namespace CStell
 {
-	class CSTELL_API AssetManager
+	class AssetManager
 	{
     public:
-        AssetManager() = default;
+        CSTELL_API AssetManager() = default;
 
         template<typename T>
-        Ref<T> LoadAsset(const std::string& assetPath);
+        CSTELL_API Ref<T> LoadAsset(const std::string& assetPath);
 
         // Retrieve an already loaded asset
         template<typename T>
-        Ref<T> GetAsset(const std::string& assetPath);
+        CSTELL_API Ref<T> GetAsset(const std::string& assetPath);
 
         // Unload an asset
-        void UnloadAsset(const std::string& assetPath);
+        CSTELL_API void UnloadAsset(const std::string& assetPath);
 
         // Clear all loaded assets
-        void ClearAssets();
+        CSTELL_API void ClearAssets();
 
     public:
         static void Init();
-        static AssetManager* GetInstance() { return s_AssetManager; }
+        CSTELL_API static AssetManager* GetInstance() { return s_AssetManager; }
 
     private:
         static AssetManager* s_AssetManager;

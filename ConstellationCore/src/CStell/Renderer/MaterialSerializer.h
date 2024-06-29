@@ -5,13 +5,13 @@
 namespace CStell
 {
 	class Material;
-	class CSTELL_API MaterialSerializer
+	class MaterialSerializer
 	{
 	public:
-		MaterialSerializer(const Ref<Material> material);
+		CSTELL_API MaterialSerializer(const Ref<Material> material);
 
-		void Serialize(const std::string& filepath = "asset/material/3DTest.csmat");
-		bool Deserialize(const std::string& filepath = "asset/material/3DTest.csmat");
+		CSTELL_API void Serialize(const std::string& filepath = "asset/material/3DTest.csmat");
+		CSTELL_API bool Deserialize(const std::string& filepath = "asset/material/3DTest.csmat");
 
 	private:
 		Ref<Material> m_Material;

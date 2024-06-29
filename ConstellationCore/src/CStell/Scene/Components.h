@@ -14,28 +14,28 @@
 
 namespace CStell
 {
-	struct CSTELL_API TagComponent
+	struct TagComponent
 	{
 		std::string Tag;
 		
-		TagComponent() = default;
-		TagComponent(const TagComponent&) = default;
-		TagComponent(const std::string& tag)
+		CSTELL_API TagComponent() = default;
+		CSTELL_API TagComponent(const TagComponent&) = default;
+		CSTELL_API TagComponent(const std::string& tag)
 			: Tag(tag) {}
 	};
 
-	struct CSTELL_API TransformComponent
+	struct TransformComponent
 	{
 		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
 
-		TransformComponent() = default;
-		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::vec3 translation)
+		CSTELL_API TransformComponent() = default;
+		CSTELL_API TransformComponent(const TransformComponent&) = default;
+		CSTELL_API TransformComponent(const glm::vec3 translation)
 			: Translation(translation) {}
 
-		glm::mat4 GetTransform() const
+		CSTELL_API glm::mat4 GetTransform() const
 		{
 			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
 
@@ -45,13 +45,13 @@ namespace CStell
 		}
 	};
 
-	struct CSTELL_API SpriteRendererComponent
+	struct SpriteRendererComponent
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-		SpriteRendererComponent() = default;
-		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color)
+		CSTELL_API SpriteRendererComponent() = default;
+		CSTELL_API SpriteRendererComponent(const SpriteRendererComponent&) = default;
+		CSTELL_API SpriteRendererComponent(const glm::vec4& color)
 		{
 			Color = color;
 		}
@@ -60,29 +60,29 @@ namespace CStell
 		operator const glm::vec4& () const { return Color; }
 	};
 
-	struct CSTELL_API ModelComponent
+	struct ModelComponent
 	{
 		Model ModelInst;
 
-		ModelComponent() = default;
-		ModelComponent(const ModelComponent&) = default;
-		ModelComponent(const std::string& filepath)
+		CSTELL_API ModelComponent() = default;
+		CSTELL_API ModelComponent(const ModelComponent&) = default;
+		CSTELL_API ModelComponent(const std::string& filepath)
 		{
 			ModelInst = Model(filepath);
 		}
 	};
 
-	struct CSTELL_API CameraComponent
+	struct CameraComponent
 	{
 		SceneCamera Camera;
 		bool Primary = true;
 		bool FixedAspectRatio = false;
 
-		CameraComponent() = default;
-		CameraComponent(const CameraComponent&) = default;
+		CSTELL_API CameraComponent() = default;
+		CSTELL_API CameraComponent(const CameraComponent&) = default;
 	};
 
-	struct CSTELL_API NativeScriptComponent
+	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
 
@@ -90,7 +90,7 @@ namespace CStell
 		void (*DestroyScript)(NativeScriptComponent*);
 
 		template<typename T>
-		void Bind()
+		CSTELL_API void Bind()
 		{
 			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
 			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };

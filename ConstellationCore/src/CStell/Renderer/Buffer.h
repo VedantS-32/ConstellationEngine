@@ -6,7 +6,7 @@
 
 namespace CStell
 {
-	struct CSTELL_API BufferElement
+	struct BufferElement
 	{
 		std::string Name;
 		ShaderDataType Type;
@@ -64,7 +64,7 @@ namespace CStell
 		}
 	};
 
-	class CSTELL_API BufferLayout
+	class BufferLayout
 	{
 	public:
 		BufferLayout() {}
@@ -100,7 +100,7 @@ namespace CStell
 		uint32_t m_Stride = 0;
 	};
 
-	class CSTELL_API VertexBuffer
+	class VertexBuffer
 	{
 	public:
 		virtual ~VertexBuffer() = default;
@@ -118,7 +118,7 @@ namespace CStell
 	};
 
 	// Current Constellation Engine only supports 32-bit index buffers
-	class CSTELL_API IndexBuffer
+	class IndexBuffer
 	{
 	public:
 		virtual ~IndexBuffer() = default;
@@ -131,7 +131,7 @@ namespace CStell
 		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 	};
 
-	class CSTELL_API UniformBuffer
+	class UniformBuffer
 	{
 	public:
 		virtual ~UniformBuffer() = default;

@@ -11,13 +11,13 @@
 
 namespace CStell
 {
-	class CSTELL_API Log
+	class Log
 	{
 	public:
-		static void Init();
+		CSTELL_API static void Init();
 
-		static std::shared_ptr < spdlog::logger >& GetCoreLogger();
-		static std::shared_ptr < spdlog::logger >& GetClientLogger();
+		CSTELL_API static std::shared_ptr < spdlog::logger >& GetCoreLogger();
+		CSTELL_API static std::shared_ptr < spdlog::logger >& GetClientLogger();
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;

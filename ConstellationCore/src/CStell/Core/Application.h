@@ -14,26 +14,26 @@
 namespace CStell
 {
 	
-	class CSTELL_API Application
+	class Application
 	{
 	public:
-		Application(const std::string& name = "Constellation Engine");
-		virtual ~Application();
+		CSTELL_API Application(const std::string& name = "Constellation Engine");
+		CSTELL_API virtual ~Application();
 
-		void Run();
+		CSTELL_API void Run();
 
-		void OnEvent(Event& e);
+		CSTELL_API void OnEvent(Event& e);
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+		CSTELL_API void PushLayer(Layer* layer);
+		CSTELL_API void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() { return *m_Window; }
+		CSTELL_API  Window& GetWindow() { return *m_Window; }
 
-		void Close();
+		CSTELL_API void Close();
 
-		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+		CSTELL_API ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
-		static Application& Get();
+		CSTELL_API static Application& Get();
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);

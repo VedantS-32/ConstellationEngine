@@ -363,13 +363,13 @@ namespace CStell
 							uniformChanged = ImGui::DragInt(uniformName.c_str(), &material->m_IntUniforms[uniformName]);
 							break;
 						case ShaderDataType::Int2:
-							uniformChanged = ImGui::DragInt2(uniformName.c_str(), (int*)(material->m_Int2Uniforms[uniformName].x));
+							uniformChanged = ImGui::DragInt2(uniformName.c_str(), &material->m_Int2Uniforms[uniformName].x);
 							break;
 						case ShaderDataType::Int3:
-							uniformChanged = ImGui::DragInt3(uniformName.c_str(), (int*)(material->m_Int3Uniforms[uniformName].x));
+							uniformChanged = ImGui::DragInt3(uniformName.c_str(), &material->m_Int3Uniforms[uniformName].x);
 							break;
 						case ShaderDataType::Int4:
-							uniformChanged = ImGui::DragInt4(uniformName.c_str(), (int*)(material->m_Int4Uniforms[uniformName].x));
+							uniformChanged = ImGui::DragInt4(uniformName.c_str(), &material->m_Int4Uniforms[uniformName].x);
 							break;
 						case ShaderDataType::Float:
 							uniformChanged = ImGui::DragFloat(uniformName.c_str(), &material->m_FloatUniforms[uniformName]);

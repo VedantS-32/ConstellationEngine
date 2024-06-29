@@ -8,40 +8,40 @@
 
 namespace CStell
 {
-	class CSTELL_API Material
+	class Material
 	{
 	public:
-		virtual ~Material() = default;
+		CSTELL_API virtual ~Material() = default;
 
 	public:
-		static Ref<Material> Create(const std::string& shaderPath);
+		CSTELL_API static Ref<Material> Create(const std::string& shaderPath);
 
-		const std::string& GetMaterialPath() const { return m_MaterialPath; }
+		CSTELL_API const std::string& GetMaterialPath() const { return m_MaterialPath; }
 
-		virtual void RecompileShaders() = 0;
-		const Ref<Shader>& GetShader() const { return m_Shader; }
-		virtual void ExtractShaderUniform(std::string uniformBlockName) = 0;
-		virtual void UpdateShaderUniform(std::string UBOName) = 0;
+		CSTELL_API virtual void RecompileShaders() = 0;
+		CSTELL_API const Ref<Shader>& GetShader() const { return m_Shader; }
+		CSTELL_API virtual void ExtractShaderUniform(std::string uniformBlockName) = 0;
+		CSTELL_API virtual void UpdateShaderUniform(std::string UBOName) = 0;
 
-		const std::unordered_map<std::string, ShaderDataType>& GetUniforms() const { return m_Uniforms; }
+		CSTELL_API const std::unordered_map<std::string, ShaderDataType>& GetUniforms() const { return m_Uniforms; }
 
-		void AddTexture(const Ref<Texture2D>& texture);
+		CSTELL_API void AddTexture(const Ref<Texture2D>& texture);
 
-		void AddUniformValue(std::string uniformName, int value) { m_IntUniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::uvec2 value) { m_Int2Uniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::uvec3 value) { m_Int3Uniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::uvec4 value) { m_Int4Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, int value) { m_IntUniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::uvec2 value) { m_Int2Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::uvec3 value) { m_Int3Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::uvec4 value) { m_Int4Uniforms[uniformName] = value; }
 
-		void AddUniformValue(std::string uniformName, float value) { m_FloatUniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::vec2 value) { m_Float2Uniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::vec3 value) { m_Float3Uniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::vec4 value) { m_Float4Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, float value) { m_FloatUniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::vec2 value) { m_Float2Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::vec3 value) { m_Float3Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::vec4 value) { m_Float4Uniforms[uniformName] = value; }
 
-		void AddUniformValue(std::string uniformName, glm::mat4 value) { m_Mat4Uniforms[uniformName] = value; }
-		void AddUniformValue(std::string uniformName, glm::mat3 value) { m_Mat3Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::mat4 value) { m_Mat4Uniforms[uniformName] = value; }
+		CSTELL_API void AddUniformValue(std::string uniformName, glm::mat3 value) { m_Mat3Uniforms[uniformName] = value; }
 
 	protected:
-		bool DeserializeAttributes(const std::string& materialPath);
+		CSTELL_API bool DeserializeAttributes(const std::string& materialPath);
 
 	public:
 		std::string m_MaterialPath;

@@ -183,13 +183,7 @@ namespace CStell
 			mesh.m_Material->m_Textures[0]->Bind();
 			shader->Bind();
 			shader->SetMat4f("u_Model", mesh.m_ModelMatrix);
-<<<<<<< Updated upstream
-			shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * mesh.m_ModelMatrix);			
 
-			mesh.m_Material->m_Mat4Uniforms["u_ViewProjection"] = camera.GetViewProjectionMatrix();
-			mesh.m_Material->m_Float3Uniforms["u_CameraPosition"] = camera.GetPosition();
-			mesh.m_Material->UpdateShaderUniform("ModelCommons");
-=======
 			shader->SetMat4f("u_ViewProjection", camera.GetViewProjectionMatrix());
 			shader->SetMat4f("u_ModelView", camera.GetViewMatrix() * mesh.m_ModelMatrix);
 			shader->Set3f("u_CameraPosition", camera.GetPosition());
@@ -197,7 +191,6 @@ namespace CStell
 			//mesh.m_Material->m_Mat4Uniforms["u_ViewProjection"] = camera.GetViewProjectionMatrix();
 			//mesh.m_Material->m_Float3Uniforms["u_CameraPosition"] = camera.GetPosition();
 			//mesh.m_Material->UpdateShaderUniform("ModelCommons");
->>>>>>> Stashed changes
 
 			shader->Set1i("u_Texture", 0);
 			shader->Set1i("u_EntityID", entityID);
@@ -214,21 +207,13 @@ namespace CStell
 
 	Model::Model()
 	{
-<<<<<<< Updated upstream
+		m_MeshPath = "asset/model/Sphere.csmesh";
 		auto assetManager = AssetManager::GetInstance();
 		m_MeshAsset = assetManager->LoadAsset<MeshAsset>("asset/model/Sphere.csmesh");
 	}
 
-	Model::Model(const std::string& filepath = "asset/model/Sphere.csmesh")
-=======
-		m_MeshPath = "asset/model/Sphere.csmesh";
-		auto assetManager = AssetManager::GetInstance();
-		m_MeshAsset = assetManager->LoadAsset<MeshAsset>(m_MeshPath);
-	}
-
 	Model::Model(const std::string& filepath)
 		: m_MeshPath(filepath)
->>>>>>> Stashed changes
 	{
 		auto assetManager = AssetManager::GetInstance();
 		m_MeshAsset = assetManager->LoadAsset<MeshAsset>(filepath);

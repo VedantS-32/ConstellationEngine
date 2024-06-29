@@ -25,24 +25,6 @@ namespace CStell
 		ExtractShaderUniform("ModelProps");
 		uniformBuffer->Unbind();
 
-<<<<<<< Updated upstream
-		uniformBuffer = m_UniformBuffers["ModelCommons"] = UniformBuffer::Create(s_BindingPoint);
-		s_BindingPoint++;
-		uniformBuffer->Bind();
-		uniformBuffer->SetBufferSize(128);
-
-		ExtractShaderUniform("ModelCommons");
-		uniformBuffer->Unbind();
-=======
-		//uniformBuffer = m_UniformBuffers["ModelCommons"] = UniformBuffer::Create(s_BindingPoint);
-		//s_BindingPoint++;
-		//uniformBuffer->Bind();
-		//uniformBuffer->SetBufferSize(128);
-
-		//ExtractShaderUniform("ModelCommons");
-		//uniformBuffer->Unbind();
->>>>>>> Stashed changes
-
 		DeserializeAttributes(materialPath);
 	}
 
