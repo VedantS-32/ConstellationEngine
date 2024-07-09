@@ -1,360 +1,390 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{56EB95D1-428D-C0A7-2B48-D4FB178947F8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell">
-      <UniqueIdentifier>{E3C9A607-CF81-E854-3889-C1B024608345}</UniqueIdentifier>
+    <Filter Include="Source\CStell">
+      <UniqueIdentifier>{EC21D728-58E2-525F-211D-9CDC8D9C973B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Core">
-      <UniqueIdentifier>{1B9448B1-871F-B675-9030-396AFC3A1276}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Core">
+      <UniqueIdentifier>{C4596E6B-B03D-2FC1-199E-291405A11943}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\DebugTools">
-      <UniqueIdentifier>{2AC9F2C9-9635-AEC4-5F29-4622CB54D02C}</UniqueIdentifier>
+    <Filter Include="Source\CStell\DebugTools">
+      <UniqueIdentifier>{9369CA2D-7F8E-19AE-A8D9-FE3D945D18CC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Events">
-      <UniqueIdentifier>{6718E02A-D32E-DEC0-1CA6-69E288FBAE48}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Events">
+      <UniqueIdentifier>{50EC8D05-3C7B-17CF-E599-2BCAD1072875}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\ImGui">
-      <UniqueIdentifier>{4DDDC5DA-39D6-E42C-6208-CAB14E60C438}</UniqueIdentifier>
+    <Filter Include="Source\CStell\ImGui">
+      <UniqueIdentifier>{1658A4D9-82B9-81E7-0B27-C8997787B8A6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Math">
-      <UniqueIdentifier>{9CD44DB1-0860-BB75-1171-3E6A7D7B1776}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Math">
+      <UniqueIdentifier>{459A736B-317E-34C1-9ADE-2E1486E11E43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Renderer">
-      <UniqueIdentifier>{E9DC425A-553E-2068-DEAB-661A4A0C5727}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Renderer">
+      <UniqueIdentifier>{124FB597-FE48-DEE9-E7B5-74FAD34E4456}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Scene">
-      <UniqueIdentifier>{40D575DB-2CCE-942D-5500-7AB241587439}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Scene">
+      <UniqueIdentifier>{095054DA-75B1-31E8-FE1E-789A6A7F68A7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\CStell\Utils">
-      <UniqueIdentifier>{8369A3DB-6F62-C22D-9894-A7B284ECA139}</UniqueIdentifier>
+    <Filter Include="Source\CStell\Utils">
+      <UniqueIdentifier>{4CE481DA-B845-5FE8-41B3-A59AAD1396A7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Platform">
-      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{6A48A913-D6D3-16D8-DFE4-99CC4BEF72D8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Platform\OpenGL">
-      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    <Filter Include="Source\Platform\Linux">
+      <UniqueIdentifier>{09A35922-750F-151D-3E03-AD7AAA2E3785}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Platform\Windows">
-      <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
+    <Filter Include="Source\Platform\Macosx">
+      <UniqueIdentifier>{E4464C6F-D040-75C1-B9AD-0BD2A546DB2D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor">
-      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    <Filter Include="Source\Platform\OpenGL">
+      <UniqueIdentifier>{5E160775-4A10-30C7-337D-C6D71F169633}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vendor\stb_image">
-      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    <Filter Include="Source\Platform\Windows">
+      <UniqueIdentifier>{A4BC056E-10F4-4D05-19FE-B12885B474FE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{935FDCD7-7F01-07AE-68BC-1A0254FD8DFE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\stb_image">
+      <UniqueIdentifier>{EDE315D3-D9DC-3425-020F-1AAAEE661431}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CStell.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Source\CStell.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Application.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Application.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\AssetManager.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\AssetManager.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Core.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Core.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\EntryPoint.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\EntryPoint.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Input.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Input.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\InputMode.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\InputMode.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\KeyCodes.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\KeyCodes.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Layer.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Layer.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\LayerStack.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\LayerStack.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Log.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Log.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\MouseButtonCodes.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\MouseButtonCodes.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Timestep.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Timestep.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Core\Window.h">
-      <Filter>src\CStell\Core</Filter>
+    <ClInclude Include="Source\CStell\Core\Window.h">
+      <Filter>Source\CStell\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\DebugTools\Instrumentor.h">
-      <Filter>src\CStell\DebugTools</Filter>
+    <ClInclude Include="Source\CStell\DebugTools\Instrumentor.h">
+      <Filter>Source\CStell\DebugTools</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Events\ApplicationEvent.h">
-      <Filter>src\CStell\Events</Filter>
+    <ClInclude Include="Source\CStell\Events\ApplicationEvent.h">
+      <Filter>Source\CStell\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Events\Event.h">
-      <Filter>src\CStell\Events</Filter>
+    <ClInclude Include="Source\CStell\Events\Event.h">
+      <Filter>Source\CStell\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Events\KeyEvent.h">
-      <Filter>src\CStell\Events</Filter>
+    <ClInclude Include="Source\CStell\Events\KeyEvent.h">
+      <Filter>Source\CStell\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Events\MouseEvent.h">
-      <Filter>src\CStell\Events</Filter>
+    <ClInclude Include="Source\CStell\Events\MouseEvent.h">
+      <Filter>Source\CStell\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\ImGui\ImGuiLayer.h">
-      <Filter>src\CStell\ImGui</Filter>
+    <ClInclude Include="Source\CStell\ImGui\ImGuiLayer.h">
+      <Filter>Source\CStell\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Math\Math.h">
-      <Filter>src\CStell\Math</Filter>
+    <ClInclude Include="Source\CStell\Math\Math.h">
+      <Filter>Source\CStell\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Buffer.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Buffer.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Camera.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Camera.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\EditorCamera.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\EditorCamera.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Framebuffer.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Framebuffer.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Material.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Material.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\MaterialSerializer.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\MaterialSerializer.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\MeshSerializer.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\MeshSerializer.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Model.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Model.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\RenderCommand.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\RenderCommand.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Renderer.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Renderer.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Renderer2D.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Renderer2D.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Renderer3D.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Renderer3D.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\RendererAPI.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\RendererAPI.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\RendererContext.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\RendererContext.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Shader.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Shader.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\ShaderType.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\ShaderType.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\SubTexture2D.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\SubTexture2D.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\Texture.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\Texture.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Renderer\VertexArray.h">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClInclude Include="Source\CStell\Renderer\VertexArray.h">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\Components.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\Components.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\Entity.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\Entity.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\Scene.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\Scene.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\SceneCamera.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\SceneCamera.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\SceneSerializer.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\SceneSerializer.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Scene\ScriptableEntity.h">
-      <Filter>src\CStell\Scene</Filter>
+    <ClInclude Include="Source\CStell\Scene\ScriptableEntity.h">
+      <Filter>Source\CStell\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Utils\PlatformUtils.h">
-      <Filter>src\CStell\Utils</Filter>
+    <ClInclude Include="Source\CStell\Utils\PlatformUtils.h">
+      <Filter>Source\CStell\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStell\Utils\YamlOperators.h">
-      <Filter>src\CStell\Utils</Filter>
+    <ClInclude Include="Source\CStell\Utils\YamlOperators.h">
+      <Filter>Source\CStell\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\CStellpch.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Source\CStellpch.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\Linux\LinuxWindow.h">
+      <Filter>Source\Platform\Linux</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\Macosx\MacosxWindow.h">
+      <Filter>Source\Platform\Macosx</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLContext.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLFramebuffer.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLMaterial.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLShader.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
-      <Filter>src\Platform\Windows</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\stb_image\stb_image.h">
-      <Filter>vendor\stb_image</Filter>
+    <ClInclude Include="Source\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\stb_image\stb_image.h">
+      <Filter>Vendor\stb_image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CStell\Core\Application.cpp">
-      <Filter>src\CStell\Core</Filter>
+    <ClCompile Include="Source\CStell\Core\Application.cpp">
+      <Filter>Source\CStell\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Core\AssetManager.cpp">
-      <Filter>src\CStell\Core</Filter>
+    <ClCompile Include="Source\CStell\Core\AssetManager.cpp">
+      <Filter>Source\CStell\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Core\Layer.cpp">
-      <Filter>src\CStell\Core</Filter>
+    <ClCompile Include="Source\CStell\Core\Layer.cpp">
+      <Filter>Source\CStell\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Core\LayerStack.cpp">
-      <Filter>src\CStell\Core</Filter>
+    <ClCompile Include="Source\CStell\Core\LayerStack.cpp">
+      <Filter>Source\CStell\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Core\Log.cpp">
-      <Filter>src\CStell\Core</Filter>
+    <ClCompile Include="Source\CStell\Core\Log.cpp">
+      <Filter>Source\CStell\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\ImGui\ImGuiBuild.cpp">
-      <Filter>src\CStell\ImGui</Filter>
+    <ClCompile Include="Source\CStell\ImGui\ImGuiBuild.cpp">
+      <Filter>Source\CStell\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\ImGui\ImGuiLayer.cpp">
-      <Filter>src\CStell\ImGui</Filter>
+    <ClCompile Include="Source\CStell\ImGui\ImGuiLayer.cpp">
+      <Filter>Source\CStell\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Math\Math.cpp">
-      <Filter>src\CStell\Math</Filter>
+    <ClCompile Include="Source\CStell\Math\Math.cpp">
+      <Filter>Source\CStell\Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Buffer.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Buffer.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Camera.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Camera.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\EditorCamera.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\EditorCamera.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Framebuffer.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Framebuffer.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Material.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Material.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\MaterialSerializer.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\MaterialSerializer.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\MeshSerializer.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\MeshSerializer.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Model.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Model.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\RenderCommand.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\RenderCommand.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Renderer.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Renderer.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Renderer2D.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Renderer2D.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Renderer3D.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Renderer3D.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\RendererAPI.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\RendererAPI.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Shader.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Shader.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\SubTexture2D.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\SubTexture2D.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\Texture.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\Texture.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Renderer\VertexArray.cpp">
-      <Filter>src\CStell\Renderer</Filter>
+    <ClCompile Include="Source\CStell\Renderer\VertexArray.cpp">
+      <Filter>Source\CStell\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Scene\Entity.cpp">
-      <Filter>src\CStell\Scene</Filter>
+    <ClCompile Include="Source\CStell\Scene\Entity.cpp">
+      <Filter>Source\CStell\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Scene\Scene.cpp">
-      <Filter>src\CStell\Scene</Filter>
+    <ClCompile Include="Source\CStell\Scene\Scene.cpp">
+      <Filter>Source\CStell\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Scene\SceneCamera.cpp">
-      <Filter>src\CStell\Scene</Filter>
+    <ClCompile Include="Source\CStell\Scene\SceneCamera.cpp">
+      <Filter>Source\CStell\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Scene\SceneSerializer.cpp">
-      <Filter>src\CStell\Scene</Filter>
+    <ClCompile Include="Source\CStell\Scene\SceneSerializer.cpp">
+      <Filter>Source\CStell\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStell\Utils\YamlOperators.cpp">
-      <Filter>src\CStell\Utils</Filter>
+    <ClCompile Include="Source\CStell\Utils\YamlOperators.cpp">
+      <Filter>Source\CStell\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\CStellpch.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Source\CStellpch.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Linux\LinuxInput.cpp">
+      <Filter>Source\Platform\Linux</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Linux\LinuxPlatformUtils.cpp">
+      <Filter>Source\Platform\Linux</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Linux\LinuxWindow.cpp">
+      <Filter>Source\Platform\Linux</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Macosx\MacosxInput.cpp">
+      <Filter>Source\Platform\Macosx</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Macosx\MacosxPlatformUtils.cpp">
+      <Filter>Source\Platform\Macosx</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\Macosx\MacosxWindow.cpp">
+      <Filter>Source\Platform\Macosx</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
-      <Filter>src\Platform\Windows</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLFramebuffer.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
-      <Filter>src\Platform\Windows</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLMaterial.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
-      <Filter>src\Platform\Windows</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp">
-      <Filter>vendor\stb_image</Filter>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>Source\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\Windows\WindowsInput.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Vendor\stb_image\stb_image.cpp">
+      <Filter>Vendor\stb_image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

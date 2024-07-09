@@ -2,7 +2,7 @@
 
 ### Prerequisites
 - C++
-- Python'
+- Python
 - Git
 
 ### Clone repository'
