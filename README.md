@@ -2,11 +2,10 @@
 
 ### Prerequisites
 - C++
-- Python
-- Visual Studio 2022
+- Python'
 - Git
 
-### Clone repository
+### Clone repository'
 ```shell
 git clone --recursive https://github.com/VedantS-32/ConstellationEngine.git
 ```
@@ -15,5 +14,4 @@ git clone --recursive https://github.com/VedantS-32/ConstellationEngine.git
 **Currently Windows only!**
 - Go to "script" folder
 - Run CStellSetup.bat
-- Run Win-GenerateProject.bat, This will generate ConstellationEngine.sln
-- Open ConstellationEngine.sln in Visual Studio 2022
+- Run Win-GenerateProject.bat. By default this will generate ConstellationEngine.sln, please change this script to generate makefile or project files for other ide.
