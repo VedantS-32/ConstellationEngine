@@ -9,8 +9,8 @@ namespace CStell
 	class MeshSerializer
 	{
 	public:
-		CSTELL_API static void Serialize(MeshAsset* meshAsset);
-		CSTELL_API static bool Deserialize(MeshAsset* meshAsset);
+		static void Serialize(MeshAsset* meshAsset);
+		static bool Deserialize(MeshAsset* meshAsset);
 
 		CSTELL_API static void Serialize(Ref<MeshAsset> meshAsset);
 		CSTELL_API static bool Deserialize(Ref<MeshAsset> meshAsset);

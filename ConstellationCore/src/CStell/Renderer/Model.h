@@ -29,7 +29,7 @@ namespace CStell
         {
         }
 
-        CSTELL_API  const std::vector<Vertex>& GetVertices() const { return Vertices; }
+        CSTELL_API const std::vector<Vertex>& GetVertices() const { return Vertices; }
         CSTELL_API std::vector<uint32_t>& GetIndices() { return Indices; }
         CSTELL_API Ref<Material>& GetMaterial() { return m_Material; }
 

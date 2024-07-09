@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root directory
 IncludeDir = {}
+IncludeDir["spdlog"] = "ConstellationCore/vendor/spdlog/include"
 IncludeDir["glfw"] = "ConstellationCore/vendor/glfw/include"
 IncludeDir["Glad"] = "ConstellationCore/vendor/Glad/include"
 IncludeDir["glm"] = "ConstellationCore/vendor/glm"
@@ -61,13 +62,13 @@ project "ConstellationCore"
 		"%{prj.name}/vendor/stb_image/**.cpp",
 		-- "%{prj.name}/vendor/glm/glm/**.hpp",
 		-- "%{prj.name}/vendor/glm/glm/**.inl",
-		-- "%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
-		-- "%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
+		-- "%{prj.name}/vendor/ImGuizmo/**.h",
+		-- "%{prj.name}/vendor/ImGuizmo/**.cpp"
 	}
 
 	includedirs {
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
@@ -79,8 +80,7 @@ project "ConstellationCore"
 		"%{IncludeDir.assimp}"
 	}
 
-	links
-	{
+	links {
 		"glfw",
 		"Glad",
 		"imgui",
@@ -94,7 +94,7 @@ project "ConstellationCore"
 		"opengl32.lib"
 	}
 
-	postbuildcommands{
+	postbuildcommands {
         ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/CStellObservatory")
     }
 
