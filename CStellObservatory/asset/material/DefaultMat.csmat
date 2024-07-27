@@ -1,10 +1,7 @@
-Material: asset/material/3DTest.glsl
-Name: 3DTest.csmat
-Textures:
-  - asset\texture\CStell.png
+Material: asset/material/DefaultMat.glsl
 Attributes:
   Tiling: 1
   u_AmbientLight: [0.150000006, 0.150000006, 0.25]
   u_LightColor: [1, 1, 1, 1]
-  u_SpecularAlpha: 40
+  u_SpecularAlpha: 36
   u_LightIntensity: 1

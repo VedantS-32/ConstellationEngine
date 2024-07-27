@@ -3,6 +3,7 @@
 #include "CStell/Scene/Components.h"
 #include "CStell/Renderer/ShaderType.h"
 #include "CStell/Renderer/MaterialSerializer.h"
+#include "CStell/Core/AssetManager.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -10,7 +11,7 @@
 
 namespace CStell
 {
-	static std::string s_ModelPath = "asset/model/ModelTest.csmesh";
+	extern const std::filesystem::path s_AssetPath;
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 	{
@@ -234,7 +235,7 @@ namespace CStell
 
 			if (ImGui::MenuItem("Model"))
 			{
-				m_SelectionContext.AddComponent<ModelComponent>(s_ModelPath);
+				m_SelectionContext.AddComponent<ModelComponent>();
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -330,13 +331,49 @@ namespace CStell
 
 		DrawComponent<ModelComponent>("Model", entity, [&](auto& component)
 			{
-				auto& models = entity.GetComponent<ModelComponent>();
+				auto& model = entity.GetComponent<ModelComponent>();
 
-				for (auto& mesh : models.ModelInst.GetMeshAsset()->GetMeshes())
+				auto meshAsset = model.ModelInst.GetMeshAsset();
+				ImGui::Button(meshAsset->GetMeshName().c_str(), ImVec2{ 64.0f, 64.0f });
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path meshPath = std::filesystem::path(s_AssetPath) / path;
+						CSTELL_CORE_INFO(meshPath);
+						meshAsset->ChangeMeshAsset(meshPath.generic_string());
+					}
+					ImGui::EndDragDropTarget();
+				}
+
+				if (ImGui::Button("Save Model"))
+					model.ModelInst.SaveModel();
+
+				if (ImGui::Button("Reload Model"))
+					model.ModelInst.ReloadModel();
+
+				auto& assetManager = AssetManager::Get();
+
+				for (auto& mesh : meshAsset->GetMeshes())
 				{
 					auto& material = mesh.GetMaterial();
 					ImGui::PushID(material->GetMaterialPath().c_str());
 					bool uniformChanged = false;
+
+					ImGui::Button(material->GetMaterialName().c_str(), ImVec2{ 300.0f, 32.0f });
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path materialPath = std::filesystem::path(s_AssetPath) / path;
+							//CSTELL_CORE_INFO(materialPath);
+							mesh.ChangeMaterial(materialPath.generic_string());
+						}
+						ImGui::EndDragDropTarget();
+					}
+
 
 					if (ImGui::Button("Recompile Shaders"))
 						material->RecompileShaders();
@@ -349,6 +386,30 @@ namespace CStell
 					if (ImGui::Button("Deserialize"))
 					{
 						MaterialSerializer::Deserialize(material);
+					}
+
+					auto textureLut = mesh.m_Material->m_TexturesLut.begin();
+					if (!mesh.m_Material->m_TexturesLut.empty())
+					{
+						auto textureName = textureLut->first.c_str();
+						auto& texture = textureLut->second;
+
+						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+						ImGui::Text(textureName);
+						ImGui::ImageButton(textureName, reinterpret_cast<void*>(static_cast<uintptr_t>(texture->GetRendererID())), { 98, 98 }, { 0, 1 }, { 1, 0 });
+						ImGui::PopStyleColor();
+
+						if (ImGui::BeginDragDropTarget())
+						{
+							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+							{
+								const wchar_t* path = (const wchar_t*)payload->Data;
+								std::filesystem::path texturePath = std::filesystem::path(s_AssetPath) / path;
+								//CSTELL_CORE_INFO(texturePath);
+								texture = assetManager.LoadAsset<Texture2D>(texturePath.string());
+							}
+							ImGui::EndDragDropTarget();
+						}
 					}
 
 					for (auto& uniform : material->GetUniforms())

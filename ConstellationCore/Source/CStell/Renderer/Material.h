@@ -17,6 +17,8 @@ namespace CStell
 		CSTELL_API static Ref<Material> Create(const std::string& shaderPath);
 
 		CSTELL_API const std::string& GetMaterialPath() const { return m_MaterialPath; }
+		CSTELL_API const std::string& GetMaterialName() const { return m_MaterialName; }
+		CSTELL_API const std::string& GetShaderPath() const { return m_ShaderPath; }
 
 		CSTELL_API virtual void RecompileShaders() = 0;
 		CSTELL_API const Ref<Shader>& GetShader() const { return m_Shader; }
@@ -45,6 +47,8 @@ namespace CStell
 
 	public:
 		std::string m_MaterialPath;
+		std::string m_ShaderPath;
+		std::string m_MaterialName = "Default";
 
 		Ref<Shader> m_Shader;
 
@@ -53,6 +57,7 @@ namespace CStell
 		Ref<UniformBuffer> m_UniformBuffer;
 		Ref<UniformBuffer> m_UniformBufferModel;
 		std::vector<Ref<Texture2D>> m_Textures;
+		std::unordered_map<std::string, Ref<Texture2D>> m_TexturesLut;
 		std::unordered_map<std::string, ShaderDataType> m_Uniforms;
 
 		std::unordered_map<std::string, int> m_IntUniforms;

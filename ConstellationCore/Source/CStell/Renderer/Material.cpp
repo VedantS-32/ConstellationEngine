@@ -14,7 +14,7 @@ namespace CStell
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported");
+		case RendererAPI::API::None: CSTELL_CORE_ASSERT(false, "RendererAPI::None is currently not supported"); break;
 		case RendererAPI::API::OpenGL: return CreateRef<OpenGLMaterial>(materialPath);
 		}
 

@@ -14,7 +14,7 @@ namespace CStell
 	{
 		m_MaterialPath = materialPath;
 
-		std::string shaderPath = materialPath.substr(0, materialPath.find_last_of('.')) + ".glsl";
+		auto& shaderPath = MaterialSerializer::DeserializeShaderPath(materialPath);
 		m_Shader = Shader::Create(shaderPath);
 
 		auto& uniformBuffer = m_UniformBuffers["ModelProps"] = UniformBuffer::Create(s_BindingPoint);
@@ -24,7 +24,7 @@ namespace CStell
 
 		ExtractShaderUniform("ModelProps");
 		uniformBuffer->Unbind();
-		
+
 		MaterialSerializer::Deserialize(this);
 	}
 

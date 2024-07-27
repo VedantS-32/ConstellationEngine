@@ -4,15 +4,15 @@
 
 namespace CStell
 {
-	class MeshAsset;
+	class Model;
 
 	class MeshSerializer
 	{
 	public:
-		static void Serialize(MeshAsset* meshAsset);
-		static bool Deserialize(MeshAsset* meshAsset);
+		static void Serialize(Model* model);
+		static bool Deserialize(Model* model);
 
-		CSTELL_API static void Serialize(Ref<MeshAsset> meshAsset);
-		CSTELL_API static bool Deserialize(Ref<MeshAsset> meshAsset);
+		CSTELL_API static void Serialize(Ref<Model> model);
+		CSTELL_API static bool Deserialize(Ref<Model> model);
 	};
 }

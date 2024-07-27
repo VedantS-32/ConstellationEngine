@@ -66,10 +66,6 @@ namespace CStell
 
 		CSTELL_API ModelComponent() = default;
 		CSTELL_API ModelComponent(const ModelComponent&) = default;
-		CSTELL_API ModelComponent(const std::string& filepath)
-		{
-			ModelInst = Model(filepath);
-		}
 	};
 
 	struct CameraComponent

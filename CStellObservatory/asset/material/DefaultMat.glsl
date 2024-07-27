@@ -1,4 +1,4 @@
-//#type vertex
+Material: a//#type vertex
 #version 450 core
 
 layout(location = 0) in vec3 a_Position;
@@ -76,7 +76,7 @@ void main()
 	vec3 halfAngle = (v_LightPosition + v_CameraPosition) / length(v_LightPosition + v_CameraPosition);
 	float blinn = max(dot(normal, halfAngle), 0.0);
 
-	FragColor = texture(u_Texture, v_TexCoord * Tiling) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
+	FragColor = vec4(0.85f, 0.85f, 0.85f, 1.0f) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
 
 	EntityID = v_EntityID;
 };

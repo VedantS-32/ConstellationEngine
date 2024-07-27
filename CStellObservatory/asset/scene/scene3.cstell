@@ -5,11 +5,10 @@ Entities:
       Tag: Empty Entity
     TransformComponent:
       Translation: [1.8661499, 0, 2.12690544]
-      Rotation: [-1.99837625, 0.779029369, -2.62530112]
-      Scale: [0.999999881, 0.999999881, 0.99999994]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
     ModelComponent:
-      Tiling: 5
-      u_LightIntensity: 1
+      {}
   - Entity: 4732893432
     TagComponent:
       Tag: Sqaure2

@@ -11,9 +11,6 @@
 
 namespace CStell
 {
-	static std::string modelPath = "asset/model/ModelTest.csmesh";
-	static std::string materialPath = "asset/material/3DTest.csmat";
-
 	SceneSerializer::SceneSerializer(const Ref<Scene> scene)
 		: m_Scene(scene)
 	{
@@ -24,16 +21,13 @@ namespace CStell
 		out << YAML::BeginMap; //Entity
 		out << YAML::Key << "Entity" << YAML::Value << "4732893432"; // TODO: Entity ID goes here
 
-		if (entity.HasComponent<TagComponent>())
-		{
-			out << YAML::Key << "TagComponent";
-			out << YAML::BeginMap; // TagComponent
+		out << YAML::Key << "TagComponent";
+		out << YAML::BeginMap; // TagComponent
 
-			auto& tag = entity.GetComponent<TagComponent>().Tag;
-			out << YAML::Key << "Tag" << YAML::Value << tag;
+		auto& tag = entity.GetComponent<TagComponent>().Tag;
+		out << YAML::Key << "Tag" << YAML::Value << tag;
 
-			out << YAML::EndMap; // TagComponent
-		}
+		out << YAML::EndMap; // TagComponent
 
 		if (entity.HasComponent<TransformComponent>())
 		{
@@ -97,10 +91,14 @@ namespace CStell
 		}
 
 		out << YAML::EndMap; // Entity;
+
+		CSTELL_CORE_TRACE("Serialized Entity: {0}", tag);
 	}
 
 	void SceneSerializer::Serialize(const std::string& filepath)
 	{
+		CSTELL_CORE_INFO("Serializing scene: {0}", "Untitled");
+
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene" << YAML::Value << "Untitled";
@@ -118,6 +116,8 @@ namespace CStell
 
 		std::ofstream fout(filepath);
 		fout << out.c_str();
+
+		CSTELL_CORE_INFO("Serialized scene: {0}", "Untitled");		//TODO: Give name to scenes
 	}
 
 	void SceneSerializer::SerializeRuntime(const std::string& filepath)
@@ -137,7 +137,7 @@ namespace CStell
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
-		CSTELL_CORE_TRACE("Deserializing scene '{0}'", sceneName);
+		CSTELL_CORE_INFO("Deserializing scene '{0}'", sceneName);
 
 		auto entities = data["Entities"];
 		if (entities)
@@ -195,13 +195,14 @@ namespace CStell
 				auto modelComponent = entity["ModelComponent"];
 				if (modelComponent)
 				{
-					auto& model = deserializedEntity.AddComponent<ModelComponent>(modelPath);
+					auto& model = deserializedEntity.AddComponent<ModelComponent>();
 
 					// Material Serialization is Handled by Material Class
 				}
 			}
 		}
 
+		CSTELL_CORE_INFO("Deserialized scene '{0}'", sceneName);
 		return true;
 	}
 

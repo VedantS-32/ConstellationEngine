@@ -15,6 +15,9 @@ namespace CStell
         template<typename T>
         CSTELL_API Ref<T> LoadAsset(const std::string& assetPath);
 
+        template<typename T>
+        CSTELL_API Ref<T> ReloadAsset(const std::string& assetPath);
+
         // Retrieve an already loaded asset
         template<typename T>
         CSTELL_API Ref<T> GetAsset(const std::string& assetPath);
@@ -27,7 +30,10 @@ namespace CStell
 
     public:
         static void Init();
-        CSTELL_API static AssetManager* GetInstance() { return s_AssetManager; }
+        CSTELL_API static AssetManager* GetInstance() { return s_AssetManager; };
+
+        // For Client Application
+        CSTELL_API static AssetManager& Get();
 
     private:
         static AssetManager* s_AssetManager;
@@ -52,6 +58,24 @@ namespace CStell
             m_Assets[assetPath] = asset;
 
         return asset;
+    }
+
+    template<typename T>
+    inline Ref<T> AssetManager::ReloadAsset(const std::string& assetPath)
+    {
+        auto it = m_Assets.find(assetPath);
+        {
+            if (it != m_Assets.end())
+            {
+                Ref<T> asset = LoadAssetInternal<T>(assetPath);
+                if (asset)
+                    it->second = asset;
+
+                return asset;
+            }
+        }
+
+        return nullptr;
     }
 
     template<typename T>

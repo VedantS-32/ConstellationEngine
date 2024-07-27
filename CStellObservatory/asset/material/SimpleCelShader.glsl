@@ -76,7 +76,16 @@ void main()
 	vec3 halfAngle = (v_LightPosition + v_CameraPosition) / length(v_LightPosition + v_CameraPosition);
 	float blinn = max(dot(normal, halfAngle), 0.0);
 
-	FragColor = texture(u_Texture, v_TexCoord * Tiling) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
+	//FragColor = texture(u_Texture, v_TexCoord * Tiling) * (u_LightIntensity * ((diffuse * u_LightColor) + ((vec4(u_SpecularColor, 1.0) * pow(blinn, u_SpecularAlpha)))) + vec4(u_AmbientLight, 1.0));
+    
+    // Quantize the diffuse component
+    diffuse = floor(diffuse * float(10.0f)) / float(10.0f);
+    
+    vec4 diffuseFinal = diffuse * u_LightColor;
+
+    // Combine results
+    vec4 result = (vec4(u_AmbientLight, 1.0f) + diffuseFinal);
+    FragColor = result * texture(u_Texture, v_TexCoord * Tiling);
 
 	EntityID = v_EntityID;
 };

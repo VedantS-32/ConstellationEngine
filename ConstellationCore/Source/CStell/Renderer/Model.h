@@ -32,6 +32,7 @@ namespace CStell
         CSTELL_API const std::vector<Vertex>& GetVertices() const { return Vertices; }
         CSTELL_API std::vector<uint32_t>& GetIndices() { return Indices; }
         CSTELL_API Ref<Material>& GetMaterial() { return m_Material; }
+        CSTELL_API void ChangeMaterial(const std::string& materialPath);
 
         std::vector<Vertex> Vertices;
         std::vector<uint32_t> Indices;
@@ -57,9 +58,14 @@ namespace CStell
 
         CSTELL_API static Ref<MeshAsset> Create(const std::string& filePath);
 
+        CSTELL_API void ChangeMeshAsset(const std::string& meshPath);
+
         CSTELL_API std::vector<Mesh>& GetMeshes() { return m_Meshes; }
-        CSTELL_API void SetFilepath(const std::string& filepath) { m_Filepath = filepath; }
-        CSTELL_API const std::string& GetFilepath() { return m_Filepath; }
+
+        //CSTELL_API void SetFilepath(const std::string& filepath) { m_MeshPath = filepath; }
+
+        CSTELL_API const std::string& GetFilepath() { return m_MeshPath; }
+        CSTELL_API const std::string& GetMeshName() { return m_MeshName; }
 
         CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
         CSTELL_API void UpdateTransform(const glm::mat4& transform);
@@ -67,30 +73,35 @@ namespace CStell
     private:
         void PrepareMesh(const std::string& filepath = "asset/model/CStellCube.obj", const std::string& materialPath = "asset/material/3DTest.csmat");
 
-    protected:
-
+    private:
+        std::string m_MeshName = "Default";
         std::vector<Mesh> m_Meshes;
-        std::string m_Filepath;
+        std::string m_MeshPath;
     };
 
     class Model
     {
     public:
+        friend class MeshSerializer;
 
         CSTELL_API Model();
         CSTELL_API Model(const std::string& filepath);
 
         CSTELL_API  Ref<MeshAsset> GetMeshAsset() { return m_MeshAsset; }
 
-        CSTELL_API void SetFilepath(const std::string& Filepath) { m_Filepath = Filepath; }
+        CSTELL_API const std::string& GetFilepath() { return m_ModelPath; }
+        CSTELL_API void SetFilepath(const std::string& Filepath) { m_ModelPath = Filepath; }
+
+        CSTELL_API void SaveModel();
+        CSTELL_API void ReloadModel();
 
         CSTELL_API void DrawModel(const EditorCamera& camera, int entityID);
 
         CSTELL_API void UpdateTransform(const glm::mat4& transform);
 
-        std::string m_Filepath;
 
     private:
+        std::string m_ModelPath;
         Ref<MeshAsset> m_MeshAsset;
 	};
 }

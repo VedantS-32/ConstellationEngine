@@ -1,3 +1,5 @@
-MeshAsset: asset/model/Sphere.fbx
+MeshAsset: asset/model/apple.obj
+Name: Sphere
 Materials:
   0: asset/material/3DTest.csmat
+  1: asset/material/3DTest1.csmat

@@ -80,14 +80,14 @@ namespace CStell
 	static int loadMeshAsset(MeshAsset& meshAsset, const std::string filepath)
 	{
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(filepath, aiProcess_Triangulate);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
 			CSTELL_CORE_ERROR("ERROR::ASSIMP:: {0}", importer.GetErrorString());
 			return -1;
 		}
-		meshAsset.SetFilepath(filepath.substr(0, filepath.find_last_of('/')));
+		//meshAsset.SetFilepath(filepath.substr(0, filepath.find_last_of('/')));
 
 		processNode(meshAsset, scene->mRootNode, scene);
 
@@ -96,14 +96,14 @@ namespace CStell
 
 	MeshAsset::MeshAsset()
 	{
-		m_Filepath = "asset/model/CStellCube.obj";
-		MeshSerializer::Deserialize(this);
+		m_MeshPath = "asset/model/CStellCube.obj";
+		PrepareMesh(m_MeshPath);
 	}
 
 	MeshAsset::MeshAsset(const std::string& filepath)
-		: m_Filepath(filepath)
+		: m_MeshPath(filepath)
 	{
-		MeshSerializer::Deserialize(this);
+		PrepareMesh(m_MeshPath);
 	}
 
 	MeshAsset::MeshAsset(const std::string& filepath, const std::string& materialFile)
@@ -114,6 +114,13 @@ namespace CStell
 	Ref<MeshAsset> MeshAsset::Create(const std::string& filePath)
 	{
 		return CreateRef<MeshAsset>(filePath);
+	}
+
+	void MeshAsset::ChangeMeshAsset(const std::string& meshPath)
+	{
+		m_Meshes.clear();
+		m_MeshPath = meshPath;
+		PrepareMesh(m_MeshPath);
 	}
 
 	void MeshAsset::PrepareMesh(const std::string& filepath, const std::string& shaderPath)
@@ -140,6 +147,9 @@ namespace CStell
 			mesh.m_IndexBuffer = IndexBuffer::Create(mesh.Indices.data(), (uint32_t)mesh.Indices.size());
 			CSTELL_TRACE("Indices count: {0}", mesh.Indices.size());
 			mesh.m_VertexArray->SetIndexBuffer(mesh.m_IndexBuffer);
+
+			auto assetManager = AssetManager::GetInstance();
+			mesh.m_Material = assetManager->LoadAsset<Material>("asset/material/DefaultMat.csmat");
 		}
 	}
 
@@ -149,7 +159,8 @@ namespace CStell
 		{
 			auto& shader = mesh.m_Material->GetShader();
 
-			mesh.m_Material->m_Textures[0]->Bind();
+			if(!mesh.m_Material->m_TexturesLut.empty())
+				mesh.m_Material->m_TexturesLut.begin()->second->Bind();
 			shader->Bind();
 			shader->SetMat4f("u_Model", mesh.m_ModelMatrix);
 
@@ -164,6 +175,9 @@ namespace CStell
 			shader->Set1i("u_Texture", 0);
 			shader->Set1i("u_EntityID", entityID);
 
+			for (auto& vertex : mesh.Vertices)
+				vertex.Position = mesh.m_ModelMatrix * glm::vec4(vertex.Position, 1.0f);
+
 			RenderCommand::DrawIndexed(mesh.m_VertexArray, mesh.m_VertexArray->GetIndexBuffer()->GetCount());
 		}
 	}
@@ -176,16 +190,24 @@ namespace CStell
 
 	Model::Model()
 	{
-		m_Filepath = "asset/model/Sphere.csmesh";
-		auto assetManager = AssetManager::GetInstance();
-		m_MeshAsset = assetManager->LoadAsset<MeshAsset>("asset/model/Sphere.csmesh");
+		m_ModelPath = "asset/model/Sphere.csmesh";
+		MeshSerializer::Deserialize(this);
 	}
 
 	Model::Model(const std::string& filepath)
-		: m_Filepath(filepath)
+		: m_ModelPath(filepath)
 	{
-		auto assetManager = AssetManager::GetInstance();
-		m_MeshAsset = assetManager->LoadAsset<MeshAsset>(filepath);
+		MeshSerializer::Deserialize(this);
+	}
+
+	void Model::SaveModel()
+	{
+		MeshSerializer::Serialize(this);
+	}
+
+	void Model::ReloadModel()
+	{
+		MeshSerializer::Deserialize(this);
 	}
 
 	void Model::DrawModel(const EditorCamera& camera, int entityID)
@@ -196,5 +218,12 @@ namespace CStell
 	void Model::UpdateTransform(const glm::mat4& transform)
 	{
 		m_MeshAsset->UpdateTransform(transform);
+	}
+
+	void Mesh::ChangeMaterial(const std::string& materialPath)
+	{
+		m_MaterialPath = materialPath;
+		auto assetManager = AssetManager::GetInstance();
+		m_Material = assetManager->LoadAsset<Material>(m_MaterialPath);
 	}
 }

@@ -13,6 +13,7 @@
 
 #include "CStell/ImGui/ImGuiLayer.h"
 
+#include "CStell/Core/AssetManager.h"
 #include "CStell/Scene/Scene.h"
 #include "CStell/Scene/Entity.h"
 #include "CStell/Scene/Components.h"

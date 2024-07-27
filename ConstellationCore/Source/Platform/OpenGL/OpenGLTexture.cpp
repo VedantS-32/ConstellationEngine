@@ -8,14 +8,19 @@
 namespace CStell
 {
 	static void PremultiplyAlpha(unsigned char* imageData, int width, int height) {
-		for (int i = 0; i < width * height * 4; i += 4)
-		{
+		if (imageData == nullptr) {
+			CSTELL_CORE_ERROR("Error: imageData is null");
+			return;
+		}
+
+		for (size_t i = 0; i < width * height * 4; i += 4) {
 			unsigned char alpha = imageData[i + 3];
 			imageData[i] = (imageData[i] * alpha) / 255;
 			imageData[i + 1] = (imageData[i + 1] * alpha) / 255;
 			imageData[i + 2] = (imageData[i + 2] * alpha) / 255;
 		}
 	}
+
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: m_Width(width), m_Height(height)
@@ -48,9 +53,13 @@ namespace CStell
 			CSTELL_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string&)");
 			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		}
-		CSTELL_CORE_ASSERT(data, "Failed to load image!");
+		if (!data)
+		{
+			data = stbi_load("asset/texture/UVChecker.png", &width, &height, &channels, 0);
+			CSTELL_CORE_ASSERT(data, "Failed to load image!");
+		}
 
-		PremultiplyAlpha(data, width, height);
+		//PremultiplyAlpha(data, width, height);
 
 		m_Width = width;
 		m_Height = height;

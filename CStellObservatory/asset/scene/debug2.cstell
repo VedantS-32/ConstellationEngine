@@ -2,6 +2,15 @@ Scene: Untitled
 Entities:
   - Entity: 4732893432
     TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [0, 0, 2.36210489]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ModelComponent:
+      {}
+  - Entity: 4732893432
+    TagComponent:
       Tag: Sqaure0
     TransformComponent:
       Translation: [0, 2.98023259e-08, 0.5]

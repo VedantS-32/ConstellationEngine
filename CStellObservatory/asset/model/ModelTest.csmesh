@@ -1,4 +1,4 @@
-MeshAsset: asset/model/ModelTest.fbx
+MeshAsset: asset/model/Sphere.fbx
+Name: Default
 Materials:
-  0: asset/material/3DTest.csmat
-  1: asset/material/3DTest.csmat
+  0: asset/shader/3DTest.csmat

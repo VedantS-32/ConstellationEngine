@@ -20,4 +20,9 @@ namespace CStell
 	{
 		s_AssetManager = new AssetManager;
 	}
+
+	AssetManager& AssetManager::Get()
+	{
+		return *s_AssetManager;
+	}
 }

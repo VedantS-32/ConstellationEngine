@@ -38,6 +38,7 @@ project "ConstellationCore"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "off"
+	flags { "MultiProcessorCompile" }
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -135,6 +136,7 @@ project "CStellObservatory"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "off"
+	flags { "MultiProcessorCompile" }
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

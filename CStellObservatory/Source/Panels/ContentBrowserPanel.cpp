@@ -1,6 +1,7 @@
 #include "ContentBrowserPanel.h"
 
 #include <imgui.h>
+#include <CStell.h>
 
 namespace CStell
 {
@@ -28,6 +29,7 @@ namespace CStell
 
 		static float padding = 16.0f;
 		static float thumbnailSize = 115.0f;
+		static float dragDropPreviewSize = 64.0f;
 		float cellSize = thumbnailSize + padding;
 
 		float panelWidth = ImGui::GetContentRegionAvail().x;
@@ -45,13 +47,29 @@ namespace CStell
 			std::string filenameString = relativePath.filename().string();
 			ImGui::PushID(filenameString.c_str());
 
-			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
-			ImGui::ImageButton(reinterpret_cast<void*>(static_cast<uintptr_t>(icon->GetRendererID())), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
+			auto extension = directoryEntry.path().filename().extension().string();
+
+			Ref<Texture2D> icon;
+			auto& assetManager = AssetManager::Get();
+			if (directoryEntry.is_directory())
+				 icon = m_DirectoryIcon;
+			else
+			{
+				if(extension == ".png")
+				{
+					std::filesystem::path texturePath = std::filesystem::path(s_AssetPath) / relativePath;
+					icon = assetManager.LoadAsset<Texture2D>(texturePath.string());
+				}
+				else
+					icon = m_FileIcon;
+			}
+			ImGui::ImageButton("FilePreview", reinterpret_cast<void*>(static_cast<uintptr_t>(icon->GetRendererID())), {thumbnailSize, thumbnailSize}, {0, 1}, {1, 0});
 
 			if (ImGui::BeginDragDropSource())
 			{
 				const wchar_t* itemPath = relativePath.c_str();
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t), ImGuiCond_Once);
+				ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(icon->GetRendererID())), { dragDropPreviewSize, dragDropPreviewSize }, { 0, 1 }, { 1, 0 });
 				ImGui::EndDragDropSource();
 			}
 

@@ -51,6 +51,8 @@ namespace CStell
 
     void EditorLayer::OnAttach()
     {
+        RenderCommand::Get().SetClearColor({ 0.25f, 0.25f, 0.25f, 1.0f });
+
         FramebufferSpecification fbSpec;
         fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
@@ -64,7 +66,7 @@ namespace CStell
 
 #if 0
         SceneSerializer serializer(m_ActiveScene);
-        serializer.Deserialize("asset/scene/scene3.cstell");
+        serializer.Deserialize("asset/scene/scene4.cstell");
 #endif
     }
 
@@ -86,7 +88,6 @@ namespace CStell
 
         CSTELL_PROFILE_SCOPE("Renderer Preparation");
         m_Framebuffer->Bind();
-        RenderCommand::Get().SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
         RenderCommand::Get().Clear();
 
         // Clear our entity ID attachment to -1
